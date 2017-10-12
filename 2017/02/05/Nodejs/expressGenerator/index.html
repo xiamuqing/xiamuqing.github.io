@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>archive_a: 2016/10 | 夏木なつき青あお</title>
+    <title>Express 应用程序生成器 | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -69,28 +69,82 @@
 <!--文章列表-->
 <div class="wrapper">
   
-    <ul class="posts-list mb+ js-posts">
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-            <i class="post-status iconfont icon-icon"></i>  
-          
-          <h2 class="no-background"  >
-            <span><a href="/2016/10/17/canvas/palette/">使用canvas绘制画板</a></span>
-            <time class="post-time" datetime="2016-10-16T17:01:04.000Z" itemprop="datePublished">2016-10-17</time>
-          </h2>
-        </li>
-      
-    </ul>
-    
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      Express 应用程序生成器
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<p>Express生成器的作用就像是为完整的应用程序建立一个“脚手架”，包含各种用途的 JavaScript 文件、Jade 模板和子目录。</p>
+<p>可使用应用程序生成器工具 (express) 快速创建应用程序框架。</p>
+<p>使用以下命令安装 express：<br><code>$ npm install express-generator -g</code></p>
+<p>例如，以下语句在当前工作目录中创建名为 myapp 的 Express 应用程序：<br><code>$ express --view=jade myapp</code></p>
+<p>然后在安装依赖项：<br><code>$ npm install</code></p>
+<p>在 MacOS 或 Linux 上，采用以下命令运行此应用程序：<br><code>$ DEBUG=myapp:* npm start</code> </p>
+<p>在 Windows 上，使用以下命令：<br><code>&gt; set DEBUG=myapp:* &amp; npm start</code></p>
+<p>然后在浏览器中输入 <a href="http://localhost:3000/" target="_blank" rel="external">http://localhost:3000/</a> 以访问此应用程序。</p>
+<p>生成的应用程序具有以下目录结构：</p>
+<pre><code>.
+├── app.js
+├── bin
+│   └── www
+├── package.json
+├── public
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+└── views
+    ├── error.jade
+    ├── index.jade
+    └── layout.jade
+
+7 directories, 9 files
+</code></pre><p>生成器创建的应用程序结构只是构造 Express 应用程序的众多方法之一。请随意使用此结构或者对其进行修改以最大程度满足自己的需求。</p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2017-02-05T10:05:04.000Z" itemprop="datePublished">2017-02-05</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="Nodejs/expressGenerator" data-title="Express 应用程序生成器" data-url="http://yoursite.com/2017/02/05/Nodejs/expressGenerator/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
 
   
 </div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
 
 
 

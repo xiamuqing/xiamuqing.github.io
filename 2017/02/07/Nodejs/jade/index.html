@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>archive_a: 2016/10 | 夏木なつき青あお</title>
+    <title>Jade模板 | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -69,28 +69,88 @@
 <!--文章列表-->
 <div class="wrapper">
   
-    <ul class="posts-list mb+ js-posts">
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-            <i class="post-status iconfont icon-icon"></i>  
-          
-          <h2 class="no-background"  >
-            <span><a href="/2016/10/17/canvas/palette/">使用canvas绘制画板</a></span>
-            <time class="post-time" datetime="2016-10-16T17:01:04.000Z" itemprop="datePublished">2016-10-17</time>
-          </h2>
-        </li>
-      
-    </ul>
-    
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      Jade模板
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<p>Express生成器使用的模板就是jade</p>
+<h2 id="将模板引擎用于-Express"><a href="#将模板引擎用于-Express" class="headerlink" title="将模板引擎用于 Express"></a>将模板引擎用于 Express</h2><p>在 Express 可以呈现模板文件之前，必须设置以下应用程序设置：</p>
+<ol>
+<li>views：模板文件所在目录。例如：app.set(‘views’, ‘./views’)</li>
+<li>view engine：要使用的模板引擎。例如：app.set(‘view engine’, ‘jade’)</li>
+<li>然后安装对应的模板引擎 npm 包：<code>$ npm install jade --save</code></li>
+</ol>
+<p>在设置视图引擎之后，不必指定该引擎或者在应用程序中装入模板引擎模块；Express 在内部装入此模块，如下所示（针对以上示例）。</p>
+<p>app.set(‘view engine’, ‘jade’);<br>在 views 目录中创建名为 index.jade 的 Jade 模板文件，其中包含以下内容：</p>
+<pre><code>html
+  head
+    title!= title
+  body
+    h1!= message
+</code></pre><p>随后创建路由以呈现 index.jade 文件。如果未设置 view engine 属性，必须指定 view 文件的扩展名。否则，可以将其忽略。</p>
+<pre><code>app.get(&#39;/&#39;, function (req, res) {
+  res.render(&#39;index&#39;, { title: &#39;Hey&#39;, message: &#39;Hello there!&#39;});
+});
+</code></pre><p>向主页发出请求时，index.jade 文件将呈现为 HTML。</p>
+<p>完整JS代码：</p>
+<pre><code>var express = require(&#39;express&#39;);
+var app = express();
+var path = require(&#39;path&#39;);
+
+app.set(&#39;views&#39;, path.join(__dirname, &#39;views&#39;));
+app.set(&#39;view engine&#39;, &#39;jade&#39;);
+
+app.get(&#39;/&#39;, function (req, res) {
+    res.render(&#39;index&#39;, { title: &#39;Hey&#39;, message: &#39;Hello there!&#39;});
+});
+
+app.listen(2000, function () {
+    console.log(&#39;Example app listening on port 2000!&#39;);
+});
+</code></pre><p>要了解有关模板引擎在 Express 中如何工作的更多信息，请参阅：<strong><a href="http://expressjs.com/zh-cn/advanced/developing-template-engines.html" target="_blank" rel="external">为 Express 开发模板引擎</a>*</strong>。</p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2017-02-07T08:33:04.000Z" itemprop="datePublished">2017-02-07</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="Nodejs/jade" data-title="Jade模板" data-url="http://yoursite.com/2017/02/07/Nodejs/jade/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
 
   
 </div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
 
 
 
