@@ -84,9 +84,9 @@
 <ol>
 <li>views：模板文件所在目录。例如：app.set(‘views’, ‘./views’)</li>
 <li>view engine：要使用的模板引擎。例如：app.set(‘view engine’, ‘jade’)</li>
-<li>然后安装对应的模板引擎 npm 包：<code>$ npm install jade --save</code></li>
+<li>然后安装对应的模板引擎 npm 包：<code>$ npm install jade --save</code><a id="more"></a> 
+在设置视图引擎之后，不必指定该引擎或者在应用程序中装入模板引擎模块；Express 在内部装入此模块，如下所示（针对以上示例）。</li>
 </ol>
-<p>在设置视图引擎之后，不必指定该引擎或者在应用程序中装入模板引擎模块；Express 在内部装入此模块，如下所示（针对以上示例）。</p>
 <p>app.set(‘view engine’, ‘jade’);<br>在 views 目录中创建名为 index.jade 的 Jade 模板文件，其中包含以下内容：</p>
 <pre><code>html
   head
