@@ -94,12 +94,13 @@
   body
     h1!= message
 </code></pre><p>随后创建路由以呈现 index.jade 文件。如果未设置 view engine 属性，必须指定 view 文件的扩展名。否则，可以将其忽略。</p>
-<pre><code>app.get(&#39;/&#39;, function (req, res) {
+<pre><code class="javascript">app.get(&#39;/&#39;, function (req, res) {
   res.render(&#39;index&#39;, { title: &#39;Hey&#39;, message: &#39;Hello there!&#39;});
 });
-</code></pre><p>向主页发出请求时，index.jade 文件将呈现为 HTML。</p>
+</code></pre>
+<p>向主页发出请求时，index.jade 文件将呈现为 HTML。</p>
 <p>完整JS代码：</p>
-<pre><code>var express = require(&#39;express&#39;);
+<pre><code class="javascript">var express = require(&#39;express&#39;);
 var app = express();
 var path = require(&#39;path&#39;);
 
@@ -113,7 +114,8 @@ app.get(&#39;/&#39;, function (req, res) {
 app.listen(2000, function () {
     console.log(&#39;Example app listening on port 2000!&#39;);
 });
-</code></pre><p>要了解有关模板引擎在 Express 中如何工作的更多信息，请参阅：<strong><a href="http://expressjs.com/zh-cn/advanced/developing-template-engines.html" target="_blank" rel="external">为 Express 开发模板引擎</a>*</strong>。</p>
+</code></pre>
+<p>要了解有关模板引擎在 Express 中如何工作的更多信息，请参阅：<strong><a href="http://expressjs.com/zh-cn/advanced/developing-template-engines.html" target="_blank" rel="external">为 Express 开发模板引擎</a>*</strong>。</p>
 
 	</div>
 	<div class="meta split">

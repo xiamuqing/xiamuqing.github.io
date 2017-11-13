@@ -94,23 +94,26 @@
 }
 </code></pre><p>假设你要来一个和屏幕同宽的标题，你只要设置这个标题的font-size的单位为vw，那标题的字体大小就会自动根据浏览器的宽度进行缩放，以达到字体和viewport大小同步的效果！</p>
 <h4 id="vmin和vmax"><a href="#vmin和vmax" class="headerlink" title="vmin和vmax"></a>vmin和vmax</h4><p>vh和 vw 依据于视口的高度和宽度，相对的，vmin 和 vmax则关于视口高度和宽度两者的最小或者最大值。比如，浏览器的宽度设置为1100px，高度设置为700px， 1vmin = 7px， 1vmax = 11px。如果宽度设置为800px,高度设置为1080px, 1vmin就等于8px, 1vmax则未10.8px。<br>那么问题来了，我们应该在什么场景下使用这两个单位呢？<br>假设有一个元素，你需要让它始终在屏幕上可见。只要对其高度和宽度使用vmin单位，并赋予其低于100的值就可以做到了。再来个栗子，可以这样定义一个至少有两个边触摸到屏幕的方形：</p>
-<pre><code>.box{
+<pre><code class="css">.box{
     width:100vmin;
     height:100vmin;
 }
-</code></pre><p><img src="/img/view1.png" alt=""></p>
+</code></pre>
+<p><img src="/img/view1.png" alt=""></p>
 <p>如果你要让这个方形框框始终铺满整个视口的可见区域（四边始终触摸到屏幕的四边）</p>
-<pre><code>.box{
+<pre><code class="css">.box{
 width:100vmax;
 height:100vmax;
 }
-</code></pre><p><img src="/img/view2.png" alt=""></p>
-<h3 id="百分比布局"><a href="#百分比布局" class="headerlink" title="百分比布局"></a>百分比布局</h3><pre><code>html, body { height: 100%; }  
+</code></pre>
+<p><img src="/img/view2.png" alt=""></p>
+<h3 id="百分比布局"><a href="#百分比布局" class="headerlink" title="百分比布局"></a>百分比布局</h3><pre><code class="css">html, body { height: 100%; }  
 .sidebar {
   height: 100%;
   width: 100%;
 }
-</code></pre><p>为什么html和body需要高度？百分比是相对于其父属性。当父级的高度由它的子级定义时，没有已知的高度设置，因此高度被完全忽略。这意味着你必须在DOM树中的每个父元素上设置高度。你也可以使用新的<strong><a href="https://www.w3.org/TR/css3-values/#viewport-relative-lengths" target="_blank" rel="external">视口单位</a></strong>。</p>
+</code></pre>
+<p>为什么html和body需要高度？百分比是相对于其父属性。当父级的高度由它的子级定义时，没有已知的高度设置，因此高度被完全忽略。这意味着你必须在DOM树中的每个父元素上设置高度。你也可以使用新的<strong><a href="https://www.w3.org/TR/css3-values/#viewport-relative-lengths" target="_blank" rel="external">视口单位</a></strong>。</p>
 <p><strong>注：</strong>IE9使用vm代替vmin。它不支持vmax。</p>
 <p><strong>澄清：</strong>1vmax等于1vh在纵向模式，而在横向模式下，1vmax将等于1vw。</p>
 <p><strong>个人建议：</strong>使用视口给元素设置宽高时，为了避免比例不协调，使用同一个单位比较好，如vmin、vmax。</p>

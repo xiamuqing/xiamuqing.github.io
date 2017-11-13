@@ -86,11 +86,12 @@
 <p>上面的教程中包括了简易五子棋的基本算法，大家有空可以学习一下，如果看不懂老师的赢法数组，其实可以手动画几个循环，很快就能明白。</p>
 <p>以下三个功能是我自己写的</p>
 <h3 id="开始功能"><a href="#开始功能" class="headerlink" title="开始功能"></a>开始功能</h3><p>根据是否有点击了开始按钮，和棋盘上是否有棋子来判断是否有弹出框提示。</p>
-<pre><code>//棋盘上是否有子
+<pre><code class="javascript">//棋盘上是否有子
 var haveChess = false;
 //是否点击了开始按钮
 var startBtn = false;
-</code></pre><pre><code>start.onclick = function () {
+</code></pre>
+<pre><code class="javascript">start.onclick = function () {
     startBtn = true;
     if (haveChess &amp;&amp; startBtn) {
         if (window.confirm(&#39;是否重新开始游戏？&#39;)) {
@@ -103,8 +104,9 @@ var startBtn = false;
     }
 
 }
-</code></pre><h3 id="悔棋功能"><a href="#悔棋功能" class="headerlink" title="悔棋功能"></a>悔棋功能</h3><p>我是这么想的，先定义4个变量，保存每次落子时，黑子和白子最后的位置，然后定义两个数组，保存赢法统计数组的值。点击悔棋按钮时，用画布擦除这两个点，并补齐网格，还要记得将赢法统计数组的值回退到上一步。</p>
-<pre><code>//悔棋时黑子下棋坐标
+</code></pre>
+<h3 id="悔棋功能"><a href="#悔棋功能" class="headerlink" title="悔棋功能"></a>悔棋功能</h3><p>我是这么想的，先定义4个变量，保存每次落子时，黑子和白子最后的位置，然后定义两个数组，保存赢法统计数组的值。点击悔棋按钮时，用画布擦除这两个点，并补齐网格，还要记得将赢法统计数组的值回退到上一步。</p>
+<pre><code class="javascript">//悔棋时黑子下棋坐标
 var bx = 0, by = 0;
 //悔棋时白棋下棋坐标
 var wx = 0, wy = 0;
@@ -113,7 +115,8 @@ var wx = 0, wy = 0;
 var oldcWin = [], oldmyWin = [];
 //保存点击撤销悔棋按钮之前赢法统计数组(computerWin,myWin)的值
 var newcWin = [], newmyWin = [];
-</code></pre><pre><code>//减去悔棋位置的赢法
+</code></pre>
+<pre><code class="javascript">//减去悔棋位置的赢法
 //这一步用数组的深拷贝
     myWin= oldmyWin.concat();
     computerWin= oldcWin.concat();
@@ -125,13 +128,14 @@ var newcWin = [], newmyWin = [];
                 }
             }
         }
-</code></pre><h3 id="撤销悔棋功能"><a href="#撤销悔棋功能" class="headerlink" title="撤销悔棋功能"></a>撤销悔棋功能</h3><p>通过bx,by,wx,wy将棋子在画上去就行，记得更新赢法统计数组的值。</p>
+</code></pre>
+<h3 id="撤销悔棋功能"><a href="#撤销悔棋功能" class="headerlink" title="撤销悔棋功能"></a>撤销悔棋功能</h3><p>通过bx,by,wx,wy将棋子在画上去就行，记得更新赢法统计数组的值。</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><a href="https://github.com/lihongxun945/gobang" target="_blank" rel="external">极大极小值实现AI五子棋</a></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实有算法讲解，这个游戏并不是很难，主要注意的就是这几个按钮，尤其是“开始”按钮，这里出现的bug比较多。<br>游戏基本完成了，接下来打算将这个游戏改造成面向对象开发，因为平时接触面向对象比较少，都是别写边想下一步干什么面向过程的开发。为了防止出错，所有先提交到远程仓库里，= =！。</p>
 <hr>
 <p>2017.10.28修改部分</p>
 <h3 id="面向对象开发"><a href="#面向对象开发" class="headerlink" title="面向对象开发"></a>面向对象开发</h3><p>使用面向对象开发，增加加代码的灵活性和扩展性，使得代码整洁明了。</p>
-<pre><code>var gbObj={
+<pre><code class="javascript">var gbObj={
     //五子棋的父元素的id
     parent:&#39;gobangBox&#39;,
     //棋盘width
@@ -141,14 +145,16 @@ var newcWin = [], newmyWin = [];
 }
 //五子棋实例
 var goBang = new GoBang(gbObj);
-</code></pre><pre><code>//GoBang对象
+</code></pre>
+<pre><code class="javascript">//GoBang对象
 function GoBang(obj){
    var parent = document.getElementById(obj.parentID);
    var width = obj.width;
    var radius = obj.radius;
    this.init(parent , width,radius);
 }
-</code></pre><pre><code>//替换原型对象实现继承
+</code></pre>
+<pre><code class="javascript">//替换原型对象实现继承
 GoBang.prototype = {
     constructor:GoBang,
     init:function(parent , width,radius){
@@ -162,6 +168,7 @@ GoBang.prototype = {
     ...
 }
 </code></pre>
+
 	</div>
 	<div class="meta split">
 		<time class="post-date" datetime="2017-10-25T08:38:11.000Z" itemprop="datePublished">2017-10-25</time>
