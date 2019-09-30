@@ -83,7 +83,38 @@
 </code></pre><blockquote>
 <p>本文<a href="https://xiamuqing.github.io/css-demo/" target="_blank" rel="external">demo地址</a></p>
 </blockquote>
-<h3 id="currentColor"><a href="#currentColor" class="headerlink" title="currentColor"></a>currentColor</h3><ol>
+<h2 id="专有名词："><a href="#专有名词：" class="headerlink" title="专有名词："></a>专有名词：</h2><h3 id="替换元素"><a href="#替换元素" class="headerlink" title="替换元素"></a>替换元素</h3><blockquote>
+<p><strong>特性：</strong>无论其display属性值是inline还是block，尺寸均由内部元素决定。例如：<code>&lt;input&gt;&lt;textarea&gt;</code></p>
+</blockquote>
+<h3 id="非替换元素"><a href="#非替换元素" class="headerlink" title="非替换元素"></a>非替换元素</h3><blockquote>
+<p><strong>特性：</strong>如果其display属性值为block，则会有流动性，width默认为auto，width会根据padding、border、margin计算得出。</p>
+</blockquote>
+<h3 id="格式化宽度"><a href="#格式化宽度" class="headerlink" title="格式化宽度"></a>格式化宽度</h3><blockquote>
+<p>仅出现在<strong>绝对定位模型</strong>中(position:absolute/fixed),绝对定位元素的宽度表现为<strong>包裹性</strong>，宽度由内部尺寸决定。<br>对于非替换元素，当left/right或top/bottom对立方位的属性值同时存在的时候，元素的宽度表现为<strong>格式化宽度</strong>，其宽度大小相对于<strong>最近</strong>的具有定位特性（position值不是static）的祖先元素计算。</p>
+</blockquote>
+<h2 id="三无准则：无宽度、无图片、无浮动"><a href="#三无准则：无宽度、无图片、无浮动" class="headerlink" title="三无准则：无宽度、无图片、无浮动"></a>三无准则：无宽度、无图片、无浮动</h2><h3 id="无宽度"><a href="#无宽度" class="headerlink" title="无宽度"></a>无宽度</h3><ol>
+<li>内部尺寸：宽度由内部元素决定</li>
+<li>外部尺寸：宽度由外部元素决定</li>
+</ol>
+<p><strong>无宽度</strong></p>
+<ul>
+<li>原因： 表现为“外部尺寸”的<strong>块级元素</strong>一旦设置了宽度，流动性就丢失了。</li>
+<li>宽度分离原则：CSS中的width属性不与影响宽度的padding/border（有时候包括margin）属性共存。</li>
+</ul>
+<pre><code class="css">.father{
+  width: 180px;
+}
+.son{
+  maring: 0 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  /* width:auto; width默认是auto */ 
+}
+</code></pre>
+<ul>
+<li>理由： 宽度分离，浏览器会自动计算宽度，不用担心padding/border/margin变化导致的尺寸变化，使得页面结构更加稳固。</li>
+</ul>
+<h2 id="currentColor"><a href="#currentColor" class="headerlink" title="currentColor"></a>currentColor</h2><ol>
 <li><strong>含义：</strong> css3新增关键字，可以作为颜色值在任何使用颜色的地方替代颜色，其表示<strong>当前字体的颜色</strong> 。</li>
 <li><strong>用法：</strong>多用在icon/边框等颜色需要随着字体颜色变化而变化的地方，例如hover状态下，icon和字体颜色一起变色。</li>
 </ol>
