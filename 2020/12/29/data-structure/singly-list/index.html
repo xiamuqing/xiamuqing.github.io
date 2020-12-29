@@ -110,7 +110,6 @@ class LinkList {
       }
       currNode = currNode.next;
     }
-    console.log(currNode);
     return currNode;
   }
 
@@ -125,7 +124,6 @@ class LinkList {
     newNode.next = currNode.next;
     currNode.next = newNode;
     this.le++;
-    console.log(this);
     return this;
   }
 
@@ -145,7 +143,6 @@ class LinkList {
     while (currNode.next !== null &amp;&amp; currNode.next.el !== el) {
       currNode = currNode.next;
     }
-    console.log(currNode);
     return currNode;
   }
 
