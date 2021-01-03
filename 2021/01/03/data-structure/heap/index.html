@@ -157,8 +157,8 @@ right(i)  = 2i + 2
         let newArr = []
         if (Array.isArray(arr)) {
             newArr = [...arr]
-            if(newArr.length) {
-                 newArr = this.init(newArr)
+            if (newArr.length) {
+                newArr = this.init(newArr)
             }
             this.arr = newArr
             this.type = type
@@ -166,7 +166,7 @@ right(i)  = 2i + 2
     }
 
     /**
-     *
+     * 
      * @param arr 需要调整的数组
      * @description 返回大顶堆，且改大顶堆，左节点比右节点大
      */
@@ -179,7 +179,6 @@ right(i)  = 2i + 2
             this.update(arr, i, arr.length - 1)
         }
         arr.shift()
-
 
         return arr
     }
@@ -196,10 +195,8 @@ right(i)  = 2i + 2
         let left = 2 * i
         let right = left + 1
 
-
         // 左右孩子中较大的那一个
         let maxlr = -1
-
 
         //无左右孩子节点
         if (left &gt; size &amp;&amp; right &gt; size) {
@@ -218,7 +215,6 @@ right(i)  = 2i + 2
             maxlr = arr[left] &lt; arr[right] ? right : left
         }
 
-
         if (arr[i] &lt; arr[maxlr]) {
             this.swap(arr, i, maxlr)
             this.update(arr, maxlr, size)
@@ -230,7 +226,6 @@ right(i)  = 2i + 2
         arr[i] = arr[j]
         arr[j] = temp
     }
-
 
     /**
     * @description 返回堆排序好的新数组，不影响原数组
@@ -277,7 +272,7 @@ right(i)  = 2i + 2
      * @param i 被删除元素的坐标
      * @description 删除指定坐标的元素
      */
-    removeByIndex (i: number) {
+    removeByIndex (i: number): number {
         const j = this.arr.length - 1
         // 将被删的元数和数组最后一个元素交换位置
         this.swap(this.arr, i, j)
@@ -289,7 +284,7 @@ right(i)  = 2i + 2
      * @param el 被删除元素
      * @description 删除找到的第一个指定元素
      */
-    remove (el: number) {
+    remove (el: number): number[] {
         const i = this.arr.indexOf(el)
         if (el !== -1) {
             this.removeByIndex(i)
@@ -302,7 +297,7 @@ right(i)  = 2i + 2
      * @param el 替换的内容
      * @description 替换指定位置的元素
      */
-    replace (i: number, el: number) {
+    replace (i: number, el: number): void {
         let orgin = this.arr[i]
         this.arr.splice(i, 1, el)
         if (el &gt; orgin) {
@@ -312,6 +307,22 @@ right(i)  = 2i + 2
             // 新来的元素比原来的小，往下走
             this.update(this.arr, i)
         }
+    }
+
+    /**
+     * @description 弹出最大值
+     */
+    pop (): number {
+        const arr = this.arr;
+        arr.unshift(null);
+        this.swap(arr, 1, arr.length - 1);
+        const top = arr.pop();
+        let lastParentIndex = Math.floor((arr.length - 1) / 2);
+        for (let i = lastParentIndex; i &gt; 0; i--) {
+            this.update(arr, i, arr.length - 1);
+        }
+        arr.shift();
+        return top;
     }
 
 }
@@ -334,6 +345,26 @@ console.log(maxHeap.arr); // [10, 6, 8, 5, 2, 1, 3]
 <blockquote>
 <p>标题：<a href="https://www.jianshu.com/p/6b526aa481b1" target="_blank" rel="external">数据结构：堆（Heap）</a><br>作者：唐先僧<br>标题：<a href="https://zhuanlan.zhihu.com/p/144699737?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=559769045767880704" target="_blank" rel="external">JS数据结构与算法之《堆》</a><br>作者：寒城子</p>
 </blockquote>
+<p>有一堆石头，每块石头的重量都是正整数。</p>
+<p>每一回合，从中选出两块 最重的 石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x &lt;= y。那么粉碎的可能结果如下：</p>
+<p>如果 x == y，那么两块石头都会被完全粉碎；<br>如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。<br>最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 0。</p>
+<pre><code class="js">function lastStoneWeight(stones) {
+    const sts = new CreateMaxHeap(stones);
+    // console.log(sts.arr);
+    while (sts.arr.length &gt; 1) {
+        const one = sts.pop();
+        const two = sts.pop();
+        const diff = one - two;
+        if (diff &gt; 0) {
+        sts.insert(diff);
+        // console.log(&quot;insert&quot;, sts.arr);
+        }
+    }
+
+    return sts.arr[0] || 0;
+    }
+</code></pre>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/last-stone-weight\" target="_blank" rel="external">https://leetcode-cn.com/problems/last-stone-weight\</a></p>
 
 	</div>
 	<div class="meta split">
