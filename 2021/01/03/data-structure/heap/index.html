@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>TypeScript实现heap | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+  </head>
+
+  <body>
+
+<header>
+	<a id="logo" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="http://www.cnblogs.com/xiamuqing/" target="_blank">博客园</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      TypeScript实现heap
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<p><strong>堆</strong>就是用数组实现的二叉树<br>堆常用方法：</p>
+<ul>
+<li>构建优先队列</li>
+<li>支持堆排序</li>
+<li>快速找出集合中的最小值（或最大值）</li>
+</ul>
+<p>分为：最大堆和最小堆，两者差异在于节点的排序方式，在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。</p>
+<p><strong>目的</strong>：将最大（最小）的节点放在最前面，从而进行快速的插入、删除等操作。在二叉树中搜索会很快，但是在堆中搜索会很慢。</p>
+<p><em>注意</em>：堆的根节点中存放的是最大或者最小元素，但是其他节点的排序顺序是未知的。例如，<strong>在一个最大堆中，最大的那一个元素总是位于 index 0 的位置</strong>，但是最小的元素则未必是最后一个元素。唯一能够保证的是最小的元素是一个叶节点，但是不确定是哪一个。</p>
+<p><img src="/2021/01/03/data-structure/heap/heap.png" alt="大顶堆"></p>
+<pre><code class="js">parent(i) = floor((i - 1)/2)
+left(i)   = 2i + 1
+right(i)  = 2i + 2
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Array index (i)</th>
+<th>Parent index</th>
+<th>Left child index</th>
+<th>Right child index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>0</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>1</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>具体ts实现:</p>
+<ol>
+<li>后续补充搜索（广度优先搜索、深度优先搜索）</li>
+<li>排序可以后续优化</li>
+</ol>
+<pre><code class="js">class CreateMaxHeap {
+    type: string
+    arr: number[]
+
+    /**
+     * @description 创建一个大顶堆，不改变原数组
+     */
+    constructor(arr: number[], type: string = &#39;MAX&#39;) {
+        let newArr = []
+        if (Array.isArray(arr)) {
+            newArr = [...arr]
+            if(!newArr.length) {
+                 newArr = this.init(newArr)
+            }
+            this.arr = newArr
+            this.type = type
+        }
+    }
+
+    /**
+     *
+     * @param arr 需要调整的数组
+     * @description 返回大顶堆，且改大顶堆，左节点比右节点大
+     */
+    init (arr: number[]): number[] {
+        // 堆的高度，排序遍历的次数，堆的层级为 height+1
+        const heapHeight = Math.floor(arr.length / 2)
+        // 将null插入数组最前，这样方便使用index计算
+        arr.unshift(null)
+        for (let i = heapHeight; i &gt; 0; i--) {
+            this.update(arr, i, arr.length - 1)
+        }
+        arr.shift()
+
+
+        return arr
+    }
+
+    /**
+     * 从index开始检查并保持大顶堆
+     * @param arr  待检查数组
+     * @param i    检查的起始下标
+     * @param s 堆大小
+     * @description 调整大顶堆
+     */
+    update (arr: number[], i: number, s?: number): void {
+        let size = s ? s : arr.length
+        let left = 2 * i
+        let right = left + 1
+
+        // 左右孩子中较大的那一个
+        let maxlr = -1
+
+        //无左右孩子节点
+        if (left &gt; size &amp;&amp; right &gt; size) {
+            return
+        }
+        //只有左孩子节点
+        if (left &lt;= size &amp;&amp; right &gt; size) {
+            maxlr = left
+        }
+        //只有右孩子节点
+        if (right &lt;= size &amp;&amp; left &gt; size) {
+            maxlr = right
+        }
+        //同时有左右孩子节点
+        if (left &lt;= size &amp;&amp; right &lt;= size) {
+            maxlr = arr[left] &lt; arr[right] ? right : left
+        }
+
+        if (arr[i] &lt; arr[maxlr]) {
+            this.swap(arr, i, maxlr)
+            this.update(arr, maxlr, size)
+        }
+    }
+
+    swap (arr: number[], i: number, j: number): void {
+        let temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+    }
+
+    /**
+    * @description 返回堆排序好的新数组，不影响原数组
+    */
+    sort (): number[] {
+        const arr = this.init([...this.arr])
+        arr[0] !== null &amp;&amp; arr.unshift(null)
+        for (let j = arr.length - 1; j &gt; 1; j--) {
+            //将堆顶与堆底元素交换，分离出最大的元素
+            this.swap(arr, 1, j)
+            //重新调整大顶堆剩余未分离的堆
+            this.update(arr, 1, j - 1)
+        }
+        arr.shift()
+        return arr
+    }
+
+    /**
+     * @param i 需要移动的元素节点索引
+     * @description 将当前节点元素层层向上交换位置
+     */
+    shiftUp (arr: number[], i: number): void {
+        const parent = Math.floor((i - 1) / 2)
+        if (arr[i] &lt; arr[parent] || parent &lt; 0) {
+            return
+        } else {
+            this.swap(arr, i, parent)
+            this.shiftUp(arr, parent)
+        }
+    }
+
+    /**
+     * @param el 插入的元素
+     * @description 返回插入好的大顶堆
+     */
+    insert (el: number): number[] {
+        this.arr.push(el)
+        const i = this.arr.length - 1
+        this.shiftUp(this.arr, i)
+        return this.arr
+    }
+
+    /**
+     * @param i 被删除元素的坐标
+     * @description 删除指定坐标的元素
+     */
+    removeByIndex (i: number) {
+        const j = this.arr.length - 1
+        // 将被删的元数和数组最后一个元素交换位置
+        this.swap(this.arr, i, j)
+        this.arr.pop()
+        this.update(this.arr, i)
+        return this.arr
+    }
+    /**
+     * @param el 被删除元素
+     * @description 删除找到的第一个指定元素
+     */
+    remove (el: number) {
+        const i = this.arr.indexOf(el)
+        if (el !== -1) {
+            return this.removeByIndex(i)
+        }
+        return this.arr
+    }
+
+    /**
+     * @param i 被替换元素的坐标
+     * @param el 替换的内容
+     * @description 替换指定位置的元素
+     */
+    replace (i: number, el: number) {
+        let orgin = this.arr[i]
+        this.arr.splice(i, 1, el)
+        if (el &gt; orgin) {
+            // 新来的元素比原来的大，往上走
+            this.shiftUp(this.arr, i)
+        } else {
+            // 新来的元素比原来的小，往下走
+            this.update(this.arr, i)
+        }
+    }
+
+}
+</code></pre>
+<p>测试:</p>
+<pre><code class="js">const arr = [1, 2, 3, 4, 5, 6];
+const maxHeap = new createMaxHeap(arr);
+console.log(maxHeap.arr); // [6, 5, 3, 4, 2, 1]
+maxHeap.insert(10);
+maxHeap.insert(8);
+console.log(maxHeap.arr); //[10, 8, 6, 5, 2, 1, 3, 4]
+maxHeap.remove(8);
+console.log(maxHeap.arr); // [10, 6, 4, 5, 2, 1, 3]
+maxHeap.replace(2, 8);
+console.log(maxHeap.arr); //[10, 6, 8, 5, 2, 1, 3]
+console.log(&quot;sort&quot;, maxHeap.sort()); //[1, 2, 3, 5, 6, 8, 10]
+console.log(maxHeap.arr); // [10, 6, 8, 5, 2, 1, 3]
+</code></pre>
+<p>参考资料：</p>
+<blockquote>
+<p>标题：<a href="https://www.jianshu.com/p/6b526aa481b1" target="_blank" rel="external">数据结构：堆（Heap）</a><br>作者：唐先僧<br>标题：<a href="https://zhuanlan.zhihu.com/p/144699737?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=559769045767880704" target="_blank" rel="external">JS数据结构与算法之《堆》</a><br>作者：寒城子</p>
+</blockquote>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2021-01-03T08:09:43.000Z" itemprop="datePublished">2021-01-03</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="data-structure/heap" data-title="TypeScript实现heap" data-url="http://yoursite.com/2021/01/03/data-structure/heap/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="http://weibo.com/u/3334799754" target="_blank">
+				        			
+				        				<i class="iconfont icon-weibo"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://www.zhihu.com/people/xiamuqing" target="_blank">
+				        			
+										<i class="iconfont icon-zhihu"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a href="http://github.com/yumemor">Yumemor</a>. Powered by <a href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>-->
+	<script src="/js/lib.js"></script>
+	<script src="/js/google-code-prettify/prettify.js"></script>
+	<script src="/js/module.js"></script>
+	<script src="/js/script.js"></script>
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

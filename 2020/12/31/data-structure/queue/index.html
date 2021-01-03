@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>ES6实现单向链表 | 夏木なつき青あお</title>
+    <title>队列相关 | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -74,124 +74,52 @@
 	
   
     <h1 class="post-title" itemprop="name">
-      ES6实现单向链表
+      队列相关
     </h1>
   
 
 	<div class='post-body mb'>
-		<h3 id="构建链表"><a href="#构建链表" class="headerlink" title="构建链表"></a>构建链表</h3><pre><code class="js">class Node {
-  constructor(el) {
-    this.el = el; // 节点元素
-    this.next = null; // 下一个节点
-  }
-}
-
-class LinkList {
+		<blockquote>
+<p>写一个 RecentCounter 类来计算特定时间范围内最近的请求。</p>
+<p>请你实现 RecentCounter 类：</p>
+<p>RecentCounter() 初始化计数器，请求数为 0 。<br>int ping(int t) 在时间 t 添加一个新请求，其中 t 表示以毫秒为单位的某个时间，并返回过去 3000 毫秒内发生的所有请求数（包&gt; 括新请求）。确切地说，返回在 [t-3000, t] 内发生的请求数。<br>保证 每次对 ping 的调用都使用比之前更大的 t 值。</p>
+<p>示例：</p>
+<p>输入：<br>[“RecentCounter”, “ping”, “ping”, “ping”, “ping”]<br>[[], [1], [100], [3001], [3002]]<br>输出：<br>[null, 1, 2, 3, 3]</p>
+<p>解释：<br>RecentCounter recentCounter = new RecentCounter();<br>recentCounter.ping(1);     // requests = [1]，范围是 [-2999,1]，返回 1<br>recentCounter.ping(100);   // requests = [1, 100]，范围是 [-2900,100]，返回 2<br>recentCounter.ping(3001);  // requests = [1, 100, 3001]，范围是 [1,3001]，返回 3<br>recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002]，范围是 [2,3002]，返回 3</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/number-of-recent-calls" target="_blank" rel="external">https://leetcode-cn.com/problems/number-of-recent-calls</a></p>
+</blockquote>
+<p>老实说题目看了好几遍，就是没看明白，但是在看了几遍示例后，总算看明白了！！<br>其实就是这样：每次ping一下，就先入栈，然后再把该时刻3000ms内的数据出栈.</p>
+<p>于是我的解法：</p>
+<pre><code>class RecentCounter {
   constructor() {
-    this.le = 0;
-    this.head = new Node(&quot;head&quot;); // 头节点
+    this.queue = [];
   }
+  queue: number[] = [];
 
-  get length() {
-    return this.le;
-  }
+  ping(t: number): number {
+    let index = 0;
+    this.queue.push(t);
 
-  /**
-   *
-   * @param {any} el 查找的节点
-   * @description 查找某个节点
-   * @returns 返回找到的节点或者null
-   */
-  find(el) {
-    let currNode = this.head; //当前节点
-    while (currNode.el !== el) {
-      if (currNode.next === null) {
-        break;
+    this.queue.forEach((i) =&gt; {
+      if (i &gt;= t - 3000) {
+        ++index;
       }
-      currNode = currNode.next;
-    }
-    return currNode;
-  }
-
-  /**
-   * @param {any} newEl 新节点
-   * @param {any} el 链表的节点
-   * @description 向链表的某个指定节点后面插入新的节点, 如果指定节点为空，则在链表末尾加
-   */
-  insert(newEl, el) {
-    let newNode = new Node(newEl);
-    let currNode = this.find(el);
-    currNode.next = newNode;
-    this.le++;
-    return this;
-  }
-
-  /**
-   *
-   * @param {any} el 查找的节点
-   * @description 查找某个节点前面的节点
-   * @returns 返回找到的节点或者null
-   */
-  findPrevious(el) {
-    let currNode = this.head;
-    const exist = this.find(el).el === el;
-    if (!exist) {
-      console.log(`can not find ${el}`);
-      return;
-    }
-    while (currNode.next !== null &amp;&amp; currNode.next.el !== el) {
-      currNode = currNode.next;
-    }
-    return currNode;
-  }
-
-  /**
-   *
-   * @param {any} el 被删的节点
-   * @description 删除某个节点
-   */
-  remove(el) {
-    let preNode = this.findPrevious(el);
-    if (preNode) {
-      preNode.next = preNode.next.next;
-      this.le--;
-      return this;
-    } else {
-      console.log(`can not find ${el}`);
-      return;
-    }
-  }
-
-  /**
-   * @description 打印链表
-   */
-  print() {
-    let currNode = this.head;
-    const nodeArr = [];
-    if (!this.le) {
-      console.log(`list is empty`);
-      return;
-    }
-    do {
-      nodeArr.push(currNode.next.el);
-      currNode = currNode.next;
-    } while (currNode.next !== null);
-
-    console.log(nodeArr.join(` -&gt; `));
+    });
+    return index;
   }
 }
-</code></pre>
+</code></pre><p>值得注意的是，这样的写法其实并不符合队列的，先进先出，因为我们的数组一直在入栈，并没有出，<br>于是再读一下题：<strong>保证 每次对 ping 的调用都使用比之前更大的 t 值。</strong><br>如果我们在入栈的同时，将不符合该时刻的元素出栈，那么就是队列了，于是我尝试在else部分调用this.queue.shift(),但是测试输出是错误的[null, 1, 2, 2, 2]，这个是为啥呢，因为shift会修改数组的长度，导致遍历出错，除非我们先深copy一下数组queue。。。。<br>但是我师父说<strong>算法就是解决问题的方法 做对了就OK </strong> 那就这样吧，hhh！</p>
 
 	</div>
 	<div class="meta split">
-		<time class="post-date" datetime="2020-12-29T08:19:41.000Z" itemprop="datePublished">2020-12-29</time>
+		<time class="post-date" datetime="2020-12-31T05:52:37.000Z" itemprop="datePublished">2020-12-31</time>
 	</div>
 </article>
 
 <!--评论-->
 
 	
-<div class="ds-thread" data-thread-key="data-structure/singly-list" data-title="ES6实现单向链表" data-url="http://yoursite.com/2020/12/29/data-structure/singly-list/"></div>
+<div class="ds-thread" data-thread-key="data-structure/queue" data-title="队列相关" data-url="http://yoursite.com/2020/12/31/data-structure/queue/"></div>
 <script type="text/javascript">
 
 var duoshuoQuery = {short_name:"yumemor"};
