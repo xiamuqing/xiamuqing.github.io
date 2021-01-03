@@ -157,7 +157,7 @@ right(i)  = 2i + 2
         let newArr = []
         if (Array.isArray(arr)) {
             newArr = [...arr]
-            if(!newArr.length) {
+            if(newArr.length) {
                  newArr = this.init(newArr)
             }
             this.arr = newArr
@@ -196,8 +196,10 @@ right(i)  = 2i + 2
         let left = 2 * i
         let right = left + 1
 
+
         // 左右孩子中较大的那一个
         let maxlr = -1
+
 
         //无左右孩子节点
         if (left &gt; size &amp;&amp; right &gt; size) {
@@ -216,6 +218,7 @@ right(i)  = 2i + 2
             maxlr = arr[left] &lt; arr[right] ? right : left
         }
 
+
         if (arr[i] &lt; arr[maxlr]) {
             this.swap(arr, i, maxlr)
             this.update(arr, maxlr, size)
@@ -227,6 +230,7 @@ right(i)  = 2i + 2
         arr[i] = arr[j]
         arr[j] = temp
     }
+
 
     /**
     * @description 返回堆排序好的新数组，不影响原数组
