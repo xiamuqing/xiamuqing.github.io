@@ -277,9 +277,9 @@ right(i)  = 2i + 2
         const j = this.arr.length - 1
         // 将被删的元数和数组最后一个元素交换位置
         this.swap(this.arr, i, j)
-        this.arr.pop()
+        const el = this.arr.pop()
         this.update(this.arr, i)
-        return this.arr
+        return el
     }
     /**
      * @param el 被删除元素
@@ -288,7 +288,7 @@ right(i)  = 2i + 2
     remove (el: number) {
         const i = this.arr.indexOf(el)
         if (el !== -1) {
-            return this.removeByIndex(i)
+            this.removeByIndex(i)
         }
         return this.arr
     }
