@@ -89,7 +89,7 @@
 <p><strong>目的</strong>：将最大（最小）的节点放在最前面，从而进行快速的插入、删除等操作。在二叉树中搜索会很快，但是在堆中搜索会很慢。</p>
 <p><em>注意</em>：堆的根节点中存放的是最大或者最小元素，但是其他节点的排序顺序是未知的。例如，<strong>在一个最大堆中，最大的那一个元素总是位于 index 0 的位置</strong>，但是最小的元素则未必是最后一个元素。唯一能够保证的是最小的元素是一个叶节点，但是不确定是哪一个。</p>
 <p><img src="/2021/01/03/data-structure/heap/heap.png" alt="大顶堆"></p>
-<pre><code class="js">parent(i) = floor((i - 1)/2)
+<pre><code class="js">parent(i) = Math.floor((i - 1)/2)
 left(i)   = 2i + 1
 right(i)  = 2i + 2
 </code></pre>
@@ -109,7 +109,7 @@ right(i)  = 2i + 2
 <td>0</td>
 <td>-1</td>
 <td>1</td>
-<td>1</td>
+<td>2</td>
 </tr>
 <tr>
 <td>7</td>
