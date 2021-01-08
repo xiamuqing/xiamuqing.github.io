@@ -128,8 +128,8 @@ class QuickSort {
         }
 
         const pointIndex: number = this.partition(arr, left, right)
-        sort(arr, left, pointIndex - 1)
-        sort(arr, pointIndex + 1, right)
+        this.sort(arr, left, pointIndex - 1)
+        this.sort(arr, pointIndex + 1, right)
     }
     partition (arr: number[], left: number, right: number): number {
         const point = arr[right]
@@ -145,10 +145,10 @@ class QuickSort {
             if (rightIndex &lt;= leftIndex) {
                 break
             }
-            swap(arr, leftIndex, rightIndex)
+            this.swap(arr, leftIndex, rightIndex)
         }
         // 将point放入指定位置
-        swap(arr, right, leftIndex)
+        this.swap(arr, right, leftIndex)
         return leftIndex;
     }
     swap (arr: number[], i: number, j: number) {
@@ -183,28 +183,27 @@ class MergeSort {
         }
 
         let mid: number = Math.floor((left + right) / 2)
-        sort(arr, left, mid)
-        sort(arr, mid + 1, right)
-        merge(arr, left, mid, right)
+        this.sort(arr, left, mid)
+        this.sort(arr, mid + 1, right)
+        this.merge(arr, left, mid, right)
     }
     /**
     *@description 将数组[left,mid][mid+1,right]合并
     */
     merge (arr: number[], left: number, mid: number, right: number) {
-        const copyArr = [...arr]
         let l = left
         let r = mid + 1
         for (let k = left; k &lt;= right; k++) {
             if (l &gt; mid) {
                 // left数组溢出,将right剩余的元素归并arr
-                arr[k] = copyArr[r++]
+                arr[k] = this.origin[r++]
             } else if (r &gt; right) {
-                arr[k] = copyArr[l++]
-            } else if (copyArr[l] &gt; copyArr[r]) {
+                arr[k] = this.origin[l++]
+            } else if (this.origin[l] &gt; this.origin[r]) {
                 // 将小元素赋值给arr
-                arr[k] = copyArr[r++]
+                arr[k] = this.origin[r++]
             } else {
-                arr[k] = copyArr[l++]
+                arr[k] = this.origin[l++]
             }
         }
     }
