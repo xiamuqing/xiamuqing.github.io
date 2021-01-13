@@ -144,80 +144,79 @@ right(i)  = left + 1
 <p>具体ts实现:</p>
 <ol>
 <li>后续补充搜索（广度优先搜索、深度优先搜索）</li>
-<li>排序可以后续优化</li>
 </ol>
-<pre><code class="js">class CreateMaxHeap {
-    type: string
-    arr: number[]
-
-    /**
-     * @description 创建一个大顶堆，不改变原数组
-     */
-    constructor(arr: number[], type: string = &#39;MAX&#39;) {
-        let newArr = []
-        if (Array.isArray(arr)) {
-            newArr = [...arr]
-            if (newArr.length) {
-                newArr = this.init(newArr)
-            }
-            this.arr = newArr
-            this.type = type
-        }
+<pre><code class="js">class MyHeap {
+    myHeap: number[]
+    flag: number
+    size: number
+    constructor(arr: number[] = [], type: string = &#39;MAX&#39;) {
+        this.flag = type === &#39;MAX&#39; ? 1 : -1
+        this.myHeap = arr
+        this.size = arr.length
+        this.heapfiy()
     }
 
     /**
-     * 
-     * @param arr 需要调整的数组
-     * @description 返回大顶堆，且改大顶堆，左节点比右节点大
+     * @description 堆化
      */
-    init (arr: number[]): number[] {
-        // 堆的高度，排序遍历的次数，堆的层级为 height+1
-        const heapHeight = Math.floor(arr.length / 2)
-        // 将null插入数组最前，这样方便使用index计算
-        arr.unshift(null)
-        for (let i = heapHeight; i &gt; 0; i--) {
-            this.update(arr, i, arr.length - 1)
+    heapfiy (): void {
+        this.myHeap.unshift(null)
+        const lastParentIndex = Math.floor(this.size / 2)
+        for (let i = lastParentIndex; i &gt; 0; i--) {
+            this.shiftDown(this.myHeap, i, this.size)
         }
-        arr.shift()
-
-        return arr
+        this.myHeap.shift()
     }
 
+
     /**
-     * 从index开始检查并保持大顶堆
      * @param arr  待检查数组
      * @param i    检查的起始下标
      * @param s 堆大小
-     * @description 调整大顶堆
+     * @description 向下
      */
-    update (arr: number[], i: number, s?: number): void {
-        let size = s ? s : arr.length
+    shiftDown (arr: number[], i: number, s?: number): void {
+        let size = s ? s : this.size
         let left = 2 * i
         let right = left + 1
 
-        // 左右孩子中较大的那一个
-        let maxlr = -1
 
+        // 左右孩子中较大/较小的那一个
+        let theFitOne = 0
         //无左右孩子节点
         if (left &gt; size &amp;&amp; right &gt; size) {
             return
         }
         //只有左孩子节点
         if (left &lt;= size &amp;&amp; right &gt; size) {
-            maxlr = left
+            theFitOne = left
         }
         //只有右孩子节点
         if (right &lt;= size &amp;&amp; left &gt; size) {
-            maxlr = right
+            theFitOne = right
         }
         //同时有左右孩子节点
         if (left &lt;= size &amp;&amp; right &lt;= size) {
-            maxlr = arr[left] &lt; arr[right] ? right : left
+            theFitOne = arr[left] * this.flag &lt; arr[right] * this.flag ? right : left
         }
+        if (arr[i] * this.flag &lt; arr[theFitOne] * this.flag) {
+            this.swap(arr, i, theFitOne)
+            this.shiftDown(arr, theFitOne, size)
+        }
+    }
 
-        if (arr[i] &lt; arr[maxlr]) {
-            this.swap(arr, i, maxlr)
-            this.update(arr, maxlr, size)
+
+    /**
+     * @param i 需要移动的元素节点索引
+     * @description 将当前节点元素层层向上交换位置
+     */
+    shiftUp (arr: number[], i: number): void {
+        const parent = Math.floor((i - 1) / 2)
+        if (arr[i] * this.flag &lt; arr[parent] * this.flag || parent &lt;= 0) {
+            return
+        } else {
+            this.swap(arr, i, parent)
+            this.shiftUp(arr, parent)
         }
     }
 
@@ -228,68 +227,50 @@ right(i)  = left + 1
     }
 
     /**
+     * @param el 插入的元素
+     * @description 返回插入好的堆
+     */
+    insert (el: number): number[] {
+        this.myHeap.push(el)
+        const i = this.myHeap.length - 1
+        this.shiftUp(this.myHeap, i)
+        this.size++
+        return this.myHeap
+    }
+
+    /**
+     * @description 弹出最值
+     */
+    pop (): number {
+        const { myHeap } = this
+        // 交换第一个和最后一个元素
+        this.swap(myHeap, 0, myHeap.length - 1)
+        myHeap.unshift(null)
+        const top = myHeap.pop()
+        this.shiftDown(myHeap, 1, myHeap.length - 1)
+        myHeap.shift()
+        this.size--
+        return top
+    }
+    /**
     * @description 返回堆排序好的新数组，不影响原数组
     */
     sort (): number[] {
-        const arr = this.init([...this.arr])
-        arr[0] !== null &amp;&amp; arr.unshift(null)
+        const { myHeap } = this
+        const arr = [...myHeap]
+        arr.unshift(null)
         for (let j = arr.length - 1; j &gt; 1; j--) {
-            //将堆顶与堆底元素交换，分离出最大的元素
             this.swap(arr, 1, j)
-            //重新调整大顶堆剩余未分离的堆
-            this.update(arr, 1, j - 1)
+            this.shiftDown(arr, 1, j - 1)
         }
         arr.shift()
         return arr
     }
-
     /**
-     * @param i 需要移动的元素节点索引
-     * @description 将当前节点元素层层向上交换位置
-     */
-    shiftUp (arr: number[], i: number): void {
-        const parent = Math.floor((i - 1) / 2)
-        if (arr[i] &lt; arr[parent] || parent &lt; 0) {
-            return
-        } else {
-            this.swap(arr, i, parent)
-            this.shiftUp(arr, parent)
-        }
-    }
-
-    /**
-     * @param el 插入的元素
-     * @description 返回插入好的大顶堆
-     */
-    insert (el: number): number[] {
-        this.arr.push(el)
-        const i = this.arr.length - 1
-        this.shiftUp(this.arr, i)
-        return this.arr
-    }
-
-    /**
-     * @param i 被删除元素的坐标
-     * @description 删除指定坐标的元素
-     */
-    removeByIndex (i: number): number {
-        const j = this.arr.length - 1
-        // 将被删的元数和数组最后一个元素交换位置
-        this.swap(this.arr, i, j)
-        const el = this.arr.pop()
-        this.update(this.arr, i)
-        return el
-    }
-    /**
-     * @param el 被删除元素
-     * @description 删除找到的第一个指定元素
-     */
-    remove (el: number): number[] {
-        const i = this.arr.indexOf(el)
-        if (el !== -1) {
-            this.removeByIndex(i)
-        }
-        return this.arr
+    * @description 用删除节点就返回最大值（最大堆）或者最小值（最小堆）
+    */
+    peek (): number {
+        return this.myHeap[0]
     }
 
     /**
@@ -298,48 +279,25 @@ right(i)  = left + 1
      * @description 替换指定位置的元素
      */
     replace (i: number, el: number): void {
-        let orgin = this.arr[i]
-        this.arr.splice(i, 1, el)
-        if (el &gt; orgin) {
-            // 新来的元素比原来的大，往上走
-            this.shiftUp(this.arr, i)
+        const { myHeap } = this
+        let orgin = myHeap[i]
+        myHeap.unshift(null)
+        i = i + 1
+        myHeap.splice(i, 1, el)
+        if ((el &gt; orgin &amp;&amp; this.flag &gt; 0) || (el &lt; orgin &amp;&amp; this.flag &lt; 0)) {
+            this.shiftUp(myHeap, i)
         } else {
-            // 新来的元素比原来的小，往下走
-            this.update(this.arr, i)
+            this.shiftDown(myHeap, i)
         }
+        myHeap.shift()
     }
-
-    /**
-     * @description 弹出最大值
-     */
-    pop (): number {
-        const arr = this.arr;
-        arr.unshift(null);
-        this.swap(arr, 1, arr.length - 1);
-        const top = arr.pop();
-        let lastParentIndex = Math.floor((arr.length - 1) / 2);
-        for (let i = lastParentIndex; i &gt; 0; i--) {
-            this.update(arr, i, arr.length - 1);
-        }
-        arr.shift();
-        return top;
-    }
-
 }
 </code></pre>
 <p>测试:</p>
-<pre><code class="js">const arr = [1, 2, 3, 4, 5, 6];
-const maxHeap = new createMaxHeap(arr);
-console.log(maxHeap.arr); // [6, 5, 3, 4, 2, 1]
-maxHeap.insert(10);
-maxHeap.insert(8);
-console.log(maxHeap.arr); //[10, 8, 6, 5, 2, 1, 3, 4]
-maxHeap.remove(8);
-console.log(maxHeap.arr); // [10, 6, 4, 5, 2, 1, 3]
-maxHeap.replace(2, 8);
-console.log(maxHeap.arr); //[10, 6, 8, 5, 2, 1, 3]
-console.log(&quot;sort&quot;, maxHeap.sort()); //[1, 2, 3, 5, 6, 8, 10]
-console.log(maxHeap.arr); // [10, 6, 8, 5, 2, 1, 3]
+<pre><code class="js">var arr = [7,5,8,4,9,3,2,6,2]
+console.log(arr)
+var minHeap = new MyHeap([...arr], &#39;MIN&#39;)
+minHeap.peek()
 </code></pre>
 <p>参考资料：</p>
 <blockquote>
@@ -350,22 +308,22 @@ console.log(maxHeap.arr); // [10, 6, 8, 5, 2, 1, 3]
 <p>如果 x == y，那么两块石头都会被完全粉碎；<br>如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。<br>最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 0。</p>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/last-stone-weight\" target="_blank" rel="external">https://leetcode-cn.com/problems/last-stone-weight\</a></p>
 <pre><code class="js">function lastStoneWeight(stones) {
-    const sts = new CreateMaxHeap(stones);
-    // console.log(sts.arr);
-    while (sts.arr.length &gt; 1) {
+        const sts = new MyHeap(stones, &quot;MAX&quot;);
+    while (sts.myHeap.length &gt; 1) {
         const one = sts.pop();
-        const two = sts.pop();
+        const two = sts.peek();
         const diff = one - two;
         if (diff &gt; 0) {
-        sts.insert(diff);
-        // console.log(&quot;insert&quot;, sts.arr);
+        sts.replace(0, diff);
+        } else {
+        sts.pop();
         }
     }
 
-    return sts.arr[0] || 0;
+    return sts.myHeap[0] || 0;
     }
 </code></pre>
-<p>执行用时：100 ms, 在所有 TypeScript 提交中击败了17.31%的用户<br>内存消耗：40.6 MB, 在所有 TypeScript 提交中击败了20.19%的用户</p>
+<p>执行用时：96 ms, 在所有 TypeScript 提交中击败了32.08%的用户<br>内存消耗：40.5 MB, 在所有 TypeScript 提交中击败了24.53%的用户</p>
 <p>= =! 还不如我之前两次提交呢，看来还得研究一下优先级队列</p>
 
 	</div>
