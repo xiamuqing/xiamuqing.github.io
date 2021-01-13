@@ -168,7 +168,6 @@ right(i)  = left + 1
         this.myHeap.shift()
     }
 
-
     /**
      * @param arr  待检查数组
      * @param i    检查的起始下标
@@ -179,7 +178,6 @@ right(i)  = left + 1
         let size = s ? s : this.size
         let left = 2 * i
         let right = left + 1
-
 
         // 左右孩子中较大/较小的那一个
         let theFitOne = 0
@@ -205,7 +203,6 @@ right(i)  = left + 1
         }
     }
 
-
     /**
      * @param i 需要移动的元素节点索引
      * @description 将当前节点元素层层向上交换位置
@@ -219,7 +216,6 @@ right(i)  = left + 1
             this.shiftUp(arr, parent)
         }
     }
-
     swap (arr: number[], i: number, j: number): void {
         let temp = arr[i]
         arr[i] = arr[j]
@@ -252,6 +248,7 @@ right(i)  = left + 1
         this.size--
         return top
     }
+
     /**
     * @description 返回堆排序好的新数组，不影响原数组
     */
@@ -266,6 +263,7 @@ right(i)  = left + 1
         arr.shift()
         return arr
     }
+
     /**
     * @description 用删除节点就返回最大值（最大堆）或者最小值（最小堆）
     */
@@ -308,7 +306,7 @@ minHeap.peek()
 <p>如果 x == y，那么两块石头都会被完全粉碎；<br>如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。<br>最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 0。</p>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/last-stone-weight\" target="_blank" rel="external">https://leetcode-cn.com/problems/last-stone-weight\</a></p>
 <pre><code class="js">function lastStoneWeight(stones) {
-        const sts = new MyHeap(stones, &quot;MAX&quot;);
+    const sts = new MyHeap(stones, &quot;MAX&quot;);
     while (sts.myHeap.length &gt; 1) {
         const one = sts.pop();
         const two = sts.peek();
