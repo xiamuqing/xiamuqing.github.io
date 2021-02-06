@@ -211,7 +211,7 @@ var Student = function(name, age, grade) {
     }
 })
 </code></pre>
-<p>在ECMAScript5中直接提供了一个Object.create方法来完成我们上面自己封装的create的功能。因此我们可以直接使用Object.create.</p>
+<p>在ECMAScript5中直接提供了一个Object.create方法来完成我们上面自己封装的create的功能。因此我们可以直接使用Object.create()</p>
 <pre><code class="js">function Person(name, age) {
     this.name = name;
     this.age = age;}Person.prototype.getName = function() {
