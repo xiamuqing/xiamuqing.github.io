@@ -102,7 +102,14 @@
 <li>前者可以用于检测数据类型 Object.prototype.toString.call(arr)</li>
 <li>后者用于将调用者转化为字符串格式：arr.toString() | Array.prototype.toString.call(arr)</li>
 </ol>
-<h3 id="new-方法"><a href="#new-方法" class="headerlink" title="new 方法"></a>new 方法</h3><h4 id="简单实现："><a href="#简单实现：" class="headerlink" title="简单实现："></a>简单实现：</h4><pre><code class="js">function trivialNew(constructor, ...args) {
+<h3 id="new-关键字"><a href="#new-关键字" class="headerlink" title="new 关键字"></a>new 关键字</h3><p>new关键字让构造函数具有了与普通函数不同的许多特点,new的过程中，执行了如下过程：</p>
+<ol>
+<li>声明一个中间对象；</li>
+<li>将该中间对象的原型指向构造函数的原型；</li>
+<li>将构造函数的this，指向该中间对象；</li>
+<li>返回该中间对象，即返回实例对象。<h4 id="简单实现："><a href="#简单实现：" class="headerlink" title="简单实现："></a>简单实现：</h4></li>
+</ol>
+<pre><code class="js">function trivialNew(constructor, ...args) {
   var o = {}; // 创建一个对象
   constructor.apply(o, args);
   return o;
@@ -150,6 +157,93 @@ console.log(p1.getName());
 
 // 当然，这里也可以判断出实例的类型了
 console.log(p1 instanceof Person); // true
+</code></pre>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h4 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h4><p>可以借助call/apply来实现</p>
+<pre><code class="js">var Person = function(name, age) {
+    this.name = name;
+    this.age = age;
+}
+
+Person.prototype.getName = function() {
+    return this.name;
+}
+
+Person.prototype.getAge = function() {
+    return this.age;
+}
+
+
+var Student = function(name, age, grade) {
+    // 通过call方法还原Person构造函数中的所有处理逻辑
+   Person.call(this, name, age);
+    this.grade = grade;
+}
+
+// 等价于var Student = function(name, age, grade) {
+    this.name = name;
+    this.age = age;
+    this.grade = grade;
+}
+</code></pre>
+<h4 id="原型的继承"><a href="#原型的继承" class="headerlink" title="原型的继承"></a>原型的继承</h4><p>原型的继承则稍微需要一点思考。首先我们应该考虑，如何将子类对象的原型加入到原型链中？<strong>我们只需要让子类对象的原型，成为父类对象的一个实例（son.__proto__ === perent.prototype），</strong>然后通过__proto__就可以访问父类对象的原型。这样就继承了父类原型中的方法与属性了。<br>因此我们可以先封装一个方法，该方法根据父类对象的原型创建一个实例，该实例将会作为子类对象的原型。</p>
+<pre><code class="js">function create(proto, options) {
+    // 创建一个空对象
+    var son = {};
+
+    // 让这个新的空对象成为父类对象的实例
+    son.__proto__ = proto;
+
+    // 传入的方法都挂载到新对象上，新的对象将作为子类对象的原型
+    Object.defineProperties(son, options); // Object.defineProperties方法直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
+    return son;
+}
+</code></pre>
+<p>简单封装了create对象之后，我们就可以使用该方法来实现原型的继承了。</p>
+<pre><code class="js">Student.prototype = create(Person.prototype, {
+    // 不要忘了重新指定构造函数
+    constructor: {
+        value: Student
+    }
+    getGrade: {
+        value: function() {
+            return this.grade
+        }
+    }
+})
+</code></pre>
+<p>在ECMAScript5中直接提供了一个Object.create方法来完成我们上面自己封装的create的功能。因此我们可以直接使用Object.create.</p>
+<pre><code class="js">function Person(name, age) {
+    this.name = name;
+    this.age = age;}Person.prototype.getName = function() {
+    return this.name
+}
+Person.prototype.getAge = function() {
+    return this.age;
+}
+
+function Student(name, age, grade) {
+    // 构造函数继承
+    Person.call(this, name, age);
+    this.grade = grade;
+}
+
+// 原型继承Student.prototype = Object.create(Person.prototype, {
+    // 不要忘了重新指定构造函数
+    constructor: {
+        value: Student
+    }
+    getGrade: {
+        value: function() {
+            return this.grade
+        }
+    }
+})
+
+var s1 = new Student(&#39;ming&#39;, 22, 5);
+
+console.log(s1.getName());  // ming
+console.log(s1.getAge());   // 22
+console.log(s1.getGrade()); // 5
 </code></pre>
 
 	</div>
