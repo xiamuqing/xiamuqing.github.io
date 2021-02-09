@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>jquery源码分析 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+  </head>
+
+  <body>
+
+<header>
+	<a id="logo" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="http://www.cnblogs.com/xiamuqing/" target="_blank">博客园</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      jquery源码分析
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="jquery-简化版代码"><a href="#jquery-简化版代码" class="headerlink" title="jquery 简化版代码"></a>jquery 简化版代码</h3><pre><code class="js">;(function (ROOT) {
+
+  // 构造函数
+  var jQuery = function (selector) {
+
+    // 在jQuery中直接返回new过的实例，这里的init是jQuery的真正构造函数
+    return new jQuery.fn.init(selector)
+  }
+
+  jQuery.fn = jQuery.prototype = {
+    constructor: jQuery,
+
+    version: &#39;1.0.0&#39;,
+
+    init: function (selector) {
+      // 在jquery中这里有一个复杂的判断，但是这里我做了简化
+      var elem, selector;
+      elem = document.querySelector(selector);
+      this[0] = elem;
+
+      // 在jquery中返回一个由所有原型属性方法组成的数组，我们这里简化，直接返回this即可
+      // return jQuery.makeArray(selector, this);
+      return this;
+    },
+
+    // 在原型上添加一堆方法
+    toArray: function () { },
+    get: function () { },
+    each: function () { },
+    ready: function () { },
+    first: function () { },
+    slice: function () { }
+    // ... ...
+  }
+
+  jQuery.fn.init.prototype = jQuery.fn;
+
+  // 实现jQuery的两种扩展方式
+  jQuery.extend = jQuery.fn.extend = function (options) {
+
+    // 在jquery源码中会根据参数不同进行很多判断，我们这里就直接走一种方式，所以就不用判断了
+    var target = this;
+    var copy;
+
+    for (name in options) {
+      copy = options[name];
+      target[name] = copy;
+    }
+    return target;
+  }
+
+  // jQuery中利用上面实现的扩展机制，添加了许多方法，其中
+
+  // 直接添加在构造函数上，被称为工具方法
+  jQuery.extend({
+    isFunction: function () { },
+    type: function () { },
+    parseHTML: function () { },
+    parseJSON: function () { },
+    ajax: function () { }
+    // ...
+  })
+
+  // 添加到原型上
+  jQuery.fn.extend({
+    queue: function () { },
+    promise: function () { },
+    attr: function () { },
+    prop: function () { },
+    addClass: function () { },
+    removeClass: function () { },
+    val: function () { },
+    css: function () { }
+    // ...
+  })
+
+  // $符号的由来，实际上它就是jQuery，一个简化的写法，在这里我们还可以替换成其他可用字符
+  ROOT.jQuery = ROOT.$ = jQuery;
+})(window);
+</code></pre>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><p><strong>jQuery.fn = jQuery.prototype</strong><br><strong>jQuery.fn.init.prototype = jQuery.fn</strong></p>
+<p><img src="/2019/03/20/js/jquery/jquery.webp" alt=""></p>
+<h4 id="jQuery构造器"><a href="#jQuery构造器" class="headerlink" title="jQuery构造器"></a>jQuery构造器</h4><p>jQuery使用非常方便，其中一个原因就是我们在调用的时候并不需要使用关键字new来创造一个jQeury对象，直接使用jQuery(“#id”)或$(“.class”)就可轻松得到一个新的jQuery对象。原因就是jQuery使用工厂方法，利用构造器创造一个新的jQuery对象并返回，省去了用户的new操作。</p>
+<h4 id="一般构造器"><a href="#一般构造器" class="headerlink" title="一般构造器"></a>一般构造器</h4><pre><code class="js">var $ = jQuery = function() {
+    return new jQuery();
+}
+jQuery.prototype = {
+    jquery: &quot;1.11&quot;
+};
+console($().jquery);
+</code></pre>
+<p>一个构造器返回利用它自身创建了一个新的对象并返回，这样形成了一个死循环，产生栈溢出的异常。</p>
+<p>为了解决循环，就必须在jQuery.prototype中定义的一个构造器，这就是jQuery.fn.init了。</p>
+<pre><code class="js">var $ = jQuery = function() {
+    return jQuery.fn.init();
+}
+jQuery.fn = jQuery.prototype = {
+    init: function(){
+        return this;
+    },
+    jquery: &quot;1.11&quot;
+}
+</code></pre>
+<p>虽然这个方法解决了嵌套为问题，也将jQuery的原型方法传递给了jQuery对象，但它是将一个完整的jQuery.prototype暴露处理，jQuery的任何对this关键字的操作，实际上就是直接在jQuery.prototype上进行操作，那么jQuery.fn的完整性很容易就被破坏了，jQuery对象之间也可能产生不可预估的影响。<br>为了避免直接返回jQuery.fn，我们需要借鉴一开始使用关键字new的方法，<strong>通过new创建一个新Oject，改变了this所指向的对象</strong>，从而避开对jQuery.fn的直接暴露。</p>
+<pre><code class="js">var $ = jQuery = function() {
+    return new jQuery.fn.init();
+}
+jQuery.fn = jQuery.prototype = {
+    init: function(){
+        this.num = 2015;
+        return this;
+    },
+    jquery: &quot;1.11&quot;
+}
+</code></pre>
+<p>但此时问题来了，new jQuery.fn.init()所返回的新对象并没有继承jQuery.fn，因为jQuery.fn.init.prototype仅仅是指向了一个function对象的原型，并不包含jQuery.fn。 </p>
+<p>既然jQuery.fn.init.prototype只是指向了Object.prototype，那么我们只需要改变它的指向，让它指向jQuery.fn不就好了吗？</p>
+<pre><code class="js">jQuery.fn.init.protoytpe = jQuery.fn;
+</code></pre>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>jQuery.prototype，挂载jQuery对象的原型方法</li>
+<li>jQuery.fn是jQuery.prototype的别名，方便使用</li>
+<li>jQuery.fn.init.prototype，则是为了让jQuery.fn.init这个工厂方法的<strong>实例</strong>均能够继承jQuery.fn上的原型方法。</li>
+</ul>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2019-03-20T10:16:18.000Z" itemprop="datePublished">2019-03-20</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/jquery" data-title="jquery源码分析" data-url="http://yoursite.com/2019/03/20/js/jquery/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="http://weibo.com/u/3334799754" target="_blank">
+				        			
+				        				<i class="iconfont icon-weibo"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://www.zhihu.com/people/xiamuqing" target="_blank">
+				        			
+										<i class="iconfont icon-zhihu"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a href="http://github.com/yumemor">Yumemor</a>. Powered by <a href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>-->
+	<script src="/js/lib.js"></script>
+	<script src="/js/google-code-prettify/prettify.js"></script>
+	<script src="/js/module.js"></script>
+	<script src="/js/script.js"></script>
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>
