@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>CSS--图片和文本上下居中 | 夏木なつき青あお</title>
+    <title>CSS--非内联元素实现文字环绕效果 | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -74,64 +74,77 @@
 	
   
     <h1 class="post-title" itemprop="name">
-      CSS--图片和文本上下居中
+      CSS--非内联元素实现文字环绕效果
     </h1>
   
 
 	<div class='post-body mb'>
-		<blockquote>
-<p>在写页面的时候，我常常遇到这样的情况：<br><br>文字和图片均设置了vertical-align：middle，可是总感觉并没有完全对齐。<br><br>最后看到张鑫旭的<a href="https://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/comment-page-1/" target="_blank" rel="external">博文</a>，才知道其中缘由.</p>
-</blockquote>
-<h2 id="vertical-align和line-height的地下基友关系"><a href="#vertical-align和line-height的地下基友关系" class="headerlink" title="vertical-align和line-height的地下基友关系"></a>vertical-align和line-height的地下基友关系</h2><ol>
-<li><p>从HTML5文档声明开始的</p>
-<pre><code class="html">&lt;!doctype html&gt;
-&lt;html&gt;
-</code></pre>
+		<h2 id="什么是文字环绕效果"><a href="#什么是文字环绕效果" class="headerlink" title="什么是文字环绕效果"></a>什么是文字环绕效果</h2><pre><code>如下图，文字环绕在图片周围，这就是文字环绕效果。
+</code></pre><p><img src="/2020/04/28/css/text-surround/1.png" alt=""></p>
+<h4 id="为什么会有文字环绕效果，-有什么要求？如何实现？"><a href="#为什么会有文字环绕效果，-有什么要求？如何实现？" class="headerlink" title="为什么会有文字环绕效果， 有什么要求？如何实现？"></a>为什么会有文字环绕效果， 有什么要求？如何实现？</h4><ul>
+<li>CSS的诞生就是为了解决图文信息展示服务的，文字环绕效果能提升体验和美观</li>
+<li>要求：环绕的元素之能是内联元素</li>
+<li>实现：只需被环绕的元素浮动</li>
+</ul>
+<h4 id="非内联元素如何实现环绕效果？"><a href="#非内联元素如何实现环绕效果？" class="headerlink" title="非内联元素如何实现环绕效果？"></a>非内联元素如何实现环绕效果？</h4><p>前面已经说了，环绕的元素只能是<strong>内联元素</strong> ，因此我们只需要这么做：</p>
+<ol>
+<li>将被环绕的非内联元素使用内联元素盒子套起来。</li>
+<li>将环绕的非内联元数浮动，浮动后，元素自动变成block元素</li>
+</ol>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p><img src="/2020/04/28/css/text-surround/2.png" alt=""></p>
+<ul>
+<li><p>被置顶的应用（多个），不允许拖拽同时也不允许其他非置顶的应用拖拽至置顶应用的前面，因此解决办法是，将应用分为两块区域，置顶(A)和非置顶区域(B)，为了美观，仍需要他们同一排展示。</p>
 </li>
-<li><p>vertical-align的百分比值不是相对于字体大小或者其他什么属性计算的，而是相对于line-height计算的.</p>
-<pre><code class="css">{
-line-height: 30px;
-vertical-align: -10%;
+<li><p>如果应用最多只有一排，只需要将两区域均浮动就好，但是一旦超过一行，就会出现以下样式错乱：置顶应用，独立成行，非置顶应用两排显示，如下图：<br><img src="/2020/04/28/css/text-surround/3.png" alt=""></p>
+</li>
+<li><p>在此基础上，想的一个拒绝办法，将父元素C(包裹A和B的父级元素)设置为flex布局，这样虽然能解决AB分层问题，但是又产生了新的问题，A区域也默认占两排高，这样其实第二排的非置顶应用多缩进了一个A的宽度！</p>
+</li>
+<li><p>由以上问题，已经需要的效果，想的咱们需要的不就是一个类似文字环绕的效果吗？而只是把文字变成了块级元素而已呢！</p>
+</li>
+</ul>
+<h4 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h4><pre><code class="css"> .center-box { 
+    // 被环绕的盒子
+    float: left;
+    width: 100px;
+    height: 100px;
+    background: palegreen;
+}
+.arround {
+    // 模拟文字的内联盒子
+    display: inline;
+    background: olive;
+}
+p {
+    // 围绕在盒子周围的每一个块元素
+    height: 20px;
+    width: 40px;
+    background: gold;
+    padding: 0;
+    margin-right: 10px;
+    float: left;
+    margin: 10px;
 }
 </code></pre>
-<p>相当于</p>
-<pre><code class="css">{
-line-height: 30px;
-vertical-align: -3px;    /* = 30px * -10% */  
-}
+<pre><code class="html">&lt;div class=&quot;center-box&quot;&gt;
+    // 我被环绕着
+&lt;/div&gt;
+&lt;div class=&quot;arround&quot;&gt;
+    // 此处省略多个p
+&lt;/div&gt;
 </code></pre>
-</li>
-</ol>
-<h2 id="文字中线位置和绝对居中位置"><a href="#文字中线位置和绝对居中位置" class="headerlink" title="文字中线位置和绝对居中位置"></a>文字中线位置和绝对居中位置</h2><p><strong>在HTML5文档声明下，块状元素内部的内联元素的行为表现，就好像块状元素内部还有一个（更有可能两个-前后）看不见摸不着没有宽度没有实体的空白节点，这个假想又似乎存在的空白节点，作者（张鑫旭）称之为“幽灵空白节点”。</strong></p>
-<p><img src="/2018/05/17/css/vertical/ghost.png" alt=""></p>
-<p>当给图片设置vertical-align: middle，时候，看似图片上下居中了，实际上并没有，因为<strong>middle中线位置(字符x的中心)并不是字符内容的绝对居中位置。两个位置的偏差就是图片近似居中的偏差。</strong></p>
-<p><img src="/2018/05/17/css/vertical/textmiddle.png" alt=""></p>
-<p>图片的中心是与X的中心位置对齐的，可是X的中心位置，并不是绝对居中位置：</p>
-<p><img src="/2018/05/17/css/vertical/imgmiddle.png" alt=""></p>
-<h3 id="完全垂直居中"><a href="#完全垂直居中" class="headerlink" title="完全垂直居中"></a>完全垂直居中</h3><ol>
-<li><p><strong>font-size:0</strong>: 此时content area高度是0，各种乱七八糟的线都在高度为0的这条线上，绝对中心线和中线重合。自然全垂直居中：</p>
-</li>
-<li><p>父元素设置display:flex, 子元素：margin:auto;</p>
-</li>
-</ol>
-<h3 id="inline-block和baseline"><a href="#inline-block和baseline" class="headerlink" title="inline-block和baseline"></a>inline-block和baseline</h3><blockquote>
-<p>一个inline-block元素，如果里面没有inline内联元素，或者overflow不是visible，则该元素的基线就是其margin底边缘，否则，其基线就是元素里面最后一行内联元素的基线。</p>
-</blockquote>
-<p><img src="/2018/05/17/css/vertical/baseline.png" alt=""></p>
-<p><strong>改造“幽灵空白节点”的基线位置</strong>，哈哈，使用font-size，字体足够小时，基线和中线会重合在一起，什么时候字体足够小呢，就是0. 于是，CSS代码(line-height如果是相对值，line-height:0也可以省掉)：</p>
-<pre><code class="css">div { font-size: 0; }
-</code></pre>
+<p>效果预览<br><img src="/2020/04/28/css/text-surround/4.png" alt=""></p>
+<h4 id="不良后果"><a href="#不良后果" class="headerlink" title="不良后果"></a>不良后果</h4><p>因为内联元素不支持设置宽高，我们发现上图的arround元素高为0，如果后面有元素的话，就会导致样式错乱，解决方法： 最外层的父元素加overflow:hiden</p>
 
 	</div>
 	<div class="meta split">
-		<time class="post-date" datetime="2018-05-17T02:42:49.000Z" itemprop="datePublished">2018-05-17</time>
+		<time class="post-date" datetime="2020-04-28T07:01:27.000Z" itemprop="datePublished">2020-04-28</time>
 	</div>
 </article>
 
 <!--评论-->
 
 	
-<div class="ds-thread" data-thread-key="css/vertical" data-title="CSS--图片和文本上下居中" data-url="http://yoursite.com/2018/05/17/css/vertical/"></div>
+<div class="ds-thread" data-thread-key="css/text-surround" data-title="CSS--非内联元素实现文字环绕效果" data-url="http://yoursite.com/2020/04/28/css/text-surround/"></div>
 <script type="text/javascript">
 
 var duoshuoQuery = {short_name:"yumemor"};
