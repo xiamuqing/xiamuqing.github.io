@@ -407,7 +407,7 @@ nav {
   top: 0;
   height: 100%;
   width: 300px;
-  background:rgba(255,255,255,0.9);
+  background: rgba(244,251,244,0.8);
   right: -300px;
   z-index: 9;
   padding: 6em 0 0;
@@ -1144,9 +1144,9 @@ a[data-tooltip][data-placement="top"]::after {
 }
 .author-contact {
   width: 20%;
-  display: inline-block;
   float: right;
   margin-top: -50px;
+  margin-right: 80px;
 }
 .author-contact ul {
   list-style: none;
