@@ -47,7 +47,47 @@
 			
 				
 				<li class="current-menu-item">
-					<a href="http://www.cnblogs.com/xiamuqing/" target="_blank">博客园</a>
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
 				</li>
 			
 		</ul>
@@ -79,14 +119,14 @@
   
 
 	<div class='post-body mb'>
-		<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><p><code>&lt;img&gt;:</code>img<strong>没有</strong>src 属性（<em>注：</em>不是 src=””，src=””时，很多浏览器依然会有请求，且请求的是当前页面数据），当图片的 src 属性缺省的时候，图片不会有任何请求，是最高效的实现方式。</p>
-<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><h3 id="适当的时候解除引用"><a href="#适当的时候解除引用" class="headerlink" title="适当的时候解除引用"></a>适当的时候解除引用</h3><p>在 JavaScript 中，最常用的是通过标记清除的算法来找到哪些对象是不再继续使用的，因此 a = null 其实仅仅只是做了一个释放引用的操作，让 a 原本对应的值失去引用，脱离执行环境，这个值会在下一次垃圾收集器执行操作时被找到并释放。而在适当的时候解除引用，是为页面获得更好性能的一个重要方式。<br>需要注意的是，在局部作用域中，当函数执行完毕，局部变量也就没有存在的必要了，因此垃圾收集器很容易做出判断并回收。但是全局变量什么时候需要释放内存空间则很难判断，因此在我们的开发中，原则上应该避免使用全局变量。</p>
+		<h2><span id="html">HTML</span><a href="#html" class="header-anchor">#</a></h2><h2><span id="css">CSS</span><a href="#css" class="header-anchor">#</a></h2><p><code>&lt;img&gt;:</code>img<strong>没有</strong>src 属性（<em>注：</em>不是 src=””，src=””时，很多浏览器依然会有请求，且请求的是当前页面数据），当图片的 src 属性缺省的时候，图片不会有任何请求，是最高效的实现方式。</p>
+<h2><span id="javascript">JavaScript</span><a href="#javascript" class="header-anchor">#</a></h2><h3><span id="gua-dang-de-shi-hou-jie-chu-yin-yong">适当的时候解除引用</span><a href="#gua-dang-de-shi-hou-jie-chu-yin-yong" class="header-anchor">#</a></h3><p>在 JavaScript 中，最常用的是通过标记清除的算法来找到哪些对象是不再继续使用的，因此 a = null 其实仅仅只是做了一个释放引用的操作，让 a 原本对应的值失去引用，脱离执行环境，这个值会在下一次垃圾收集器执行操作时被找到并释放。而在适当的时候解除引用，是为页面获得更好性能的一个重要方式。<br>需要注意的是，在局部作用域中，当函数执行完毕，局部变量也就没有存在的必要了，因此垃圾收集器很容易做出判断并回收。但是全局变量什么时候需要释放内存空间则很难判断，因此在我们的开发中，原则上应该避免使用全局变量。</p>
 <pre><code class="js">var a = 20; // 在内存中给数值变量分配空间
 alert(a + 100); // 使用内存
 a = null; // 使用完毕之后，释放内存空间
 </code></pre>
-<h3 id="减少字符串拼接："><a href="#减少字符串拼接：" class="headerlink" title="减少字符串拼接："></a>减少字符串拼接：</h3><p>原因：字符串的不可变性，拼接字符串会重新开辟内存空间<br>优化：Array.prototype.join()</p>
-<h3 id="开发者不应该阻塞事件循环"><a href="#开发者不应该阻塞事件循环" class="headerlink" title="开发者不应该阻塞事件循环"></a>开发者不应该阻塞事件循环</h3><p>解决方案:<strong>异步回调函数</strong></p>
+<h3><span id="jian-shao-zi-fu-chuan-pin-jie">减少字符串拼接：</span><a href="#jian-shao-zi-fu-chuan-pin-jie" class="header-anchor">#</a></h3><p>原因：字符串的不可变性，拼接字符串会重新开辟内存空间<br>优化：Array.prototype.join()</p>
+<h3><span id="kai-fa-zhe-bu-ying-gai-zu-sai-shi-jian-xun-huan">开发者不应该阻塞事件循环</span><a href="#kai-fa-zhe-bu-ying-gai-zu-sai-shi-jian-xun-huan" class="header-anchor">#</a></h3><p>解决方案:<strong>异步回调函数</strong></p>
 <pre><code class="js">[1, 2, 3, 4].forEach((i) =&gt; {
   console.log(&quot;process sync&quot;, i);
 
@@ -163,15 +203,6 @@ var duoshuoQuery = {short_name:"yumemor"};
 						
 							
 							<li>
-				        		<a href="http://weibo.com/u/3334799754" target="_blank">
-				        			
-				        				<i class="iconfont icon-weibo"></i>
-				        			
-				        		</a>
-				        	</li>
-						
-							
-							<li>
 				        		<a href="https://github.com/xiamuqing" target="_blank">
 				        			
 				        				<i class="iconfont icon-github"></i>
@@ -181,9 +212,7 @@ var duoshuoQuery = {short_name:"yumemor"};
 						
 							
 							<li>
-				        		<a href="https://www.zhihu.com/people/xiamuqing" target="_blank">
-				        			
-										<i class="iconfont icon-zhihu"></i>
+				        		<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">
 				        			
 				        		</a>
 				        	</li>
