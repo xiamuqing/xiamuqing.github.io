@@ -187,7 +187,8 @@
 <li>函数的执行上下文的个数没有限制</li>
 <li>每次某个函数被调用，就会有个新的执行上下文为其创建，即使是调用的自身函数，也是如此。</li>
 </ul>
-<h3><span id="sheng-ming-zhou-qi">生命周期</span><a href="#sheng-ming-zhou-qi" class="header-anchor">#</a></h3><p><img src="/2019/02/14/study/basic/2019-07-10-09-51-43.png" alt=""></p>
+<h3><span id="sheng-ming-zhou-qi">生命周期</span><a href="#sheng-ming-zhou-qi" class="header-anchor">#</a></h3><div align="center"><img src="/2019/02/14/study/basic/2019-07-10-09-51-43.png" alt=""></div>
+
 <ul>
 <li>创建阶段： 创建变量对象（VO）-&gt;建立作用域链（ScopeChain）-&gt;确定 this 指向</li>
 <li>代码执行阶段：变量赋值、函数引用、执行其他代码</li>
@@ -199,7 +200,9 @@
 </ol>
 <p>未进入执行阶段之前，变量对象中的属性都不能访问！但是进入执行阶段之后，变量对象转变为了活动对象，里面的属性都能被访问了，然后开始进行执行阶段的操作。</p>
 <p><strong>注:</strong> 变量对象和活动对象，其实都是同一个对象，只是出于执行上下文的不同生命周期，只有处于函数调用栈栈顶的执行上下文的变量对象才会变成活动对象。</p>
-<h2><span id="3-zuo-yong-yu-yu-bi-bao">3.作用域与闭包</span><a href="#3-zuo-yong-yu-yu-bi-bao" class="header-anchor">#</a></h2><h3><span id="zuo-yong-yu-yu-zhi-xing-shang-xia-wen-qu-bie">作用域与执行上下文区别</span><a href="#zuo-yong-yu-yu-zhi-xing-shang-xia-wen-qu-bie" class="header-anchor">#</a></h3><p>JavaScript 代码的整个执行过程，分为两个阶段，代码编译阶段与代码执行阶段。<strong>编译阶段</strong>由编译器完成，将代码翻译成可执行代码，这个阶段<strong>作用域</strong>规则会确定。<strong>执行阶段</strong>由引擎完成，主要任务是执行可执行代码，<strong>执行上下文</strong>在这个阶段创建<br><img src="/2019/02/14/study/basic/js/ScopeChain.jpg" alt=""></p>
+<h2><span id="3-zuo-yong-yu-yu-bi-bao">3.作用域与闭包</span><a href="#3-zuo-yong-yu-yu-bi-bao" class="header-anchor">#</a></h2><h3><span id="zuo-yong-yu-yu-zhi-xing-shang-xia-wen-qu-bie">作用域与执行上下文区别</span><a href="#zuo-yong-yu-yu-zhi-xing-shang-xia-wen-qu-bie" class="header-anchor">#</a></h3><p>JavaScript 代码的整个执行过程，分为两个阶段，代码编译阶段与代码执行阶段。<strong>编译阶段</strong>由编译器完成，将代码翻译成可执行代码，这个阶段<strong>作用域</strong>规则会确定。<strong>执行阶段</strong>由引擎完成，主要任务是执行可执行代码，<strong>执行上下文</strong>在这个阶段创建</p>
+<div align="center"><img src="/2019/02/14/study/basic/js/ScopeChain.jpg" alt=""></div>
+
 <h3><span id="bi-bao">闭包</span><a href="#bi-bao" class="header-anchor">#</a></h3><p>闭包，就是 <strong>一个函数</strong> 与其 <strong>被创建时所带有的作用域对象</strong> 的组合。闭包允许你保存状态。<br>它由两部分组成。执行上下文(代号 A)，以及在该执行上下文中创建的函数（代号 B）。<br>当 B 执行时，如果访问了 A 中变量对象中的值，那么闭包就会产生。</p>
 <pre><code class="js">function makeAdder(a) {
   function adder(b) {
@@ -257,11 +260,23 @@ foo();
 <h3><span id="han-shu-yu-han-shu-shi-bian-cheng">函数与函数式编程</span><a href="#han-shu-yu-han-shu-shi-bian-cheng" class="header-anchor">#</a></h3><p><strong>回调函数：</strong>由于匿名函数传入另一个函数之后，最终会在另一个函数中执行，因此我们也常常称这个匿名函数为回调函数。</p>
 <h3><span id="shi-jian-xun-huan">事件循环</span><a href="#shi-jian-xun-huan" class="header-anchor">#</a></h3><ul>
 <li><strong>宏任务：</strong> <strong>script(整体代码)、setTimeout、setInterval、</strong>setImmediate、I/O、UI rendering</li>
-<li><strong>微任务：</strong> <strong>promise、</strong>Object.observe、MutationObserve</li>
-<li><strong>任务优先级：</strong>process.nextTick &gt; <strong>promise.then &gt; setTimeout</strong> &gt; setImmediate</li>
+<li><strong>微任务：</strong> <strong>process.nextTick、promise、</strong> Object.observe、MutationObserve</li>
+<li><strong>任务优先级：</strong> <strong>process.nextTick &gt; promise.then &gt; setTimeout</strong> &gt; setImmediate</li>
 </ul>
-<p>微任务是跟屁虫，一直跟着<strong>当前</strong>宏任务后面，代码执行到一个微任务就跟上，一个接一个</p>
 <p>MutationObserve：监视对 DOM 树所做更改的能力。</p>
+<p><strong>记忆：</strong>微任务是跟屁虫，一直跟着<strong>当前</strong>宏任务后面，代码执行到一个微任务就跟上，一个接一个</p>
+<ul>
+<li>setTimeout/Promise等我们称之为任务源。而进入任务队列的是他们指定的具体执行任务。<pre><code class="js">// setTimeout中的回调函数才是进入任务队列的任务
+setTimeout(function() {
+  console.log(&#39;xxxx&#39;);
+})
+// 非常多的同学对于setTimeout的理解存在偏差。所以大概说一下误解：
+// setTimeout作为一个任务分发器，这个函数会立即执行，而它所要分发的任务，也就是它的第一个参数，才是延迟执行
+</code></pre>
+</li>
+<li>来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。 </li>
+<li>事件循环的顺序，决定了JavaScript代码的执行顺序。<br>它从script(整体代码)开始第一次循环。之后全局上下文进入函数调用栈。直到调用栈清空(只剩全局)，然后执行所有的micro-task。当所有可执行的micro-task执行完毕之后。循环再次从macro-task开始，找到其中一个任务队列执行完毕，然后再执行所有的micro-task，这样一直循环下去。</li>
+</ul>
 <h3><span id="han-shu-yu-han-shu-shi-bian-cheng">函数与函数式编程</span><a href="#han-shu-yu-han-shu-shi-bian-cheng" class="header-anchor">#</a></h3><p>函数参数传递方式：<strong>按值传递</strong><br>对象作为函数参数时，传递的是对象的引用地址</p>
 <p>函数式编程期望一个函数有输入，也有输出。</p>
 <pre><code class="js">function setBackgroundColor(ele, color) {

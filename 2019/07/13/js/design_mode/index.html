@@ -119,7 +119,17 @@
   
 
 	<div class='post-body mb'>
-		<h3 id="工厂模式（Factory-mode）"><a href="#工厂模式（Factory-mode）" class="headerlink" title="工厂模式（Factory mode）"></a>工厂模式（Factory mode）</h3><p>普通工厂模式，就是建立一个工厂类，对实现了同一接口的一些类进行实例的创建。首先看下关系图：<br>工厂模式就是我们提供一个模子，然后通过这个模子复制出需要的对象。我们需要多少个，就复制多少个</p>
+		<div class="toc">
+
+<!-- toc -->
+<ul>
+<li><a href="#gong-han-mo-shi-factory-mode">工厂模式（Factory mode）</a></li>
+<li><a href="#guan-cha-zhe-mo-shi-observer-mode">观察者模式（Observer mode）</a></li>
+</ul>
+<!-- tocstop -->
+</div>
+
+<h3><span id="gong-han-mo-shi-factory-mode">工厂模式（Factory mode）</span><a href="#gong-han-mo-shi-factory-mode" class="header-anchor">#</a></h3><p>普通工厂模式，就是建立一个工厂类，对实现了同一接口的一些类进行实例的创建。首先看下关系图：<br>工厂模式就是我们提供一个模子，然后通过这个模子复制出需要的对象。我们需要多少个，就复制多少个</p>
 <pre><code class="js">var createPerson = function (name, age) {
   // 声明一个中间对象，该对象就是工厂模式的模子
   var o = new Object();
@@ -137,7 +147,7 @@
 var perTom = createPerson(&quot;TOM&quot;, 20);
 var PerJake = createPerson(&quot;Jake&quot;, 22);
 </code></pre>
-<h3 id="观察者模式（Observer-mode）"><a href="#观察者模式（Observer-mode）" class="headerlink" title="观察者模式（Observer mode）"></a>观察者模式（Observer mode）</h3><p>指的是函数自动观察数据对象，一旦对象有变化，函数就会自动执行。</p>
+<h3><span id="guan-cha-zhe-mo-shi-observer-mode">观察者模式（Observer mode）</span><a href="#guan-cha-zhe-mo-shi-observer-mode" class="header-anchor">#</a></h3><p>指的是函数自动观察数据对象，一旦对象有变化，函数就会自动执行。</p>
 <pre><code class="js">const person = observable({
   name: &quot;张三&quot;,
   age: 20,
@@ -174,14 +184,14 @@ function set(target, key, value, receiver) {
 
 	</div>
 	<div class="meta split">
-		<time class="post-date" datetime="2019-06-13T09:41:30.000Z" itemprop="datePublished">2019-06-13</time>
+		<time class="post-date" datetime="2019-07-13T09:41:30.000Z" itemprop="datePublished">2019-07-13</time>
 	</div>
 </article>
 
 <!--评论-->
 
 	
-<div class="ds-thread" data-thread-key="js/design_mode" data-title="设计模式" data-url="http://yoursite.com/2019/06/13/js/design_mode/"></div>
+<div class="ds-thread" data-thread-key="js/design_mode" data-title="设计模式" data-url="http://yoursite.com/2019/07/13/js/design_mode/"></div>
 <script type="text/javascript">
 
 var duoshuoQuery = {short_name:"yumemor"};

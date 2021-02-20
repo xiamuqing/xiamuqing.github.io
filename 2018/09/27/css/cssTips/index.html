@@ -122,7 +122,7 @@
 		<p style="background:#f4fbf4; padding-left:20px; line-height:38px;">总结css一些好用的小知识点,本文<a href="https://xiamuqing.github.io/css-demo/" target="_blank" rel="external">demo地址</a></p>
 
 <blockquote>
-<h2 id="外部尺寸：宽度由外部元素决定"><a href="#外部尺寸：宽度由外部元素决定" class="headerlink" title="外部尺寸：宽度由外部元素决定"></a>外部尺寸：宽度由外部元素决定</h2></blockquote>
+<h2><span id="wai-bu-chi-cun-kuan-du-you-wai-bu-yuan-su-jue-ding">外部尺寸：宽度由外部元素决定</span><a href="#wai-bu-chi-cun-kuan-du-you-wai-bu-yuan-su-jue-ding" class="header-anchor">#</a></h2></blockquote>
 <p>特性：</p>
 <ol>
 <li>正常流宽度：block容器默认width100%  –&gt;无宽度</li>
@@ -149,13 +149,13 @@
 <ul>
 <li>理由： 宽度分离，浏览器会自动计算宽度，不用担心padding/border/margin变化导致的尺寸变化，使得页面结构更加稳固。</li>
 </ul>
-<h2 id="内部尺寸：宽度由内部元素决定"><a href="#内部尺寸：宽度由内部元素决定" class="headerlink" title="内部尺寸：宽度由内部元素决定"></a>内部尺寸：宽度由内部元素决定</h2><p>特性：</p>
+<h2><span id="nei-bu-chi-cun-kuan-du-you-nei-bu-yuan-su-jue-ding">内部尺寸：宽度由内部元素决定</span><a href="#nei-bu-chi-cun-kuan-du-you-nei-bu-yuan-su-jue-ding" class="header-anchor">#</a></h2><p>特性：</p>
 <ol>
 <li>包裹性：inline-block元素默认max-width：100%</li>
 <li>首选最小宽度</li>
 <li>最大宽度</li>
 </ol>
-<h3 id="替换元素"><a href="#替换元素" class="headerlink" title="替换元素"></a>替换元素</h3><p><strong>定义：</strong>内容可被替换，例如修改<code>&lt;img&gt;</code>的src属性，内容就被替换了。</p>
+<h3><span id="ti-huan-yuan-su">替换元素</span><a href="#ti-huan-yuan-su" class="header-anchor">#</a></h3><p><strong>定义：</strong>内容可被替换，例如修改<code>&lt;img&gt;</code>的src属性，内容就被替换了。</p>
 <p><strong>特性：</strong></p>
 <ol>
 <li>均是内联水平元素，且无论其display属性值是inline还是block，尺寸均由内部元素决定。例如：<code>&lt;input&gt;&lt;textarea&gt;</code></li>
@@ -176,9 +176,10 @@
 <blockquote>
 <p>object-position要比object-fit单纯的多，就是控制替换内容位置的。默认值是50% 50%，也就是居中效果，所以，无论上一节object-fit值为那般，图片都是水平垂直居中的。因此，下次要实现尺寸大小不固定图片的垂直居中效果，可以试试object-fit.</p>
 </blockquote>
-<p><img src="/2018/09/27/css/cssTips/object-fit.png" alt=""></p>
-<h3 id="非替换元素"><a href="#非替换元素" class="headerlink" title="非替换元素"></a>非替换元素</h3><p><strong>特性：</strong>如果其display属性值为block，则会有流动性，width默认为auto，width会根据padding、border、margin计算得出。</p>
-<h3 id="替换元素和非替换元素距离"><a href="#替换元素和非替换元素距离" class="headerlink" title="替换元素和非替换元素距离"></a>替换元素和非替换元素距离</h3><ol>
+<div align="center"><img src="/2018/09/27/css/cssTips/object-fit.png" alt=""></div>
+
+<h3><span id="fei-ti-huan-yuan-su">非替换元素</span><a href="#fei-ti-huan-yuan-su" class="header-anchor">#</a></h3><p><strong>特性：</strong>如果其display属性值为block，则会有流动性，width默认为auto，width会根据padding、border、margin计算得出。</p>
+<h3><span id="ti-huan-yuan-su-he-fei-ti-huan-yuan-su-ju-chi">替换元素和非替换元素距离</span><a href="#ti-huan-yuan-su-he-fei-ti-huan-yuan-su-ju-chi" class="header-anchor">#</a></h3><ol>
 <li>替换元素和非替换元素之间只隔了一个src属性！<br>无src的<code>&lt;img&gt;</code>标签和普通的<code>&lt;span&gt;</code>一样</li>
 <li>替换元素和非替换元素之间只隔了一个CSS content 属性！<br>在Chrome浏览器下，所有的元素都支持content属性，而其他浏览器仅在::before/::after中才支持，因此这个属性会有<strong>兼容性问题</strong></li>
 </ol>
@@ -190,16 +191,16 @@
 </code></pre>
 <p><em>注：</em>content属性改变的仅仅是视觉层面，当我们以鼠标右键保存这张图片的时候，保存的还是原来的图片。</p>
 <p><strong>让普通标签变成替换元素：</strong> <code>h1{content:url(1.png)}</code></p>
-<h3 id="content与替换元素关系"><a href="#content与替换元素关系" class="headerlink" title="content与替换元素关系"></a>content与替换元素关系</h3><ol>
+<h3><span id="content-yu-ti-huan-yuan-su-guan-xi">content与替换元素关系</span><a href="#content-yu-ti-huan-yuan-su-guan-xi" class="header-anchor">#</a></h3><ol>
 <li>content生成的文本是无法选中、无法复制的，不要将重要的内容放在content里，不利于SEO</li>
 <li>不能左右:empty伪类</li>
 <li>content动态生成值无法获取</li>
 </ol>
-<h2 id="currentColor"><a href="#currentColor" class="headerlink" title="currentColor"></a>currentColor</h2><ol>
+<h2><span id="currentcolor">currentColor</span><a href="#currentcolor" class="header-anchor">#</a></h2><ol>
 <li><strong>含义：</strong> css3新增关键字，可以作为颜色值在任何使用颜色的地方替代颜色，其表示<strong>当前字体的颜色</strong> 。</li>
 <li><strong>用法：</strong>多用在icon/边框等颜色需要随着字体颜色变化而变化的地方，例如hover状态下，icon和字体颜色一起变色。</li>
 </ol>
-<h3 id="温和的padding"><a href="#温和的padding" class="headerlink" title="温和的padding"></a>温和的padding</h3><ol>
+<h3><span id="wen-he-de-padding">温和的padding</span><a href="#wen-he-de-padding" class="header-anchor">#</a></h3><ol>
 <li><strong>给inline元素设置padding：</strong>在不影响视觉层叠的情况下，增加内联元素的点击区域。 </li>
 <li><a href="https://demo.cssworld.cn/4/2-2.php" target="_blank" rel="external"><strong>垂直分隔符</strong></a></li>
 </ol>

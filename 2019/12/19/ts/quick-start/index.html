@@ -119,14 +119,31 @@
   
 
 	<div class='post-body mb'>
-		<h2 id="0、TypeScript简介"><a href="#0、TypeScript简介" class="headerlink" title="0、TypeScript简介"></a>0、TypeScript简介</h2><ol>
+		<div class="toc">
+
+<!-- toc -->
+<ul>
+<li><a href="#0-typescript-jian-jie">0、TypeScript简介</a></li>
+<li><a href="#1-typescript-kai-fa-huan-jing-da-jian">1、TypeScript 开发环境搭建</a></li>
+<li><a href="#2-ji-ben-lei-xing">2、基本类型</a></li>
+<li><a href="#3-bian-yi-xuan-xiang">3、编译选项</a></li>
+<li><a href="#4-webpack">4、webpack</a></li>
+<li><a href="#5-babel">5、Babel</a><ul>
+<li><a href="#ban-quan-suo-shu-shang-huo-gu">版权所属尚硅谷</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+</div>
+
+<h2><span id="0-typescript-jian-jie">0、TypeScript简介</span><a href="#0-typescript-jian-jie" class="header-anchor">#</a></h2><ol>
 <li>TypeScript是JavaScript的超集。</li>
 <li>它对JS进行了扩展，向JS中引入了类型的概念，并添加了许多新的特性。</li>
 <li>TS代码需要通过编译器编译为JS，然后再交由JS解析器执行。</li>
 <li>TS完全兼容JS，换言之，任何的JS代码都可以直接当成JS使用。</li>
 <li>相较于JS而言，TS拥有了静态类型，更加严格的语法，更强大的功能；TS可以在代码执行前就完成代码的检查，减小了运行时异常的出现的几率；TS代码可以编译为任意版本的JS代码，可有效解决不同JS运行环境的兼容问题；同样的功能，TS的代码量要大于JS，但由于TS的代码结构更加清晰，变量类型更加明确，在后期代码的维护中TS却远远胜于JS。</li>
 </ol>
-<h2 id="1、TypeScript-开发环境搭建"><a href="#1、TypeScript-开发环境搭建" class="headerlink" title="1、TypeScript 开发环境搭建"></a>1、TypeScript 开发环境搭建</h2><ol>
+<h2><span id="1-typescript-kai-fa-huan-jing-da-jian">1、TypeScript 开发环境搭建</span><a href="#1-typescript-kai-fa-huan-jing-da-jian" class="header-anchor">#</a></h2><ol>
 <li><p>下载Node.js</p>
 <ul>
 <li>64位：<a href="https://nodejs.org/dist/v14.15.1/node-v14.15.1-x64.msi" target="_blank" rel="external">https://nodejs.org/dist/v14.15.1/node-v14.15.1-x64.msi</a></li>
@@ -154,7 +171,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="2、基本类型"><a href="#2、基本类型" class="headerlink" title="2、基本类型"></a>2、基本类型</h2><ul>
+<h2><span id="2-ji-ben-lei-xing">2、基本类型</span><a href="#2-ji-ben-lei-xing" class="header-anchor">#</a></h2><ul>
 <li><p>类型声明</p>
 <ul>
 <li><p>类型声明是TS非常重要的一个特点</p>
@@ -339,7 +356,7 @@ let strLength: number = (&lt;string&gt;someValue).length;
 </ul>
 </li>
 </ul>
-<h2 id="3、编译选项"><a href="#3、编译选项" class="headerlink" title="3、编译选项"></a>3、编译选项</h2><ul>
+<h2><span id="3-bian-yi-xuan-xiang">3、编译选项</span><a href="#3-bian-yi-xuan-xiang" class="header-anchor">#</a></h2><ul>
 <li><p>自动编译文件</p>
 <ul>
 <li><p>编译文件时，使用 -w 指令后，TS编译器会自动监视文件的变化，并在文件发生变化时对文件进行重新编译。</p>
@@ -651,7 +668,7 @@ let strLength: number = (&lt;string&gt;someValue).length;
         - noEmitOnError
           - 有错误的情况下不进行编译
           - 默认值：false
-</code></pre><h2 id="4、webpack"><a href="#4、webpack" class="headerlink" title="4、webpack"></a>4、webpack</h2><ul>
+</code></pre><h2><span id="4-webpack">4、webpack</span><a href="#4-webpack" class="header-anchor">#</a></h2><ul>
 <li><p>通常情况下，实际开发中我们都需要使用构建工具对代码进行打包，TS同样也可以结合构建工具一起使用，下边以webpack为例介绍一下如何结合构建工具使用TS。</p>
 </li>
 <li><p>步骤：</p>
@@ -790,7 +807,7 @@ module.exports = {
 </ol>
 </li>
 </ul>
-<h2 id="5、Babel"><a href="#5、Babel" class="headerlink" title="5、Babel"></a>5、Babel</h2><ul>
+<h2><span id="5-babel">5、Babel</span><a href="#5-babel" class="header-anchor">#</a></h2><ul>
 <li><p>经过一系列的配置，使得TS和webpack已经结合到了一起，除了webpack，开发中还经常需要结合babel来对代码进行转换以使其可以兼容到更多的浏览器，在上述步骤的基础上，通过以下步骤再将babel引入到项目中。</p>
 <ol>
 <li><p>安装依赖包：</p>
@@ -862,7 +879,7 @@ module: {
 </ol>
 </li>
 </ul>
-<h3 id="版权所属尚硅谷"><a href="#版权所属尚硅谷" class="headerlink" title="版权所属尚硅谷"></a>版权所属尚硅谷</h3>
+<h3><span id="ban-quan-suo-shu-shang-huo-gu">版权所属尚硅谷</span><a href="#ban-quan-suo-shu-shang-huo-gu" class="header-anchor">#</a></h3>
 	</div>
 	<div class="meta split">
 		<time class="post-date" datetime="2019-12-19T02:43:01.000Z" itemprop="datePublished">2019-12-19</time>

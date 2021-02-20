@@ -119,15 +119,16 @@
   
 
 	<div class='post-body mb'>
-		<p><img src="/2019/03/07/js/prototype/prototype.png" alt=""></p>
-<h3 id="原型链、构造函数"><a href="#原型链、构造函数" class="headerlink" title="原型链、构造函数"></a>原型链、构造函数</h3><h4 id="理解："><a href="#理解：" class="headerlink" title="理解："></a>理解：</h4><ol>
+		<div align="center"><img src="/2019/03/07/js/prototype/prototype.png" alt=""></div>
+
+<h3><span id="yuan-xing-lian-gou-zao-han-shu">原型链、构造函数</span><a href="#yuan-xing-lian-gou-zao-han-shu" class="header-anchor">#</a></h3><h4><span id="li-jie">理解：</span><a href="#li-jie" class="header-anchor">#</a></h4><ol>
 <li>因为 f1.__proto__ === Foo.protoype 所以 Foo.prototype.constructor === f1.__prototype__.constructor === Foo</li>
 <li>因为构造函数的 constructor 是一个函数，所以构造函数 Foo、Object、Function 的 constructor 都指向 Function</li>
 <li>prototype 是一个对象，因此 xx(Object 除外).prototype.__proto__ === Object.prototype</li>
 <li>Object.prototype.__proto__ === null</li>
 <li>Object() 也是一个函数实例，因此 Object.__porto__ === Function.prototype</li>
 </ol>
-<h4 id="总结一下："><a href="#总结一下：" class="headerlink" title="总结一下："></a>总结一下：</h4><ol>
+<h4><span id="zong-jie-yi-xia">总结一下：</span><a href="#zong-jie-yi-xia" class="header-anchor">#</a></h4><ol>
 <li>我们需要牢记两点：<ul>
 <li><strong>proto</strong>和 constructor 属性是对象所独有的；</li>
 <li>prototype 属性是函数所独有的，因为函数也是一种对象，所以函数也拥有<strong>proto</strong>和 constructor 属性。</li>
@@ -137,17 +138,17 @@
 <li>prototype 属性的作用就是让该函数所实例化的对象们都可以找到公用的属性和方法，即 f1.<strong>proto</strong> === Foo.prototype。</li>
 <li>constructor 属性的含义就是指向该对象的构造函数，所有函数（此时看成对象了）最终的构造函数都指向 Function。</li>
 </ol>
-<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><p>Object.prototype.toString() 与(Number| String| Array|Date …).prototype.toString() 区别:</p>
+<h4><span id="zhu-yi">注意：</span><a href="#zhu-yi" class="header-anchor">#</a></h4><p>Object.prototype.toString() 与(Number| String| Array|Date …).prototype.toString() 区别:</p>
 <ol>
 <li>前者可以用于检测数据类型 Object.prototype.toString.call(arr)</li>
 <li>后者用于将调用者转化为字符串格式：arr.toString() | Array.prototype.toString.call(arr)</li>
 </ol>
-<h3 id="new-关键字"><a href="#new-关键字" class="headerlink" title="new 关键字"></a>new 关键字</h3><p>new关键字让构造函数具有了与普通函数不同的许多特点,new的过程中，执行了如下过程：</p>
+<h3><span id="new-guan-jian-zi">new 关键字</span><a href="#new-guan-jian-zi" class="header-anchor">#</a></h3><p>new关键字让构造函数具有了与普通函数不同的许多特点,new的过程中，执行了如下过程：</p>
 <ol>
 <li>声明一个中间对象；</li>
 <li>将该中间对象的原型指向构造函数的原型；</li>
 <li>将构造函数的this，指向该中间对象；</li>
-<li>返回该中间对象，即返回实例对象。<h4 id="简单实现："><a href="#简单实现：" class="headerlink" title="简单实现："></a>简单实现：</h4></li>
+<li>返回该中间对象，即返回实例对象。<h4><span id="jian-dan-shi-xian">简单实现：</span><a href="#jian-dan-shi-xian" class="header-anchor">#</a></h4></li>
 </ol>
 <pre><code class="js">function trivialNew(constructor, ...args) {
   var o = {}; // 创建一个对象
@@ -160,7 +161,7 @@
 // 等价于
 var bill = new Person(&quot;William&quot;, &quot;Orange&quot;);
 </code></pre>
-<h4 id="复杂实现"><a href="#复杂实现" class="headerlink" title="复杂实现"></a>复杂实现</h4><pre><code class="js">// 先一本正经的创建一个构造函数，其实该函数与普通函数并无区别
+<h4><span id="fu-za-shi-xian">复杂实现</span><a href="#fu-za-shi-xian" class="header-anchor">#</a></h4><pre><code class="js">// 先一本正经的创建一个构造函数，其实该函数与普通函数并无区别
 var Person = function(name, age) {
     this.name = name;
     this.age = age;
@@ -198,7 +199,7 @@ console.log(p1.getName());
 // 当然，这里也可以判断出实例的类型了
 console.log(p1 instanceof Person); // true
 </code></pre>
-<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h4 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h4><p>可以借助call/apply来实现</p>
+<h3><span id="ji-cheng">继承</span><a href="#ji-cheng" class="header-anchor">#</a></h3><h4><span id="gou-zao-han-shu-de-ji-cheng">构造函数的继承</span><a href="#gou-zao-han-shu-de-ji-cheng" class="header-anchor">#</a></h4><p>可以借助call/apply来实现</p>
 <pre><code class="js">var Person = function(name, age) {
     this.name = name;
     this.age = age;
@@ -225,7 +226,7 @@ var Student = function(name, age, grade) {
     this.grade = grade;
 }
 </code></pre>
-<h4 id="原型的继承"><a href="#原型的继承" class="headerlink" title="原型的继承"></a>原型的继承</h4><p>原型的继承则稍微需要一点思考。首先我们应该考虑，如何将子类对象的原型加入到原型链中？<strong>我们只需要让子类对象的原型，成为父类对象的一个实例（son.__proto__ === perent.prototype），</strong>然后通过__proto__就可以访问父类对象的原型。这样就继承了父类原型中的方法与属性了。<br>因此我们可以先封装一个方法，该方法根据父类对象的原型创建一个实例，该实例将会作为子类对象的原型。</p>
+<h4><span id="yuan-xing-de-ji-cheng">原型的继承</span><a href="#yuan-xing-de-ji-cheng" class="header-anchor">#</a></h4><p>原型的继承则稍微需要一点思考。首先我们应该考虑，如何将子类对象的原型加入到原型链中？<strong>我们只需要让子类对象的原型，成为父类对象的一个实例（son.__proto__ === perent.prototype），</strong>然后通过__proto__就可以访问父类对象的原型。这样就继承了父类原型中的方法与属性了。<br>因此我们可以先封装一个方法，该方法根据父类对象的原型创建一个实例，该实例将会作为子类对象的原型。</p>
 <pre><code class="js">function create(proto, options) {
     // 创建一个空对象
     var son = {};

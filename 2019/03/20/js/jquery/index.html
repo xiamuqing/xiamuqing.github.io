@@ -119,7 +119,7 @@
   
 
 	<div class='post-body mb'>
-		<h3 id="jquery-简化版代码"><a href="#jquery-简化版代码" class="headerlink" title="jquery 简化版代码"></a>jquery 简化版代码</h3><pre><code class="js">;(function (ROOT) {
+		<h3><span id="jquery-jian-hua-ban-dai-ma">jquery 简化版代码</span><a href="#jquery-jian-hua-ban-dai-ma" class="header-anchor">#</a></h3><pre><code class="js">;(function (ROOT) {
 
   // 构造函数
   var jQuery = function (selector) {
@@ -199,10 +199,11 @@
   ROOT.jQuery = ROOT.$ = jQuery;
 })(window);
 </code></pre>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><p><strong>jQuery.fn = jQuery.prototype</strong><br><strong>jQuery.fn.init.prototype = jQuery.fn</strong></p>
-<p><img src="/2019/03/20/js/jquery/jquery.webp" alt=""></p>
-<h4 id="jQuery构造器"><a href="#jQuery构造器" class="headerlink" title="jQuery构造器"></a>jQuery构造器</h4><p>jQuery使用非常方便，其中一个原因就是我们在调用的时候并不需要使用关键字new来创造一个jQeury对象，直接使用jQuery(“#id”)或$(“.class”)就可轻松得到一个新的jQuery对象。原因就是jQuery使用工厂方法，利用构造器创造一个新的jQuery对象并返回，省去了用户的new操作。</p>
-<h4 id="一般构造器"><a href="#一般构造器" class="headerlink" title="一般构造器"></a>一般构造器</h4><pre><code class="js">var $ = jQuery = function() {
+<h4><span id="guan-jian-dai-ma">关键代码</span><a href="#guan-jian-dai-ma" class="header-anchor">#</a></h4><p><strong>jQuery.fn = jQuery.prototype</strong><br><strong>jQuery.fn.init.prototype = jQuery.fn</strong></p>
+<div align="center"><img src="/2019/03/20/js/jquery/jquery.webp" alt=""></div>
+
+<h4><span id="jquery-gou-zao-qi">jQuery构造器</span><a href="#jquery-gou-zao-qi" class="header-anchor">#</a></h4><p>jQuery使用非常方便，其中一个原因就是我们在调用的时候并不需要使用关键字new来创造一个jQeury对象，直接使用jQuery(“#id”)或$(“.class”)就可轻松得到一个新的jQuery对象。原因就是jQuery使用工厂方法，利用构造器创造一个新的jQuery对象并返回，省去了用户的new操作。</p>
+<h4><span id="yi-ban-gou-zao-qi">一般构造器</span><a href="#yi-ban-gou-zao-qi" class="header-anchor">#</a></h4><pre><code class="js">var $ = jQuery = function() {
     return new jQuery();
 }
 jQuery.prototype = {
@@ -238,7 +239,7 @@ jQuery.fn = jQuery.prototype = {
 <p>既然jQuery.fn.init.prototype只是指向了Object.prototype，那么我们只需要改变它的指向，让它指向jQuery.fn不就好了吗？</p>
 <pre><code class="js">jQuery.fn.init.protoytpe = jQuery.fn;
 </code></pre>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<h4><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h4><ul>
 <li>jQuery.prototype，挂载jQuery对象的原型方法</li>
 <li>jQuery.fn是jQuery.prototype的别名，方便使用</li>
 <li>jQuery.fn.init.prototype，则是为了让jQuery.fn.init这个工厂方法的<strong>实例</strong>均能够继承jQuery.fn上的原型方法。</li>

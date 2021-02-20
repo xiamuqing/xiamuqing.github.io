@@ -675,7 +675,6 @@ article .post-author {
   margin-top: 10px;
 }
 article .post-author a {
-  display: inline-block;
   float: right;
   text-decoration: none;
 }
@@ -685,7 +684,8 @@ article .post-author a {
 article .post-body p {
   font-size: 15px;
   line-height: 27px;
-  color: rgba(2,0,0,0.6);
+  text-indent: 2em;
+  color: #1d1d1d;
 }
 article .post-body >:last-child {
   margin-bottom: 0;
@@ -695,7 +695,7 @@ article .post-body img {
   height: auto;
 }
 article .post-body p {
-  margin-bottom: 30px;
+  margin-bottom: 1em;
 }
 article .post-body p + h1,
 article .post-body p + h2,
