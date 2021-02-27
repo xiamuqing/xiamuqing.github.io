@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>队列相关 | 夏木なつき青あお</title>
+    <title>数据结构——队列 | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -114,20 +114,41 @@
 	
   
     <h1 class="post-title" itemprop="name">
-      队列相关
+      数据结构——队列
     </h1>
   
 
 	<div class='post-body mb'>
-		<blockquote>
-<p>写一个 RecentCounter 类来计算特定时间范围内最近的请求。</p>
-<p>请你实现 RecentCounter 类：</p>
-<p>RecentCounter() 初始化计数器，请求数为 0 。<br>int ping(int t) 在时间 t 添加一个新请求，其中 t 表示以毫秒为单位的某个时间，并返回过去 3000 毫秒内发生的所有请求数（包&gt; 括新请求）。确切地说，返回在 [t-3000, t] 内发生的请求数。<br>保证 每次对 ping 的调用都使用比之前更大的 t 值。</p>
-<p>示例：</p>
-<p>输入：<br>[“RecentCounter”, “ping”, “ping”, “ping”, “ping”]<br>[[], [1], [100], [3001], [3002]]<br>输出：<br>[null, 1, 2, 3, 3]</p>
-<p>解释：<br>RecentCounter recentCounter = new RecentCounter();<br>recentCounter.ping(1);     // requests = [1]，范围是 [-2999,1]，返回 1<br>recentCounter.ping(100);   // requests = [1, 100]，范围是 [-2900,100]，返回 2<br>recentCounter.ping(3001);  // requests = [1, 100, 3001]，范围是 [1,3001]，返回 3<br>recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002]，范围是 [2,3002]，返回 3</p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/number-of-recent-calls" target="_blank" rel="external">https://leetcode-cn.com/problems/number-of-recent-calls</a></p>
-</blockquote>
+		<pre>
+写一个 RecentCounter 类来计算特定时间范围内最近的请求。
+
+请你实现 RecentCounter 类：
+
+RecentCounter() 初始化计数器，请求数为 0 。
+int ping(int t) 在时间 t 添加一个新请求，其中 t 表示以毫秒为单位的某个时间，并返回过去 3000 毫秒内发生的所有请求数（包> 括新请求）。确切地说，返回在 [t-3000, t] 内发生的请求数。
+保证 每次对 ping 的调用都使用比之前更大的 t 值。
+
+
+
+示例：
+
+输入：
+["RecentCounter", "ping", "ping", "ping", "ping"]
+[[], [1], [100], [3001], [3002]]
+输出：
+[null, 1, 2, 3, 3]
+
+解释：
+RecentCounter recentCounter = new RecentCounter();
+recentCounter.ping(1);     // requests = [1]，范围是 [-2999,1]，返回 1
+recentCounter.ping(100);   // requests = [1, 100]，范围是 [-2900,100]，返回 2
+recentCounter.ping(3001);  // requests = [1, 100, 3001]，范围是 [1,3001]，返回 3
+recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002]，范围是 [2,3002]，返回 3
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/number-of-recent-calls
+</pre>
+
 <p>老实说题目看了好几遍，就是没看明白，但是在看了几遍示例后，总算看明白了！！<br>其实就是这样：每次ping一下，就先入栈，然后再把该时刻3000ms内的数据出栈.</p>
 <p>于是我的解法：</p>
 <pre><code>class RecentCounter {
@@ -159,7 +180,7 @@
 <!--评论-->
 
 	
-<div class="ds-thread" data-thread-key="data-structure/queue" data-title="队列相关" data-url="http://yoursite.com/2020/12/31/data-structure/queue/"></div>
+<div class="ds-thread" data-thread-key="data-structure/queue" data-title="数据结构——队列" data-url="http://yoursite.com/2020/12/31/data-structure/queue/"></div>
 <script type="text/javascript">
 
 var duoshuoQuery = {short_name:"yumemor"};
