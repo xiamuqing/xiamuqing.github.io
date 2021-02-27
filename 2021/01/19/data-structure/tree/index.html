@@ -162,7 +162,7 @@ class BST {
         this.root = null
     }
 
-    insert (val: number) {
+    insert (val: number): void {
         if (!val) {
             return
         }
@@ -189,9 +189,9 @@ class BST {
         }
     }
 
-    remove (val: number) {
+    remove (val: number): boolean {
         if (!val) {
-            return
+            return false
         }
         let { root } = this
         let current = root
@@ -257,7 +257,7 @@ class BST {
      * @param node 被删除的元素
      * @description 返回被删除元素左边最大的子元素
      */
-    private getSuccessor (node: TreeNode) {
+    private getSuccessor (node: TreeNode): TreeNode {
         let successor = null
         let successorPerent = null
         let current = node.left
@@ -273,7 +273,7 @@ class BST {
         return successor
     }
 
-    search (val: number) {
+    search (val: number): TreeNode | null {
         if (!val) {
             return null
         }
@@ -296,11 +296,11 @@ class BST {
      * @param arr 
      * @description 自己 -&gt; 左 -&gt; 右
      */
-    preOrder (node?: TreeNode, arr?: number[]) {
+    preOrder (node?: TreeNode, arr?: number[]): number[] {
         if (!node &amp;&amp; !arr) {
             node = this.root
-            arr = []
         }
+        arr = arr ? arr : []
         if (node) {
             arr.push(node.val)
             this.preOrder(node.left, arr)
@@ -315,11 +315,11 @@ class BST {
      * @param arr 
      * @description  左 -&gt; 自己 -&gt; 右
      */
-    inOrder (node?: TreeNode, arr?: number[]) {
+    inOrder (node?: TreeNode, arr?: number[]): number[] {
         if (!node &amp;&amp; !arr) {
             node = this.root
-            arr = []
         }
+        arr = arr ? arr : []
         if (node) {
             this.inOrder(node.left, arr)
             arr.push(node.val)
@@ -334,11 +334,11 @@ class BST {
      * @param arr 
      * @description 左 -&gt; 右 -&gt; 自己
      */
-    postOrder (node?: TreeNode, arr?: number[]) {
+    postOrder (node?: TreeNode, arr?: number[]): number[] {
         if (!node &amp;&amp; !arr) {
             node = this.root
-            arr = []
         }
+        arr = arr ? arr : []
         if (node) {
             this.postOrder(node.left, arr)
             this.postOrder(node.right, arr)
@@ -353,7 +353,7 @@ class BST {
      * @param deep 累加的层数
      * @description 查找当前树的层级，不传参表示从根节点开始数
      */
-    getDeep (node?: TreeNode, deep?: number) {
+    getDeep (node?: TreeNode, deep?: number): number {
         if (!node &amp;&amp; !deep) {
             node = this.root
         }
@@ -368,7 +368,7 @@ class BST {
         return Math.max(deepLeft, deepRight)
     }
 
-    getMin () {
+    getMin (): number {
         let current = this.root
         while (current) {
             if (!current.left) {
@@ -378,7 +378,7 @@ class BST {
         }
     }
 
-    getMax () {
+    getMax (): number {
         let current = this.root
         while (current) {
             if (!current.right) {
