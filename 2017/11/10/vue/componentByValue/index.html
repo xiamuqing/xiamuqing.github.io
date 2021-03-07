@@ -119,8 +119,8 @@
   
 
 	<div class='post-body mb'>
-		<h2 id="官方文档介绍"><a href="#官方文档介绍" class="headerlink" title="官方文档介绍"></a>官方文档介绍</h2><p>组件设计初衷就是要配合使用的，最常见的就是形成父子组件的关系：组件 A 在它的模板中使用了组件 B。它们之间必然需要相互通信：父组件可能要给子组件下发数据，子组件则可能要将它内部发生的事情告知父组件。然而，通过一个良好定义的接口来尽可能将父子组件解耦也是很重要的。这保证了每个组件的代码可以在相对隔离的环境中书写和理解，从而提高了其可维护性和复用性。<br>在 Vue 中，父子组件的关系可以总结为 prop 向下传递，事件向上传递。父组件通过 prop 给子组件下发数据，子组件通过事件给父组件发送消息。<br><a id="more"></a><br><img src="/2017/11/10/vue/componentByValue/props-events.png" width="50%" height="50%"></p>
-<h3 id="父组件和子组件的概念"><a href="#父组件和子组件的概念" class="headerlink" title="父组件和子组件的概念"></a>父组件和子组件的概念</h3><p>先看一段代码：</p>
+		<h2><span id="guan-fang-wen-dang-jie-shao">官方文档介绍</span><a href="#guan-fang-wen-dang-jie-shao" class="header-anchor">#</a></h2><p>组件设计初衷就是要配合使用的，最常见的就是形成父子组件的关系：组件 A 在它的模板中使用了组件 B。它们之间必然需要相互通信：父组件可能要给子组件下发数据，子组件则可能要将它内部发生的事情告知父组件。然而，通过一个良好定义的接口来尽可能将父子组件解耦也是很重要的。这保证了每个组件的代码可以在相对隔离的环境中书写和理解，从而提高了其可维护性和复用性。<br>在 Vue 中，父子组件的关系可以总结为 prop 向下传递，事件向上传递。父组件通过 prop 给子组件下发数据，子组件通过事件给父组件发送消息。<br><a id="more"></a><br><img src="/2017/11/10/vue/componentByValue/props-events.png" width="50%" height="50%"></p>
+<h3><span id="fu-zu-jian-he-zi-zu-jian-de-gai-nian">父组件和子组件的概念</span><a href="#fu-zu-jian-he-zi-zu-jian-de-gai-nian" class="header-anchor">#</a></h3><p>先看一段代码：</p>
 <pre><code class="html">&lt;div id=&quot;example&quot;&gt;
   &lt;!-- example是父组件的模板 --&gt;
   &lt;!-- 定义一个组件child --&gt;
@@ -133,7 +133,7 @@ Vue.component(&#39;child&#39;, {
 })
 </code></pre>
 <p>父组件：可以将 #example元素认为是父组件的模板，它就是起着父组件的作用<br>子组件: 子组件在父组件的 template 属性或者模板中。</p>
-<h2 id="父组件数据使用Prop传递给子组件"><a href="#父组件数据使用Prop传递给子组件" class="headerlink" title="父组件数据使用Prop传递给子组件"></a>父组件数据使用Prop传递给子组件</h2><h3 id="传递固定数据"><a href="#传递固定数据" class="headerlink" title="传递固定数据"></a>传递固定数据</h3><pre><code class="html">&lt;!-- 将message数据传给子组件 --&gt;
+<h2><span id="fu-zu-jian-shu-ju-shi-yong-prop-chuan-di-gei-zi-zu-jian">父组件数据使用Prop传递给子组件</span><a href="#fu-zu-jian-shu-ju-shi-yong-prop-chuan-di-gei-zi-zu-jian" class="header-anchor">#</a></h2><h3><span id="chuan-di-gu-ding-shu-ju">传递固定数据</span><a href="#chuan-di-gu-ding-shu-ju" class="header-anchor">#</a></h3><pre><code class="html">&lt;!-- 将message数据传给子组件 --&gt;
 &lt;child message=&quot;hello!&quot;&gt;&lt;/child&gt;
 </code></pre>
 <pre><code class="javascript">//子组件
@@ -146,7 +146,7 @@ Vue.component(&#39;child&#39;, {
     template: &#39;&lt;span&gt;{{ message }}&lt;/span&gt;&#39;
 })
 </code></pre>
-<h3 id="动态Prop"><a href="#动态Prop" class="headerlink" title="动态Prop"></a>动态Prop</h3><p>与绑定到任何普通的 HTML 特性相类似，我们可以用 v-bind 来动态地将 prop 绑定到父组件的数据。每当父组件的数据变化时，该变化也会传导给子组件：</p>
+<h3><span id="dong-tai-prop">动态Prop</span><a href="#dong-tai-prop" class="header-anchor">#</a></h3><p>与绑定到任何普通的 HTML 特性相类似，我们可以用 v-bind 来动态地将 prop 绑定到父组件的数据。每当父组件的数据变化时，该变化也会传导给子组件：</p>
 <pre><code class="html">&lt;input v-model=&quot;parentMsg&quot;&gt;
 &lt;br&gt;
 &lt;!-- 使用v-bind动态传值给子组件 parentMsg是一个变量--&gt;
@@ -160,7 +160,7 @@ Vue.component(&#39;child&#39;, {
     })
 </code></pre>
 <p>关于这部分我的理解：我们通过修改input的值，因为双向数据绑定，于是修改了data中的parentMsg的值，因此child中的message也改变了，再通过前面说到的传递固定数据给子组件，完成动态数据的传递。</p>
-<h2 id="子组件通过emit将数据传递给父组件"><a href="#子组件通过emit将数据传递给父组件" class="headerlink" title="子组件通过emit将数据传递给父组件"></a>子组件通过emit将数据传递给父组件</h2><pre><code class="html">&lt;!-- 子组件向父组件传替数据 --&gt;
+<h2><span id="zi-zu-jian-tong-guo-emit-jiang-shu-ju-chuan-di-gei-fu-zu-jian">子组件通过emit将数据传递给父组件</span><a href="#zi-zu-jian-tong-guo-emit-jiang-shu-ju-chuan-di-gei-fu-zu-jian" class="header-anchor">#</a></h2><pre><code class="html">&lt;!-- 子组件向父组件传替数据 --&gt;
 &lt;div&gt; 
     &lt;son v-on:cliclkMe=&quot;getMsgFromChild&quot;&gt;&lt;/son&gt;
     &lt;p&gt;{{msg}}&lt;/p&gt;
