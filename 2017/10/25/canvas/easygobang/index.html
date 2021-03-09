@@ -119,12 +119,12 @@
   
 
 	<div class='post-body mb'>
-		<h2><span id="ren-ji-dui-zhan-wu-zi-qi">人机对战五子棋</span><a href="#ren-ji-dui-zhan-wu-zi-qi" class="header-anchor">#</a></h2><p>在这个游戏里，玩家默认是黑棋先手，以后会逐步改进玩家可以选择棋子。</p>
+		<h2><span id="ren-ji-dui-zhan-wu-zi-qi">人机对战五子棋</span><a href="#ren-ji-dui-zhan-wu-zi-qi" class="header-anchor">#</a></h2><p>在这个游戏里，玩家默认是黑棋先手。</p>
 <p>代码地址：<a href="https://github.com/xiamuqing/easygobang.git" target="_blank" rel="external">https://github.com/xiamuqing/easygobang.git</a></p>
 <p>游戏地址：<a href="https://xiamuqing.github.io/easygobang/" target="_blank" rel="external">https://xiamuqing.github.io/easygobang/</a></p>
-<p>基本算法教程：<a href="http://www.imooc.com/learn/644" target="_blank" rel="external">http://www.imooc.com/learn/644</a></p>
-<p>上面的教程中包括了简易五子棋的基本算法，大家有空可以学习一下，如果看不懂老师的赢法数组，其实可以手动画几个循环，很快就能明白。</p>
-<p>以下三个功能是我自己写的</p>
+<div style="display:none"><br><br>基本算法教程：<a href="http://www.imooc.com/learn/644" target="_blank" rel="external">http://www.imooc.com/learn/644</a><br><br>上面的教程中包括了简易五子棋的基本算法，大家有空可以学习一下，如果看不懂老师的赢法数组，其实可以手动画几个循环，很快就能明白。<br><br>以下三个功能是我自己写的<br></div>
+
+
 <h3><span id="kai-shi-gong-neng">开始功能</span><a href="#kai-shi-gong-neng" class="header-anchor">#</a></h3><p>根据是否有点击了开始按钮，和棋盘上是否有棋子来判断是否有弹出框提示。</p>
 <pre><code class="javascript">//棋盘上是否有子
 var haveChess = false;
@@ -171,7 +171,7 @@ var newcWin = [], newmyWin = [];
 </code></pre>
 <h3><span id="che-xiao-hui-qi-gong-neng">撤销悔棋功能</span><a href="#che-xiao-hui-qi-gong-neng" class="header-anchor">#</a></h3><p>通过bx,by,wx,wy将棋子在画上去就行，记得更新赢法统计数组的值。</p>
 <h3><span id="qi-ta">其他</span><a href="#qi-ta" class="header-anchor">#</a></h3><p><a href="https://github.com/lihongxun945/gobang" target="_blank" rel="external">极大极小值实现AI五子棋</a></p>
-<h3><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h3><p>其实有算法讲解，这个游戏并不是很难，主要注意的就是这几个按钮，尤其是“开始”按钮，这里出现的bug比较多。<br>游戏基本完成了，接下来打算将这个游戏改造成面向对象开发，因为平时接触面向对象比较少，都是别写边想下一步干什么面向过程的开发。为了防止出错，所有先提交到远程仓库里，= =！。</p>
+<h3><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h3><p>游戏基本完成了，接下来打算将这个游戏改造成面向对象开发，因为平时接触面向对象比较少，都是别写边想下一步干什么面向过程的开发。为了防止出错，所有先提交到远程仓库里，= =！。</p>
 <hr>
 <p>2017.10.28修改部分</p>
 <h3><span id="mian-xiang-dui-xiang-kai-fa">面向对象开发</span><a href="#mian-xiang-dui-xiang-kai-fa" class="header-anchor">#</a></h3><p>使用面向对象开发，增加加代码的灵活性和扩展性，使得代码整洁明了。</p>
