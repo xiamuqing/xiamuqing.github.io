@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>云盘自动上传code | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      云盘自动上传code
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="上传效果图"><a href="#上传效果图" class="headerlink" title="上传效果图"></a>上传效果图</h3><p><img src="/2022/02/14/yunpan/code/upload.png"></p>
+<h3 id="自动上传核心代码"><a href="#自动上传核心代码" class="headerlink" title="自动上传核心代码"></a>自动上传核心代码</h3><pre><code class="ts">import &#123; FileModule &#125; from &#39;@/store/module/file&#39;;
+import &#123; FolderModule &#125; from &#39;@/store/module/folder&#39;;
+import &#123; message &#125; from &#39;ant-design-vue&#39;;
+import &#123; File, Response &#125; from &#39;type/index&#39;;
+import &#123; mapSeries &#125; from &#39;async&#39;;
+// import &#123; events &#125; from &#39;util/event&#39;
+
+const sameNameOperation = File.SameNameOpt.SAVEALL;
+
+const AutoUpload = async (
+  batchCode: string,
+  isFolder: boolean,
+): Promise&lt;string&gt; =&gt; &#123;
+  // 立即上传当前批次
+  FileModule.updateUploadingBatchId(batchCode);
+  try &#123;
+    const checkResult: Response.ChecSourceResponse =
+      await FileModule.uploadCheck();
+
+    // if (checkResult.hasSameNameSource) &#123;
+    // 1.刷新当前文件夹（parentFolderId）的资源
+    // 2. 记录重名数组nameRepetition[batchid] ,暂停当前批次，传下个批次
+    // 3.询问用户是否取消或者保留两者
+    // &#125; else &#123;
+    // 上传文件/文件夹
+    if (!isFolder) &#123;
+      try &#123;
+        // 1.更新当前batch状态为上传中
+        FileModule.updateFilePool(&#123;
+          batchCode,
+          status: File.FileUploadStatus.uploading,
+        &#125;);
+        // 2..获取分片信息
+        const &#123; targetBatch &#125; = FileModule;
+        if (targetBatch) &#123;
+          const &#123; parentFolderId, rootFile &#125; = targetBatch;
+          if (!rootFile) &#123;
+            return Promise.resolve(&#39;&#39;);
+          &#125;
+          const &#123; name: fileName, size: contentLength, file &#125; = rootFile;
+          const params: File.UploadFileParams = &#123;
+            parentFolderId,
+            fileName,
+            batchCode,
+            file,
+            contentLength,
+            sameNameOperation,
+          &#125;;
+          const filePartsMapId = await FileModule.fetchFilePartsInfo(params);
+          // 3. 开始上传文件
+          await FileModule.uploadFileParts(filePartsMapId);
+          // 4. 更新当前batch状态为已上传
+          FileModule.updateFilePool(&#123;
+            batchCode,
+            status: File.FileUploadStatus.success,
+          &#125;);
+          // 5. 将上传中的状态改为非上传中
+          FileModule.updateUploadingBatchId(&#39;&#39;);
+          return Promise.resolve(parentFolderId);
+        &#125; else &#123;
+          return Promise.reject(&#39;文件找不到&#39;);
+        &#125;
+      &#125; catch (err) &#123;
+        FileModule.updateFilePool(&#123;
+          batchCode,
+          status: File.FileUploadStatus.fail,
+        &#125;);
+        // 抛错，也要修改上传状态，以便于下个批次上传
+        FileModule.updateUploadingBatchId(&#39;&#39;);
+        return Promise.reject(&#39;文件自动上传函数抛错&#39; + err);
+      &#125;
+    &#125; else &#123;
+      // 遍历fileList
+      // 1.新建一个文件夹
+      // 2.拿到新文件夹id，将文件一个个上传到改文件夹里
+      // 3.如果当前的资源是文件，重复1、2步
+      try &#123;
+        // 1.更新当前batch状态为上传中
+        FileModule.updateFilePool(&#123;
+          batchCode,
+          status: File.FileUploadStatus.uploading,
+        &#125;);
+
+        const &#123; targetBatch &#125; = FileModule;
+        if (targetBatch) &#123;
+          const &#123; parentFolderId, rootFile &#125; = targetBatch;
+          if (!rootFile) &#123;
+            return Promise.resolve(parentFolderId);
+          &#125;
+          const &#123; fileList, name &#125; = rootFile;
+          const folderName = name.substring(0, 41); // 文件名最多40
+          // 新建一个文件夹
+          const newFolder = await FolderModule.addNewFolder(&#123;
+            batchCode,
+            parentSourceId: parentFolderId,
+            folderName,
+            autoRename: 1,
+          &#125;);
+          const &#123; sourceId: pid &#125; = newFolder;
+          await mapSeries(fileList, async (item: File.FileType, cb: any) =&gt; &#123;
+            await traverseFolder(batchCode, pid, item);
+            cb();
+          &#125;);
+          // 4. 更新当前batch状态为已上传
+          FileModule.updateFilePool(&#123;
+            batchCode,
+            status: File.FileUploadStatus.success,
+          &#125;);
+          FileModule.updateUploadingBatchId(&#39;&#39;);
+          return Promise.resolve(parentFolderId);
+        &#125; else &#123;
+          return Promise.reject(&#39;文件夹找不到&#39;);
+        &#125;
+      &#125; catch (err) &#123;
+        // 这里拦不到traverseFolder的错误
+        FileModule.updateFilePool(&#123;
+          batchCode,
+          status: File.FileUploadStatus.fail,
+        &#125;);
+        FileModule.updateUploadingBatchId(&#39;&#39;);
+        return Promise.reject(&#39;文件夹上传函数抛错&#39; + err);
+      &#125;
+    &#125;
+    // &#125;
+  &#125; catch (err) &#123;
+    FileModule.updateFilePool(&#123;
+      batchCode,
+      status: File.FileUploadStatus.fail,
+    &#125;);
+    FileModule.updateUploadingBatchId(&#39;&#39;);
+    return Promise.reject(&#39;文件校验失败&#39;);
+  &#125;
+&#125;;
+
+async function traverseFolder(
+  batchCode: string,
+  parentFolderId: string,
+  source: File.FileType,
+) &#123;
+  const &#123; isFolder, name, file, size: contentLength, fileList &#125; = source;
+  const folderName = name.substring(0, 41); // 文件名最多40
+
+  if (isFolder) &#123;
+    // 1.新建一个文件夹
+    try &#123;
+      const newFolder = await FolderModule.addNewFolder(&#123;
+        batchCode,
+        parentSourceId: parentFolderId,
+        folderName,
+        autoRename: 1,
+      &#125;);
+      // 2.拿到新文件夹id
+      const &#123; sourceId: pid &#125; = newFolder;
+      return mapSeries(fileList, async (item: File.FileType, cb: any) =&gt; &#123;
+        await traverseFolder(batchCode, pid, item);
+        cb();
+      &#125;);
+    &#125; catch &#123;
+      FileModule.updateFilePool(&#123;
+        batchCode,
+        status: File.FileUploadStatus.uploadingAndError,
+      &#125;);
+      return Promise.resolve();
+    &#125;
+  &#125; else &#123;
+    const params: File.UploadFileParams = &#123;
+      parentFolderId,
+      fileName: name,
+      batchCode,
+      file,
+      contentLength,
+      sameNameOperation,
+    &#125;;
+    if (!contentLength) &#123;
+      FileModule.updateBatchFileTotal(batchCode);
+      message.success(&#39;已经自动过滤空文件&#39;);
+      return Promise.resolve(&#39;&#39;);
+    &#125;
+    try &#123;
+      // 1. 获取分片信息
+      const filePartsMapId = await FileModule.fetchFilePartsInfo(params);
+      // 2. 上传文件
+      await FileModule.uploadFileParts(filePartsMapId);
+      FileModule.updataBatchCompleteAmount(batchCode);
+      return Promise.resolve(&#39;&#39;);
+    &#125; catch &#123;
+      // 这里可以拦截到每个文件错误---统计失败个数
+      // // 此时上传的文件夹已经成功被创建，如果有需要更新资源列表
+      // if (parentFolderId === FolderModule.selectedFolderId) &#123;
+      //     console.log(&#39;selectedFolderId&#39;, FolderModule.selectedFolderId)
+      //     window.dispatchEvent(events.refreshTableSource)
+      // &#125;
+      FileModule.updataBatchErrorAmount(batchCode);
+      FileModule.updateFilePool(&#123;
+        batchCode,
+        status: File.FileUploadStatus.uploadingAndError,
+      &#125;);
+      return Promise.resolve(&#39;&#39;);
+    &#125;
+  &#125;
+&#125;
+
+export default AutoUpload;
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-02-14T06:53:00.000Z" itemprop="datePublished">2022-02-14</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="yunpan/code" data-title="云盘自动上传code" data-url="http://yoursite.com/2022/02/14/yunpan/code/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

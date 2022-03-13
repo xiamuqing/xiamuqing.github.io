@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>jquery源码分析 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      jquery源码分析
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="jquery-简化版代码"><a href="#jquery-简化版代码" class="headerlink" title="jquery 简化版代码"></a>jquery 简化版代码</h3><pre><code class="js">;(function (ROOT) &#123;
+
+  // 构造函数
+  var jQuery = function (selector) &#123;
+
+    // 在jQuery中直接返回new过的实例，这里的init是jQuery的真正构造函数
+    return new jQuery.fn.init(selector)
+  &#125;
+
+  jQuery.fn = jQuery.prototype = &#123;
+    constructor: jQuery,
+
+    version: &#39;1.0.0&#39;,
+
+    init: function (selector) &#123;
+      // 在jquery中这里有一个复杂的判断，但是这里我做了简化
+      var elem, selector;
+      elem = document.querySelector(selector);
+      this[0] = elem;
+
+      // 在jquery中返回一个由所有原型属性方法组成的数组，我们这里简化，直接返回this即可
+      // return jQuery.makeArray(selector, this);
+      return this;
+    &#125;,
+
+    // 在原型上添加一堆方法
+    toArray: function () &#123; &#125;,
+    get: function () &#123; &#125;,
+    each: function () &#123; &#125;,
+    ready: function () &#123; &#125;,
+    first: function () &#123; &#125;,
+    slice: function () &#123; &#125;
+    // ... ...
+  &#125;
+
+  jQuery.fn.init.prototype = jQuery.fn;
+
+  // 实现jQuery的两种扩展方式
+  jQuery.extend = jQuery.fn.extend = function (options) &#123;
+
+    // 在jquery源码中会根据参数不同进行很多判断，我们这里就直接走一种方式，所以就不用判断了
+    var target = this;
+    var copy;
+
+    for (name in options) &#123;
+      copy = options[name];
+      target[name] = copy;
+    &#125;
+    return target;
+  &#125;
+
+  // jQuery中利用上面实现的扩展机制，添加了许多方法，其中
+
+  // 直接添加在构造函数上，被称为工具方法
+  jQuery.extend(&#123;
+    isFunction: function () &#123; &#125;,
+    type: function () &#123; &#125;,
+    parseHTML: function () &#123; &#125;,
+    parseJSON: function () &#123; &#125;,
+    ajax: function () &#123; &#125;
+    // ...
+  &#125;)
+
+  // 添加到原型上
+  jQuery.fn.extend(&#123;
+    queue: function () &#123; &#125;,
+    promise: function () &#123; &#125;,
+    attr: function () &#123; &#125;,
+    prop: function () &#123; &#125;,
+    addClass: function () &#123; &#125;,
+    removeClass: function () &#123; &#125;,
+    val: function () &#123; &#125;,
+    css: function () &#123; &#125;
+    // ...
+  &#125;)
+
+  // $符号的由来，实际上它就是jQuery，一个简化的写法，在这里我们还可以替换成其他可用字符
+  ROOT.jQuery = ROOT.$ = jQuery;
+&#125;)(window);
+</code></pre>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><p><strong>jQuery.fn &#x3D; jQuery.prototype</strong><br><strong>jQuery.fn.init.prototype &#x3D; jQuery.fn</strong></p>
+<p><img src="/2019/03/20/js/jquery/jquery.webp"></p>
+<h4 id="jQuery构造器"><a href="#jQuery构造器" class="headerlink" title="jQuery构造器"></a>jQuery构造器</h4><p>jQuery使用非常方便，其中一个原因就是我们在调用的时候并不需要使用关键字new来创造一个jQeury对象，直接使用jQuery(“#id”)或$(“.class”)就可轻松得到一个新的jQuery对象。原因就是jQuery使用工厂方法，利用构造器创造一个新的jQuery对象并返回，省去了用户的new操作。</p>
+<h4 id="一般构造器"><a href="#一般构造器" class="headerlink" title="一般构造器"></a>一般构造器</h4><pre><code class="js">var $ = jQuery = function() &#123;
+    return new jQuery();
+&#125;
+jQuery.prototype = &#123;
+    jquery: &quot;1.11&quot;
+&#125;;
+console($().jquery);
+</code></pre>
+<p>一个构造器返回利用它自身创建了一个新的对象并返回，这样形成了一个死循环，产生栈溢出的异常。</p>
+<p>为了解决循环，就必须在jQuery.prototype中定义的一个构造器，这就是jQuery.fn.init了。</p>
+<pre><code class="js">var $ = jQuery = function() &#123;
+    return jQuery.fn.init();
+&#125;
+jQuery.fn = jQuery.prototype = &#123;
+    init: function()&#123;
+        return this;
+    &#125;,
+    jquery: &quot;1.11&quot;
+&#125;
+</code></pre>
+<p>虽然这个方法解决了嵌套为问题，也将jQuery的原型方法传递给了jQuery对象，但它是将一个完整的jQuery.prototype暴露处理，jQuery的任何对this关键字的操作，实际上就是直接在jQuery.prototype上进行操作，那么jQuery.fn的完整性很容易就被破坏了，jQuery对象之间也可能产生不可预估的影响。<br>为了避免直接返回jQuery.fn，我们需要借鉴一开始使用关键字new的方法，<strong>通过new创建一个新Oject，改变了this所指向的对象</strong>，从而避开对jQuery.fn的直接暴露。</p>
+<pre><code class="js">var $ = jQuery = function() &#123;
+    return new jQuery.fn.init();
+&#125;
+jQuery.fn = jQuery.prototype = &#123;
+    init: function()&#123;
+        this.num = 2015;
+        return this;
+    &#125;,
+    jquery: &quot;1.11&quot;
+&#125;
+</code></pre>
+<p>但此时问题来了，new jQuery.fn.init()所返回的新对象并没有继承jQuery.fn，因为jQuery.fn.init.prototype仅仅是指向了一个function对象的原型，并不包含jQuery.fn。 </p>
+<p>既然jQuery.fn.init.prototype只是指向了Object.prototype，那么我们只需要改变它的指向，让它指向jQuery.fn不就好了吗？</p>
+<pre><code class="js">jQuery.fn.init.protoytpe = jQuery.fn;
+</code></pre>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>jQuery.prototype，挂载jQuery对象的原型方法</li>
+<li>jQuery.fn是jQuery.prototype的别名，方便使用</li>
+<li>jQuery.fn.init.prototype，则是为了让jQuery.fn.init这个工厂方法的<strong>实例</strong>均能够继承jQuery.fn上的原型方法。</li>
+</ul>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2019-03-20T10:16:18.000Z" itemprop="datePublished">2019-03-20</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/jquery" data-title="jquery源码分析" data-url="http://yoursite.com/2019/03/20/js/jquery/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

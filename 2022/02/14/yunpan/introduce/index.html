@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>云盘逻辑 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      云盘逻辑
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><pre><code class="js">export interface SourceInfo &#123;
+    sourceId: string // 资源主键ID
+    sourcePath: string // 资源ID路径
+    sourceType: SourceType // 资源类型 // 1文件 0 文件夹
+    sourceName: string // 资源名称
+    ext: string // 文件扩展名，文件夹为空
+    size: number // byte资源大小，文件夹包含子文件夹
+   ...
+&#125;
+
+export type FolderTreeItem = Pick&lt;SourceInfo, &#39;sourceId&#39; | &#39;sourceName&#39;&gt; &amp; &#123;
+    disabled?: boolean // 是否精致编辑
+&#125;
+
+export type FolderTree = FolderTreeItem &amp; &#123;
+    subFolder: FolderTree[]
+&#125;
+
+export interface FolderMap &#123;
+    [folderKey: string]: FolderTree
+&#125;
+</code></pre>
+<h2 id="渲染逻辑"><a href="#渲染逻辑" class="headerlink" title="渲染逻辑"></a>渲染逻辑</h2><ol>
+<li>项目启动自动加载一级文件夹</li>
+<li>展开 siderbar 文件夹：</li>
+</ol>
+<ul>
+<li>如果 FolderMap[id]（当前展开的文件夹） subFolder 为空，则通过 id 去获取其资源</li>
+<li>如果 subFolder 不为空，则直接展开 subFolder</li>
+<li>即 siderbar 文件夹展开或收起，不一定会更新文件夹列表数据</li>
+</ul>
+<ol start="3">
+<li>查看文件夹资源（点击 siderbar 文件夹名称）</li>
+</ol>
+<ul>
+<li>通过当前 folderId 去获取文件夹资源</li>
+</ul>
+<ol start="4">
+<li>新增文件夹</li>
+</ol>
+<ul>
+<li>会在当前父文件夹前插入新文件夹，不刷新 table data，但会更新左侧 folder menu</li>
+</ul>
+<ol start="5">
+<li>删除、重命名文件、文件夹</li>
+</ol>
+<ul>
+<li>成功后会刷新 table data 以及左侧 folder menu <strong>（可优化）</strong></li>
+</ul>
+<ol start="6">
+<li>上传文件、文件夹</li>
+</ol>
+<ul>
+<li>上传成功后，如果停留在当前父文件，则刷新父文件夹资源</li>
+<li>文件夹上传成功后，刷新左侧菜单</li>
+</ul>
+<h2 id="文件解析逻辑"><a href="#文件解析逻辑" class="headerlink" title="文件解析逻辑"></a>文件解析逻辑</h2><ol>
+<li>全局上传，保证路由切换不会出错</li>
+<li>用户选择文件、文件夹后，使用<a target="_blank" rel="noopener" href="https://github.com/simple-uploader/vue-uploader">vue3-simple-uploader</a>解析文件、文件夹</li>
+<li>将 simpleUploader 解析后的数据通过全局$bus 通知给文件分析组件，处理后，push 至上传的 batchPool 里</li>
+</ol>
+<h2 id="自动上传"><a href="#自动上传" class="headerlink" title="自动上传"></a>自动上传</h2><ol>
+<li>监听待上传的数组长度，从 batchPool 找到下一个上传的批次</li>
+<li>如果当前没有正在上传的批次，则开始上传第一个等待上传的批次（<strong>防止页面卡死，目前关闭同时上传多个批次</strong>）</li>
+</ol>
+<h2 id="上传文件（autoUploadFile）核心逻辑"><a href="#上传文件（autoUploadFile）核心逻辑" class="headerlink" title="上传文件（autoUploadFile）核心逻辑"></a>上传文件（autoUploadFile）核心逻辑</h2><ol>
+<li>检查文件名称是否存在</li>
+</ol>
+<ul>
+<li>uploadCheck()：同名文件存在提示用户，用户选择跳过、替换、保留两者（后端重命名） <strong>暂时默认保留两者</strong></li>
+</ul>
+<ol start="2">
+<li>将文件大小给后端，后端返回切片列表，包括每个切片的 boss 地址</li>
+</ol>
+<ul>
+<li>fetchFilePartsInfo()：filePartsMap 用于记录每个 file 的信息，包括 parentFolderId、fileName、batchCode（所属的上传批次 id）、multiparts[]（eTag、partNum、putUrl…）</li>
+</ul>
+<ol start="3">
+<li>遍历切片数组，将 file 切块，再上传切片</li>
+</ol>
+<ul>
+<li>uploadFileParts()上传文件，每次同时上传<strong>5</strong>片，更新每片上传成功后的 eTag，</li>
+</ul>
+<ol start="4">
+<li>全部切片上传成功后，调用合并接口，并将已完成的 file 从 filePartsMap 移除</li>
+</ol>
+<ul>
+<li>postAllPart()</li>
+</ul>
+<h2 id="单文件上传"><a href="#单文件上传" class="headerlink" title="单文件上传"></a>单文件上传</h2><ol>
+<li>更新上传状态为正在上传，更新当前批次为上传中</li>
+<li>执行上传文件逻辑</li>
+<li>上传完成后，上传状态为停止上传，更新当前批次为已完成，如有需要刷新父文件夹资源列表</li>
+</ol>
+<h2 id="文件夹上传"><a href="#文件夹上传" class="headerlink" title="文件夹上传"></a>文件夹上传</h2><ol>
+<li>更新上传状态为正在上传，更新当前批次为上传中</li>
+<li>使用 vue3-simple-uplod 解析文件，采用的是广度优先遍历，fileList 展开：当前文件夹-&gt;子文件-&gt;subFolder1（包含该文件夹下的 fileList）-&gt;subFolder2</li>
+<li>当遇到文件夹，先调接口创建一个文件夹，遍历其 fileList，将 file 走上传文件逻辑</li>
+<li>当 file 都上传完后，遇见新的 folder 递归第 3 步</li>
+<li>更新侧边 folder 目录，全部上传成功后，更新当前批次为已完成，如有需要刷新父文件夹资源列表</li>
+</ol>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-02-14T06:36:31.000Z" itemprop="datePublished">2022-02-14</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="yunpan/introduce" data-title="云盘逻辑" data-url="http://yoursite.com/2022/02/14/yunpan/introduce/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

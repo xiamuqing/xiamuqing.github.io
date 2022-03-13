@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>CSS--图片和文本上下居中 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      CSS--图片和文本上下居中
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<blockquote>
+<p>在写页面的时候，我常常遇到这样的情况：<br><br>文字和图片均设置了vertical-align：middle，可是总感觉并没有完全对齐。<br><br>最后看到张鑫旭的<a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2015/08/css-deep-understand-vertical-align-and-line-height/comment-page-1/">博文</a>，才知道其中缘由.</p>
+</blockquote>
+<h2 id="vertical-align和line-height的地下基友关系"><a href="#vertical-align和line-height的地下基友关系" class="headerlink" title="vertical-align和line-height的地下基友关系"></a>vertical-align和line-height的地下基友关系</h2><ol>
+<li><p>从HTML5文档声明开始的</p>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+</code></pre>
+</li>
+<li><p>vertical-align的百分比值不是相对于字体大小或者其他什么属性计算的，而是相对于line-height计算的.</p>
+<pre><code class="css">&#123;
+  line-height: 30px;
+  vertical-align: -10%;
+&#125;
+</code></pre>
+<p>相当于</p>
+<pre><code class="css">&#123;
+  line-height: 30px;
+  vertical-align: -3px;    /* = 30px * -10% */  
+&#125;
+</code></pre>
+</li>
+</ol>
+<h2 id="文字中线位置和绝对居中位置"><a href="#文字中线位置和绝对居中位置" class="headerlink" title="文字中线位置和绝对居中位置"></a>文字中线位置和绝对居中位置</h2><p><strong>在HTML5文档声明下，块状元素内部的内联元素的行为表现，就好像块状元素内部还有一个（更有可能两个-前后）看不见摸不着没有宽度没有实体的空白节点，这个假想又似乎存在的空白节点，作者（张鑫旭）称之为“幽灵空白节点”。</strong></p>
+<p><img src="/2018/05/17/css/vertical/ghost.png"></p>
+<p>当给图片设置vertical-align: middle，时候，看似图片上下居中了，实际上并没有，因为<strong>middle中线位置(字符x的中心)并不是字符内容的绝对居中位置。两个位置的偏差就是图片近似居中的偏差。</strong></p>
+<p><img src="/2018/05/17/css/vertical/textmiddle.png"></p>
+<p>图片的中心是与X的中心位置对齐的，可是X的中心位置，并不是绝对居中位置：</p>
+<p>&lt;<img src="/2018/05/17/css/vertical/imgmiddle.png"></p>
+<h3 id="完全垂直居中"><a href="#完全垂直居中" class="headerlink" title="完全垂直居中"></a>完全垂直居中</h3><ol>
+<li><p><strong>font-size:0</strong>: 此时content area高度是0，各种乱七八糟的线都在高度为0的这条线上，绝对中心线和中线重合。自然全垂直居中：</p>
+</li>
+<li><p>父元素设置display:flex, 子元素：margin:auto;</p>
+</li>
+</ol>
+<h3 id="inline-block和baseline"><a href="#inline-block和baseline" class="headerlink" title="inline-block和baseline"></a>inline-block和baseline</h3><blockquote>
+<p>一个inline-block元素，如果里面没有inline内联元素，或者overflow不是visible，则该元素的基线就是其margin底边缘，否则，其基线就是元素里面最后一行内联元素的基线。</p>
+</blockquote>
+<p><img src="/2018/05/17/css/vertical/baseline.png"></p>
+<p><strong>改造“幽灵空白节点”的基线位置</strong>，哈哈，使用font-size，字体足够小时，基线和中线会重合在一起，什么时候字体足够小呢，就是0. 于是，CSS代码(line-height如果是相对值，line-height:0也可以省掉)：</p>
+<pre><code class="css">div &#123; font-size: 0; &#125;
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2018-05-17T02:42:49.000Z" itemprop="datePublished">2018-05-17</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="css/vertical" data-title="CSS--图片和文本上下居中" data-url="http://yoursite.com/2018/05/17/css/vertical/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

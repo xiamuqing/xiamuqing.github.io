@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>vue3 图片懒加载组件 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      vue3 图片懒加载组件
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id="css-新属性"><a href="#css-新属性" class="headerlink" title="css 新属性"></a>css 新属性</h3><p>content-visibility：控制元素是否渲染其内容，以及强制一组强大的包含，允许用户代理潜在地省略大量布局和渲染工作，直到需要它为止。基本上，它使用户代理能够在需要之前跳过元素的渲染工作（包括布局和绘画）——这使得初始页面加载速度更快。</p>
+<pre><code class="css">/* Keyword values */
+content-visibility: visible;  //没有效果。元素的内容被正常布局和渲染。
+content-visibility: hidden; // 该元素跳过其内容。用户代理功能（例如在页面中查找、标签顺序导航等）不能访问跳过的内容，也不能选择或聚焦。这类似于给出内容display: none。
+content-visibility: auto; // 该元素打开布局包含、样式包含和绘制包含。如果元素与用户无关，它也会跳过其内容。与隐藏不同，跳过的内容必须仍然对用户代理功能（如在页面中查找、标签顺序导航等）正常可用，并且必须正常可聚焦和可选择。
+</code></pre>
+<p><strong>注意：</strong>兼容性差，fireFox，safari不支持</p>
+<h3 id="IntersectionObserver"><a href="#IntersectionObserver" class="headerlink" title="IntersectionObserver"></a>IntersectionObserver</h3><p>使用场景：图片多、大的情况，防止一次性加载所有图片，在图片未进入可视页面之前，img 表情没有 scr 属性，（如果有 scr，即使为空，也会发送请求）<br><strong>immediatly</strong>：是否立即加载图片，打开页面，默认在可视区域内的需要将其设置成 true<br><strong>img.complete</strong>：图片已经加载过该文件时，此时可以直接显示出来</p>
+<p><strong>intersection-observer-polyfill</strong>: 可以兼容低版本浏览器</p>
+<pre><code class="vue">&lt;template&gt;
+  &lt;img v-if=&quot;!immediately&quot; :data-src=&quot;src&quot; class=&quot;opacity0&quot; ref=&quot;imgElement&quot; /&gt;
+  &lt;img v-else :src=&quot;src&quot; class=&quot;opacity0&quot; ref=&quot;imgElement&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import &#123; defineComponent, Ref, ref, onMounted &#125; from &#39;vue&#39;;
+import IntersectionObserver from &#39;intersection-observer-polyfill&#39;;
+
+export default defineComponent(&#123;
+  name: &#39;LazyImg&#39;,
+  props: &#123;
+    src: &#123;
+      default: &#39;&#39;,
+      required: true,
+    &#125;,
+    immediately: &#123;
+      default: false,
+    &#125;,
+  &#125;,
+  setup(props) &#123;
+    const imgElement: Ref&lt;HTMLImageElement | null&gt; = ref(null);
+    const lazyload = (target: HTMLElement) =&gt; &#123;
+      const io = new IntersectionObserver((entries: any[], observer: any) =&gt; &#123;
+        entries.forEach((entry) =&gt; &#123;
+          // isIntersecting 企微不支持（使用了polyfill 也这样）
+          if (entry?.isIntersecting || entry.intersectionRatio &gt; 0) &#123;
+            const img = entry.target;
+            const src = img.getAttribute(&#39;data-src&#39;);
+            img.setAttribute(&#39;src&#39;, src);
+            img.removeAttribute(&#39;data-src&#39;);
+            observer.disconnect();
+          &#125;
+        &#125;);
+      &#125;);
+      io.observe(target);
+    &#125;;
+
+    onMounted(() =&gt; &#123;
+      const img = imgElement.value;
+      if (img) &#123;
+        if (!props.immediately) &#123;
+          lazyload(img);
+        &#125;
+        if (img.complete) &#123;
+          // 如果图片已经存在于浏览器缓存，直接显示出来
+          img.classList.remove(&#39;opacity0&#39;);
+          img.classList.add(&#39;fade&#39;);
+        &#125; else &#123;
+          img.onload = () =&gt; &#123;
+            img.classList.remove(&#39;opacity0&#39;);
+            img.classList.add(&#39;fade&#39;);
+          &#125;;
+        &#125;
+
+        img.onerror = () =&gt;
+          setTimeout(() =&gt; img.setAttribute(&#39;src&#39;, props.src), 500);
+      &#125;
+    &#125;);
+
+    return &#123;
+      imgElement,
+    &#125;;
+  &#125;,
+&#125;);
+&lt;/script&gt;
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-02-20T11:23:47.000Z" itemprop="datePublished">2022-02-20</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="vue/vue-lazy-loader" data-title="vue3 图片懒加载组件" data-url="http://yoursite.com/2022/02/20/vue/vue-lazy-loader/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

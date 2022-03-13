@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>gulp | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      gulp
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h4 id="gulp-特点：任务化、基于流，I-x2F-O"><a href="#gulp-特点：任务化、基于流，I-x2F-O" class="headerlink" title="gulp 特点：任务化、基于流，I&#x2F;O"></a>gulp 特点：任务化、基于流，I&#x2F;O</h4><h4 id="gulp-内存："><a href="#gulp-内存：" class="headerlink" title="gulp 内存："></a>gulp 内存：</h4><p>输入流： 本地文件 -&gt; gulp 内存<br>输出流： gulp 内存 -&gt; 本地</p>
+<h4 id="常用插件："><a href="#常用插件：" class="headerlink" title="常用插件："></a>常用插件：</h4><pre><code class="json">&#123;
+  &quot;gulp-clean-css&quot;: &quot;压缩css&quot;,
+  &quot;gulp-concat&quot;: &quot;拼接css/js&quot;,
+  &quot;gulp-connect&quot;: &quot;服务&quot;,
+  &quot;gulp-htmlmin&quot;: &quot;压缩html&quot;,
+  &quot;gulp-less&quot;: &quot;less转css&quot;,
+  &quot;gulp-livereload&quot;: &quot;实时更新&quot;,
+  &quot;gulp-load-plugins&quot;: &quot;插件管理&quot;,
+  &quot;gulp-rename&quot;: &quot;重命名&quot;,
+  &quot;gulp-uglify&quot;: &quot;压缩js&quot;
+&#125;
+</code></pre>
+<pre><code class="js">// series 同步执行 parallel 异步
+const &#123; series, parallel, src, dest, watch &#125; = require(&quot;gulp&quot;);
+const $ = require(&quot;gulp-load-plugins&quot;)();
+const fs = require(&quot;fs&quot;);
+
+//  $.livereload 会和$.connect.reload() 冲突 二者用一个就好
+
+function clean(cb) &#123;
+  fs.readdir(&quot;dist&quot;, async (err, files) =&gt; &#123;
+    if (err) &#123;
+      cb();
+    &#125; else &#123;
+      return src(&quot;dist&quot;, &#123; read: false &#125;).pipe($.clean()).unpipe();
+    &#125;
+  &#125;);
+&#125;
+
+function css() &#123;
+  return (
+    src(&quot;src/less/**/*.less&quot;)
+      .pipe($.less())
+      .pipe($.concat(&quot;main.css&quot;))
+      .pipe(dest(&quot;dist/css&quot;))
+      .pipe($.cleanCss()) // 压缩
+      .pipe($.rename(&#123; suffix: &quot;.min&quot; &#125;))
+      .pipe(dest(&quot;dist/css&quot;))
+      // .pipe($.livereload());
+      .pipe($.connect.reload())
+  );
+&#125;
+
+function javascript() &#123;
+  return (
+    src(&quot;src/js/**/*.js&quot;) //操作的源文件
+      .pipe($.concat(&quot;main.js&quot;)) //合并到临时文件
+      .pipe(dest(&quot;dist/js&quot;)) //生成到目标文件夹
+      .pipe($.uglify()) // 压缩
+      .pipe($.rename(&#123; suffix: &quot;.min&quot; &#125;))
+      .pipe(dest(&quot;dist/js&quot;))
+      // .pipe($.livereload());
+      .pipe($.connect.reload())
+  );
+&#125;
+
+function html() &#123;
+  return (
+    src(&quot;index.html&quot;)
+      .pipe($.htmlmin(&#123; collapseWhitespace: true &#125;))
+      .pipe(dest(&quot;dist/&quot;))
+      // .pipe($.livereload());
+      .pipe($.connect.reload())
+  );
+&#125;
+
+// 监视文件变化，重新构建
+function watchChange() &#123;
+  //   $.livereload.listen();
+  watch([&quot;src/js/**/*.js&quot;], &#123; events: [&quot;change&quot;] &#125;, javascript);
+  watch([&quot;src/less/**/*.less&quot;], &#123; events: [&quot;change&quot;] &#125;, css);
+  watch([&quot;index.html&quot;], &#123; events: [&quot;change&quot;] &#125;, html);
+&#125;
+
+function serve() &#123;
+  return new Promise((resolve, reject) =&gt; &#123;
+    $.connect.server(&#123;
+      root: &quot;dist/&quot;,
+      livereload: true,
+      port: 8888,
+    &#125;);
+    watchChange();
+    resolve();
+  &#125;);
+&#125;
+
+exports.clean = series(clean);
+exports.html = series(html);
+exports.watch = series(watchChange);
+exports.default = series(parallel(css, javascript), html, serve);
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2020-03-09T07:55:43.000Z" itemprop="datePublished">2020-03-09</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="package/gulpfile" data-title="gulp" data-url="http://yoursite.com/2020/03/09/package/gulpfile/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>浏览器和node下的事件循环 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      浏览器和node下的事件循环
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<!-- toc -->
+
+<h3 id="一道例题引出的血案"><a href="#一道例题引出的血案" class="headerlink" title="一道例题引出的血案"></a>一道例题引出的血案</h3><p>提示：<em>（绿色表示node才有的对象）</em></p>
+<blockquote>
+<p><strong>宏任务（macro task）：script(整体代码)、setTimeout、setInterval、</strong><font color="green">setImmediate、</font> I&#x2F;O、UI rendering<br>**微任务（micro task）：<font color="green">process.nextTick、</font> promise、 **Object.observe、MutationObserve<br>**任务优先级：<font color="gold">process.nextTick &gt; promise.then &gt; setTimeout </font>&gt; setImmediate **</p>
+</blockquote>
+<p>例题</p>
+<pre><code class="js">console.log(&quot;golb1&quot;);
+
+setTimeout(function () &#123;
+  console.log(&quot;timeout1&quot;);
+
+  process.nextTick(function () &#123;
+    console.log(&quot;timeout1_nextTick&quot;);
+  &#125;);
+
+  new Promise(function (resolve) &#123;
+    console.log(&quot;timeout1_promise&quot;);
+    resolve();
+  &#125;).then(function () &#123;
+    console.log(&quot;timeout1_then&quot;);
+  &#125;);
+
+&#125;);
+
+setImmediate(function () &#123;
+  console.log(&quot;immediate1&quot;);
+
+  process.nextTick(function () &#123;
+    console.log(&quot;immediate1_nextTick&quot;);
+  &#125;);
+
+  new Promise(function (resolve) &#123;
+    console.log(&quot;immediate1_promise&quot;);
+    resolve();
+  &#125;).then(function () &#123;
+    console.log(&quot;immediate1_then&quot;);
+  &#125;);
+
+&#125;);
+
+process.nextTick(function () &#123;
+  console.log(&quot;glob1_nextTick&quot;);
+&#125;);
+
+new Promise(function (resolve) &#123;
+  console.log(&quot;glob1_promise&quot;);
+  resolve();
+&#125;).then(function () &#123;
+  console.log(&quot;glob1_then&quot;);
+
+&#125;);
+
+setTimeout(function () &#123;
+  console.log(&quot;timeout2&quot;);
+
+  process.nextTick(function () &#123;
+    console.log(&quot;timeout2_nextTick&quot;);
+  &#125;);
+
+  new Promise(function (resolve) &#123;
+    console.log(&quot;timeout2_promise&quot;);
+    resolve();
+  &#125;).then(function () &#123;
+    console.log(&quot;timeout2_then&quot;);
+  &#125;);
+
+&#125;);
+
+process.nextTick(function () &#123;
+  console.log(&quot;glob2_nextTick&quot;);
+&#125;);
+
+new Promise(function (resolve) &#123;
+  console.log(&quot;glob2_promise&quot;);
+  resolve();
+&#125;).then(function () &#123;
+  console.log(&quot;glob2_then&quot;);
+&#125;);
+
+setImmediate(function () &#123;
+  console.log(&quot;immediate2&quot;);
+
+  process.nextTick(function () &#123;
+    console.log(&quot;immediate2_nextTick&quot;);
+  &#125;);
+
+  new Promise(function (resolve) &#123;
+    console.log(&quot;immediate2_promise&quot;);
+    resolve();
+  &#125;).then(function () &#123;
+    console.log(&quot;immediate2_then&quot;);
+  &#125;);
+  
+&#125;);
+</code></pre>
+<p>我开始按照之前的经验写出这样的顺序：</p>
+<pre><code class="js">golb1 -&gt; lob1_promise -&gt; glob2_promise -&gt; 
+glob1_nextTick -&gt; glob2_nextTick -&gt; glob1_then -&gt; glob2_then -&gt; 
+timeout1 -&gt; timeout1_promise -&gt; timeout1_nextTick -&gt; timeout1_then -&gt; 
+timeout2 -&gt; timeout2_promise -&gt; timeout2_nextTick -&gt; timeout2_then -&gt; 
+immediate1 -&gt; immediate1_promise -&gt; immediate1_nextTick -&gt; immediate1_then -&gt; 
+immediate2 -&gt; immediate2_promise -&gt; immediate2_nextTick -&gt; immediate2_then
+</code></pre>
+<p>在node环境下执行结果却是</p>
+<pre><code class="js">golb1 -&gt; glob1_promise -&gt; glob2_promise -&gt; 
+glob1_nextTick -&gt; glob2_nextTick -&gt; glob1_then -&gt; glob2_then -&gt; 
+timeout1 -&gt; timeout1_promise -&gt; timeout2 -&gt; timeout2_promise -&gt; 
+timeout1_nextTick -&gt; timeout2_nextTick -&gt; 
+timeout1_then -&gt; timeout2_then -&gt; 
+immediate1 -&gt; immediate1_promise -&gt; immediate2 -&gt; immediate2_promise -&gt; 
+immediate1_nextTick -&gt; immediate2_nextTick -&gt; immediate1_then -&gt; immediate2_then
+</code></pre>
+<p>嗅到一丝不一样的味道的我把浏览器不支持的一些方法注释，然后在浏览器里输出，结果是：</p>
+<pre><code class="js">golb1 -&gt; glob1_promise -&gt; glob2_promise -&gt; 
+glob1_then -&gt; glob2_then -&gt; 
+timeout1 -&gt; timeout1_promise -&gt; timeout1_then -&gt; 
+timeout2 -&gt; timeout2_promise -&gt; timeout2_then
+</code></pre>
+<p>这个和我之前的经验写出来的是一样，因此大概知道浏览器和node不一样了 &#x3D; &#x3D;，果然学习最重要的是<strong>实践</strong>，之前查阅的资料都只说了浏览器的事件循环。<br>正片开始，这个文章不适合新手，因为都是个人的总结，新手可以看看最下边的参考资料</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>javascript从诞生之日起就是一门<strong>单线程</strong>的<strong>非阻塞</strong>的脚本语言。</p>
+<p>单线程是必要的，也是javascript这门语言的基石，原因之一在其最初也是最主要的执行环境——浏览器中，我们需要进行各种各样的dom操作。试想一下 如果javascript是多线程的，那么当两个线程同时对dom进行一项操作，例如一个向其添加事件，而另一个删除了这个dom，此时该如何处理呢？因此，为了保证不会 发生类似于这个例子中的情景，javascript选择只用一个主线程来执行代码，这样就保证了程序执行的一致性。</p>
+<p>而非阻塞则是当代码需要进行一项异步任务（无法立刻返回结果，需要花一定时间才能返回的任务，如I&#x2F;O事件）的时候，主线程会挂起（pending）这个任务，然后在异步任务返回结果的时候再根据一定规则去执行相应的回调。</p>
+<p>当我们调用一个方法的时候，js会生成一个与这个方法对应的执行环境（context），又叫执行上下文。因为js是单线程的，同一时间只能执行一个方法，于是这些方法被排队在一个单独的地方。这个地方被称为<strong>执行栈</strong>。</p>
+<p>js引擎遇到一个异步事件后并不会一直等待其返回结果，而是会将这个事件挂起，继续执行执行栈中的其他任务。当一个异步事件返回结果后，js会将这个事件加入与当前执行栈不同的另一个队列，我们称之为<strong>事件队列</strong>。被放入事件队列不会立刻执行其回调，而是等待当前执行栈中的所有任务都执行完毕， 主线程处于闲置状态时，主线程会去查找事件队列是否有任务。如果有，那么主线程会从中取出排在第一位的事件，并把这个事件对应的回调放入执行栈中，然后执行其中的同步代码…，如此反复，这样就形成了一个无限的循环。这就是这个过程被称为“事件循环（Event Loop）”的原因。<br><img src="/2019/09/10/js/event_loop/event_loop.png"><br>图中的stack表示我们所说的执行栈，web apis则是代表一些异步事件，而callback queue即事件队列。</p>
+<h3 id="macro-task与micro-task"><a href="#macro-task与micro-task" class="headerlink" title="macro task与micro task"></a>macro task与micro task</h3><ul>
+<li><strong>宏任务（macro task）：script(整体代码)、setTimeout、setInterval、</strong><font color="green">setImmediate、</font> I&#x2F;O、UI rendering</li>
+<li>**微任务（micro task）：<font color="green">process.nextTick、</font> promise、 **Object.observe、MutationObserve</li>
+<li>**任务优先级：<font color="gold">process.nextTick &gt; promise.then &gt; setTimeout </font>&gt; setImmediate **</li>
+</ul>
+<p><em>注：</em>MutationObserve：监视对DOM树所做更改的能力。</p>
+<ul>
+<li>setTimeout&#x2F;Promise等我们称之为任务源。而进入任务队列的是他们指定的具体执行任务。</li>
+</ul>
+<pre><code class="js">// setTimeout中的回调函数才是进入任务队列的任务
+setTimeout(function() &#123;
+    console.log(&#39;xxxx&#39;);
+&#125;)
+// 非常多的同学对于setTimeout的理解存在偏差。所以大概说一下误解：
+// setTimeout作为一个任务分发器，这个函数会立即执行，而它所要分发的任务，也就是它的第一个参数，才是延迟执行
+</code></pre>
+<ul>
+<li>来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。</li>
+<li>事件循环的顺序，决定了JavaScript代码的执行顺序。它从script(整体代码)开始第一次循环。之后全局上下文进入函数调用栈。直到调用栈清空(只剩全局)，然后执行所有的micro-task。当所有可执行的micro-task执行完毕之后。循环再次从macro-task开始，找到其中一个任务队列执行完毕，然后再执行所有的micro-task，这样一直循环下去。</li>
+</ul>
+<h3 id="node事件循环"><a href="#node事件循环" class="headerlink" title="node事件循环"></a>node事件循环</h3><p>node事件循环分为6个阶段<br><img src="/2019/09/10/js/event_loop/node.jpg"><br>外部输入数据–&gt;轮询阶段(poll)–&gt;检查阶段(check)–&gt;关闭事件回调阶段(close callback)–&gt;定时器检测阶段(timer)–&gt;I&#x2F;O 事件回调阶段(I&#x2F;O callbacks)–&gt;闲置阶段(idle, prepare)–&gt;轮询阶段（按照该顺序反复运行）…</p>
+<ul>
+<li><strong>timers 阶段：这个阶段执行 timer（setTimeout、setInterval）的回调</strong></li>
+<li>I&#x2F;O callbacks 阶段：处理一些上一轮循环中的少数未执行的 I&#x2F;O 回调</li>
+<li>idle, prepare 阶段：仅 node 内部使用</li>
+<li><strong>poll 阶段</strong>：获取新的 I&#x2F;O 事件, 适当的条件下 node 将阻塞在这里</li>
+<li>** check 阶段：执行 setImmediate() 的回调**</li>
+<li>close callbacks 阶段：执行 socket 的 close 事件回调</li>
+</ul>
+<pre><code class="js">console.log(&#39;start&#39;)
+
+setTimeout(() =&gt; &#123;
+    console.log(&#39;timer1&#39;)
+    Promise.resolve().then(function() &#123;
+        console.log(&#39;promise1&#39;)
+      &#125;
+)&#125;, 0)
+
+setTimeout(() =&gt; &#123;
+    console.log(&#39;timer2&#39;)
+    Promise.resolve().then(function() &#123;
+        console.log(&#39;promise2&#39;)
+    &#125;
+)&#125;, 0)
+
+Promise.resolve().then(function() &#123;
+    console.log(&#39;promise3&#39;)
+&#125;)
+
+console.log(&#39;end&#39;)
+
+//start=&gt;end=&gt;promise3=&gt;timer1=&gt;timer2=&gt;promise1=&gt;promise2
+</code></pre>
+<p><em>说明：</em></p>
+<ol>
+<li>一开始执行栈的同步任务（这属于宏任务）执行完毕后（依次打印出 start end，并将 2 个 timer 依次放入 timer 队列）,会先去执行微任务（这点跟浏览器端的一样），所以打印出 promise3</li>
+<li>然后进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise.then 回调放入 microtask 队列，同样的步骤执行 timer2，打印 timer2；这点跟浏览器端相差比较大，timers 阶段有几个 setTimeout&#x2F;setInterval 都会依次执行，并不像浏览器端，每执行一个宏任务后就去执行一个微任务</li>
+</ol>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li><strong>setTimeout 和 setImmediate</strong><br>setTimeout 可能执行在前，也可能执行在后。</li>
+</ul>
+<pre><code class="js">const fs = require(&#39;fs&#39;)
+fs.readFile(__filename, () =&gt; &#123;
+    setTimeout(() =&gt; &#123;
+        console.log(&#39;timeout&#39;);
+    &#125;, 0)
+    setImmediate(() =&gt; &#123;
+        console.log(&#39;immediate&#39;)
+    &#125;)
+&#125;)
+// immediate
+// timeout
+</code></pre>
+<p>在上述代码中，setImmediate 永远先执行。因为两个代码写在 IO 回调中，IO 回调是在 poll 阶段执行，当回调执行完毕后队列为空，发现存在 setImmediate 回调，所以就直接跳转到 check 阶段去执行回调了。</p>
+<ul>
+<li><strong>process.nextTick</strong><br>这个函数其实是独立于 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。</li>
+</ul>
+<pre><code class="js">setTimeout(() =&gt; &#123;
+    console.log(&#39;timer1&#39;)
+    Promise.resolve().then(function() &#123;
+        console.log(&#39;promise1&#39;)
+    &#125;)
+&#125;, 0)
+
+process.nextTick(() =&gt; &#123;
+    console.log(&#39;nextTick&#39;)
+
+    process.nextTick(() =&gt; &#123;
+        console.log(&#39;nextTick&#39;)
+
+        process.nextTick(() =&gt; &#123;
+            console.log(&#39;nextTick&#39;)
+
+            process.nextTick(() =&gt; &#123;
+                console.log(&#39;nextTick&#39;)
+            &#125;)
+        &#125;)
+    &#125;)
+&#125;)
+// nextTick=&gt;nextTick=&gt;nextTick=&gt;nextTick=&gt;timer1=&gt;promise1
+</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>浏览器环境下，microtask 的任务队列是每个 macrotask 执行完之后执行，<br> （浏览器）微任务是跟屁虫，一直跟着当前宏任务后面，代码执行到一个微任务就跟上，一个接一个</li>
+<li>Node.js 中，microtask 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 microtask 队列的任务。</li>
+</ol>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33058983">详解JavaScript中的Event Loop（事件循环）机制</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/12b9f73c5a4f">深入核心，详解事件循环机制</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54882306">浏览器与Node的事件循环(Event Loop)有何区别?</a></p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2019-09-10T06:52:31.000Z" itemprop="datePublished">2019-09-10</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/event_loop" data-title="浏览器和node下的事件循环" data-url="http://yoursite.com/2019/09/10/js/event_loop/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

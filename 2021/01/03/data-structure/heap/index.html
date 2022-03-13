@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>数据结构——大顶堆 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      数据结构——大顶堆
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<!-- toc -->
+
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><h4 id="一、-堆就是用数组实现的二叉树"><a href="#一、-堆就是用数组实现的二叉树" class="headerlink" title="一、 堆就是用数组实现的二叉树"></a>一、 堆就是用数组实现的二叉树</h4><p>堆常用方法：</p>
+<ul>
+<li>构建优先队列</li>
+<li>支持堆排序</li>
+<li>快速找出集合中的最小值（或最大值）</li>
+</ul>
+<p>分为：最大堆和最小堆，两者差异在于节点的排序方式，在最大堆中，父节点的值比每一个子节点的值都要大。在最小堆中，父节点的值比每一个子节点的值都要小。</p>
+<h4 id="二、-目的"><a href="#二、-目的" class="headerlink" title="二、 目的"></a>二、 目的</h4><p>将最大（最小）的节点放在最前面，从而进行快速的插入、删除等操作。在二叉树中搜索会很快，但是在堆中搜索会很慢。</p>
+<p><em>注意</em>：堆的根节点中存放的是最大或者最小元素，但是其他节点的排序顺序是未知的。例如，<strong>在一个最大堆中，最大的那一个元素总是位于 index 0 的位置</strong>，但是最小的元素则未必是最后一个元素。唯一能够保证的是最小的元素是一个叶节点，但是不确定是哪一个。</p>
+<p><img src="/2021/01/03/data-structure/heap/heap.png" alt="大顶堆"></p>
+<pre><code class="js">parent(i) = Math.floor((i - 1)/2)
+left(i)   = 2i + 1
+right(i)  = left + 1
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Array index (i)</th>
+<th>Parent index</th>
+<th>Left child index</th>
+<th>Right child index</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10</td>
+<td>0</td>
+<td>-1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>1</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<h3 id="具体ts实现"><a href="#具体ts实现" class="headerlink" title="具体ts实现:"></a>具体ts实现:</h3><pre><code class="js">class MyHeap &#123;
+    myHeap: number[]
+    flag: number
+    size: number
+    constructor(arr: number[] = [], type: string = &#39;MAX&#39;) &#123;
+        this.flag = type === &#39;MAX&#39; ? 1 : -1
+        this.myHeap = arr
+        this.size = arr.length
+        this.heapfiy()
+    &#125;
+
+    /**
+     * @description 堆化
+     */
+    heapfiy (): void &#123;
+        this.myHeap.unshift(null)
+        const lastParentIndex = Math.floor(this.size / 2)
+        for (let i = lastParentIndex; i &gt; 0; i--) &#123;
+            this.shiftDown(this.myHeap, i, this.size)
+        &#125;
+        this.myHeap.shift()
+    &#125;
+
+    /**
+     * @param arr  待检查数组
+     * @param i    检查的起始下标
+     * @param s 堆大小
+     * @description 向下
+     */
+    shiftDown (arr: number[], i: number, s?: number): void &#123;
+        let size = s ? s : this.size
+        let left = 2 * i
+        let right = left + 1
+
+        // 左右孩子中较大/较小的那一个
+        let theFitOne = 0
+        //无左右孩子节点
+        if (left &gt; size &amp;&amp; right &gt; size) &#123;
+            return
+        &#125;
+        //只有左孩子节点
+        if (left &lt;= size &amp;&amp; right &gt; size) &#123;
+            theFitOne = left
+        &#125;
+        //只有右孩子节点
+        if (right &lt;= size &amp;&amp; left &gt; size) &#123;
+            theFitOne = right
+        &#125;
+        //同时有左右孩子节点
+        if (left &lt;= size &amp;&amp; right &lt;= size) &#123;
+            theFitOne = arr[left] * this.flag &lt; arr[right] * this.flag ? right : left
+        &#125;
+        if (arr[i] * this.flag &lt; arr[theFitOne] * this.flag) &#123;
+            this.swap(arr, i, theFitOne)
+            this.shiftDown(arr, theFitOne, size)
+        &#125;
+    &#125;
+
+    /**
+     * @param i 需要移动的元素节点索引
+     * @description 将当前节点元素层层向上交换位置
+     */
+    shiftUp (arr: number[], i: number): void &#123;
+        const parent = Math.floor((i - 1) / 2)
+        if (arr[i] * this.flag &lt; arr[parent] * this.flag || parent &lt;= 0) &#123;
+            return
+        &#125; else &#123;
+            this.swap(arr, i, parent)
+            this.shiftUp(arr, parent)
+        &#125;
+    &#125;
+    swap (arr: number[], i: number, j: number): void &#123;
+        let temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+    &#125;
+
+    /**
+     * @param el 插入的元素
+     * @description 返回插入好的堆
+     */
+    insert (el: number): number[] &#123;
+        this.myHeap.push(el)
+        const i = this.myHeap.length - 1
+        this.shiftUp(this.myHeap, i)
+        this.size++
+        return this.myHeap
+    &#125;
+
+    /**
+     * @description 弹出最值
+     */
+    pop (): number &#123;
+        const &#123; myHeap &#125; = this
+        // 交换第一个和最后一个元素
+        this.swap(myHeap, 0, myHeap.length - 1)
+        myHeap.unshift(null)
+        const top = myHeap.pop()
+        this.shiftDown(myHeap, 1, myHeap.length - 1)
+        myHeap.shift()
+        this.size--
+        return top
+    &#125;
+
+    /**
+    * @description 返回堆排序好的新数组，不影响原数组
+    */
+    sort (): number[] &#123;
+        const &#123; myHeap &#125; = this
+        const arr = [...myHeap]
+        arr.unshift(null)
+        for (let j = arr.length - 1; j &gt; 1; j--) &#123;
+            this.swap(arr, 1, j)
+            this.shiftDown(arr, 1, j - 1)
+        &#125;
+        arr.shift()
+        return arr
+    &#125;
+
+    /**
+    * @description 用删除节点就返回最大值（最大堆）或者最小值（最小堆）
+    */
+    peek (): number &#123;
+        return this.myHeap[0]
+    &#125;
+    
+    /**
+     * @param i 被替换元素的坐标
+     * @param el 替换的内容
+     * @description 替换指定位置的元素
+     */
+    replace (i: number, el: number): void &#123;
+        const &#123; myHeap &#125; = this
+        let orgin = myHeap[i]
+        myHeap.unshift(null)
+        i = i + 1
+        myHeap.splice(i, 1, el)
+        if ((el &gt; orgin &amp;&amp; this.flag &gt; 0) || (el &lt; orgin &amp;&amp; this.flag &lt; 0)) &#123;
+            this.shiftUp(myHeap, i)
+        &#125; else &#123;
+            this.shiftDown(myHeap, i)
+        &#125;
+        myHeap.shift()
+    &#125;
+&#125;
+</code></pre>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试:"></a>测试:</h4><pre><code class="js">var arr = [7,5,8,4,9,3,2,6,2]
+console.log(arr)
+var minHeap = new MyHeap([...arr], &#39;MIN&#39;)
+minHeap.peek()
+</code></pre>
+<h3 id="leetCode"><a href="#leetCode" class="headerlink" title="leetCode"></a>leetCode</h3><p>有一堆石头，每块石头的重量都是正整数。</p>
+<p>每一回合，从中选出两块 最重的 石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x &lt;&#x3D; y。那么粉碎的可能结果如下：</p>
+<p>如果 x &#x3D;&#x3D; y，那么两块石头都会被完全粉碎；<br>如果 x !&#x3D; y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。<br>最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 0。</p>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/last-stone-weight/">https://leetcode-cn.com/problems/last-stone-weight\</a><br> &#96;&#96;&#96;js<br>function lastStoneWeight(stones) {<br>    const sts &#x3D; new MyHeap(stones, “MAX”);<br>    while (sts.myHeap.length &gt; 1) {<br>        const one &#x3D; sts.pop();<br>        const two &#x3D; sts.peek();<br>        const diff &#x3D; one - two;<br>        if (diff &gt; 0) {<br>        sts.replace(0, diff);<br>        } else {<br>        sts.pop();<br>        }<br>    }</p>
+<pre><code>return sts.myHeap[0] || 0;
+&#125;
+</code></pre>
+<pre><code>执行用时：96 ms, 在所有 TypeScript 提交中击败了32.08%的用户
+内存消耗：40.5 MB, 在所有 TypeScript 提交中击败了24.53%的用户
+
+= =! 还不如我之前两次提交呢
+
+### 参考资料：
+- [数据结构：堆（Heap）](https://www.jianshu.com/p/6b526aa481b1)
+- [JS数据结构与算法之《堆》](https://zhuanlan.zhihu.com/p/144699737?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=559769045767880704)
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2021-01-03T08:09:43.000Z" itemprop="datePublished">2021-01-03</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="data-structure/heap" data-title="数据结构——大顶堆" data-url="http://yoursite.com/2021/01/03/data-structure/heap/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

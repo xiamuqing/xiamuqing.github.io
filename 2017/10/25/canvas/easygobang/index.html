@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>人机大战五子棋 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      人机大战五子棋
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h2 id="人机对战五子棋"><a href="#人机对战五子棋" class="headerlink" title="人机对战五子棋"></a>人机对战五子棋</h2><p>在这个游戏里，玩家默认是黑棋先手。</p>
+<p>代码地址：<a target="_blank" rel="noopener" href="https://github.com/xiamuqing/easygobang.git">https://github.com/xiamuqing/easygobang.git</a></p>
+<p>游戏地址：<a target="_blank" rel="noopener" href="https://xiamuqing.github.io/easygobang/">https://xiamuqing.github.io/easygobang/</a></p>
+<div style="display:none">
+
+<p>基本算法教程：<a target="_blank" rel="noopener" href="http://www.imooc.com/learn/644">http://www.imooc.com/learn/644</a></p>
+<p>上面的教程中包括了简易五子棋的基本算法，大家有空可以学习一下，如果看不懂老师的赢法数组，其实可以手动画几个循环，很快就能明白。</p>
+<p>以下三个功能是我自己写的</p>
+</div>
+
+
+<h3 id="开始功能"><a href="#开始功能" class="headerlink" title="开始功能"></a>开始功能</h3><p>根据是否有点击了开始按钮，和棋盘上是否有棋子来判断是否有弹出框提示。</p>
+<pre><code class="javascript">//棋盘上是否有子
+var haveChess = false;
+//是否点击了开始按钮
+var startBtn = false;
+</code></pre>
+<pre><code class="javascript">start.onclick = function () &#123;
+    startBtn = true;
+    if (haveChess &amp;&amp; startBtn) &#123;
+        if (window.confirm(&#39;是否重新开始游戏？&#39;)) &#123;
+            newGame();
+            haveChess = false;
+        &#125;
+    &#125; else &#123;
+        newGame();
+        haveChess = false;
+    &#125;
+
+&#125;
+</code></pre>
+<h3 id="悔棋功能"><a href="#悔棋功能" class="headerlink" title="悔棋功能"></a>悔棋功能</h3><p>我是这么想的，先定义4个变量，保存每次落子时，黑子和白子最后的位置，然后定义两个数组，保存赢法统计数组的值。点击悔棋按钮时，用画布擦除这两个点，并补齐网格，还要记得将赢法统计数组的值回退到上一步。</p>
+<pre><code class="javascript">//悔棋时黑子下棋坐标
+var bx = 0, by = 0;
+//悔棋时白棋下棋坐标
+var wx = 0, wy = 0;
+
+//保存点击悔棋按钮之前赢法统计数组(computerWin,myWin)的值
+var oldcWin = [], oldmyWin = [];
+//保存点击撤销悔棋按钮之前赢法统计数组(computerWin,myWin)的值
+var newcWin = [], newmyWin = [];
+</code></pre>
+<pre><code class="javascript">//减去悔棋位置的赢法
+//这一步用数组的深拷贝
+    myWin= oldmyWin.concat();
+    computerWin= oldcWin.concat();
+    //这一步是为了解决测试中出现四子悔棋再下同一地方弹出玩家胜利的bug
+     for(var k =0 ;k&lt;count;k++)&#123;
+            if(wins[bx][by][k])&#123;
+                if(myWin[k] ==4)&#123;
+                    myWin[k]--;
+                &#125;
+            &#125;
+        &#125;
+</code></pre>
+<h3 id="撤销悔棋功能"><a href="#撤销悔棋功能" class="headerlink" title="撤销悔棋功能"></a>撤销悔棋功能</h3><p>通过bx,by,wx,wy将棋子在画上去就行，记得更新赢法统计数组的值。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><a target="_blank" rel="noopener" href="https://github.com/lihongxun945/gobang">极大极小值实现AI五子棋</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>游戏基本完成了，接下来打算将这个游戏改造成面向对象开发，因为平时接触面向对象比较少，都是别写边想下一步干什么面向过程的开发。为了防止出错，所有先提交到远程仓库里，&#x3D; &#x3D;！。</p>
+<hr>
+<p>2017.10.28修改部分</p>
+<h3 id="面向对象开发"><a href="#面向对象开发" class="headerlink" title="面向对象开发"></a>面向对象开发</h3><p>使用面向对象开发，增加加代码的灵活性和扩展性，使得代码整洁明了。</p>
+<pre><code class="javascript">var gbObj=&#123;
+    //五子棋的父元素的id
+    parent:&#39;gobangBox&#39;,
+    //棋盘width
+    width:600,
+    //棋子半径
+    radius:20
+&#125;
+//五子棋实例
+var goBang = new GoBang(gbObj);
+   
+</code></pre>
+<pre><code class="javascript">//GoBang对象
+function GoBang(obj)&#123;
+   var parent = document.getElementById(obj.parentID);
+   var width = obj.width;
+   var radius = obj.radius;
+   this.init(parent , width,radius);
+&#125;
+</code></pre>
+<pre><code class="javascript">//替换原型对象实现继承
+GoBang.prototype = &#123;
+    constructor:GoBang,
+    init:function(parent , width,radius)&#123;
+        //给页面插入元素
+        this.initElements(parent,width);
+        //渲染棋盘
+        this.newGame(width,radius);
+        // //绑定事件
+        this.bindEvents(radius,width);
+    &#125;,
+    ...
+&#125;    
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2017-10-25T08:38:11.000Z" itemprop="datePublished">2017-10-25</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="canvas/easygobang" data-title="人机大战五子棋" data-url="http://yoursite.com/2017/10/25/canvas/easygobang/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

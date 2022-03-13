@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Vue父子组件通信 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      Vue父子组件通信
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h2 id="官方文档介绍"><a href="#官方文档介绍" class="headerlink" title="官方文档介绍"></a>官方文档介绍</h2><p>组件设计初衷就是要配合使用的，最常见的就是形成父子组件的关系：组件 A 在它的模板中使用了组件 B。它们之间必然需要相互通信：父组件可能要给子组件下发数据，子组件则可能要将它内部发生的事情告知父组件。然而，通过一个良好定义的接口来尽可能将父子组件解耦也是很重要的。这保证了每个组件的代码可以在相对隔离的环境中书写和理解，从而提高了其可维护性和复用性。<br>在 Vue 中，父子组件的关系可以总结为 prop 向下传递，事件向上传递。父组件通过 prop 给子组件下发数据，子组件通过事件给父组件发送消息。</p>
+<span id="more"></span>
+<img src="/2017/11/10/vue/componentByValue/props-events.png" width="50%" height="50%">
+
+<h3 id="父组件和子组件的概念"><a href="#父组件和子组件的概念" class="headerlink" title="父组件和子组件的概念"></a>父组件和子组件的概念</h3><p>先看一段代码：</p>
+<pre><code class="html">&lt;div id=&quot;example&quot;&gt;
+  &lt;!-- example是父组件的模板 --&gt;
+  &lt;!-- 定义一个组件child --&gt;
+  &lt;child&gt;&lt;/child&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">//子组件
+Vue.component(&#39;child&#39;, &#123;
+    template: &#39;&lt;span&gt;&#123;&#123; message &#125;&#125;&lt;/span&gt;&#39;
+&#125;)
+</code></pre>
+<p>父组件：可以将 #example元素认为是父组件的模板，它就是起着父组件的作用<br>子组件: 子组件在父组件的 template 属性或者模板中。</p>
+<h2 id="父组件数据使用Prop传递给子组件"><a href="#父组件数据使用Prop传递给子组件" class="headerlink" title="父组件数据使用Prop传递给子组件"></a>父组件数据使用Prop传递给子组件</h2><h3 id="传递固定数据"><a href="#传递固定数据" class="headerlink" title="传递固定数据"></a>传递固定数据</h3><pre><code class="html">&lt;!-- 将message数据传给子组件 --&gt;
+&lt;child message=&quot;hello!&quot;&gt;&lt;/child&gt;
+</code></pre>
+<pre><code class="javascript">//子组件
+Vue.component(&#39;child&#39;, &#123;
+    //声明props,无props 无法将message传值给子组件
+    props: [&#39;message&#39;],
+    // 就像 data 一样，prop 也可以在模板中使用
+    // 同样也可以在 vm 实例中通过 this.message 来使用
+    //span是子组件
+    template: &#39;&lt;span&gt;&#123;&#123; message &#125;&#125;&lt;/span&gt;&#39;
+&#125;)
+</code></pre>
+<h3 id="动态Prop"><a href="#动态Prop" class="headerlink" title="动态Prop"></a>动态Prop</h3><p>与绑定到任何普通的 HTML 特性相类似，我们可以用 v-bind 来动态地将 prop 绑定到父组件的数据。每当父组件的数据变化时，该变化也会传导给子组件：</p>
+<pre><code class="html">&lt;input v-model=&quot;parentMsg&quot;&gt;
+&lt;br&gt;
+&lt;!-- 使用v-bind动态传值给子组件 parentMsg是一个变量--&gt;
+&lt;child v-bind:message=&quot;parentMsg&quot;&gt;&lt;/child&gt;
+</code></pre>
+<pre><code class="javascript">new Vue(&#123;
+    el: &#39;#example&#39;,
+    data: &#123;
+        &lt;!-- 可在data中设置parentMsg --&gt;
+        parentMsg: &#39;你好&#39;
+    &#125;)
+</code></pre>
+<p>关于这部分我的理解：我们通过修改input的值，因为双向数据绑定，于是修改了data中的parentMsg的值，因此child中的message也改变了，再通过前面说到的传递固定数据给子组件，完成动态数据的传递。</p>
+<h2 id="子组件通过emit将数据传递给父组件"><a href="#子组件通过emit将数据传递给父组件" class="headerlink" title="子组件通过emit将数据传递给父组件"></a>子组件通过emit将数据传递给父组件</h2><pre><code class="html">&lt;!-- 子组件向父组件传替数据 --&gt;
+&lt;div&gt; 
+    &lt;son v-on:cliclkMe=&quot;getMsgFromChild&quot;&gt;&lt;/son&gt;
+    &lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="javascript">// 子组件
+Vue.component(&#39;son&#39;,&#123;
+    // 点击子组件 运行子组件的方法
+    template:&#39;&lt;button v-on:click=&quot;sendMsgToFather&quot;&gt;我是子组件&lt;/button&gt;&#39;,
+    //子组件的方法
+    methods:&#123;
+        sendMsgToFather:function()&#123;
+            //将事件向上传递给父组件
+            // emit 运行父组件的事件 ，第二个为函数的参数
+            // 事件名在这使用大写字母将不会被运行，
+            //浏览器会提示以“-”替代,将大写换成小也可运行
+            this.$emit(&#39;cliclkme&#39;,&#39;来自子组件的信息&#39;)
+        &#125;
+    &#125;
+&#125;)
+// 父组件
+new Vue(&#123;
+    el: &#39;#example&#39;,
+    data: &#123;
+        msg:&#39;msg&#39;
+    &#125;,
+    //父亲的方法
+    methods: &#123;
+        getMsgFromChild:function(data)&#123;
+            this.msg=&#39;拿到子组件给父亲(我)的信息：&#39;+data;
+        &#125;
+    &#125;
+&#125;)
+</code></pre>
+<p><em>过程分析</em></p>
+<ol>
+<li>button标签替换son,button有一个点击事件。</li>
+<li>点击button，触发点击事件，运行子组件的sendMsgToFather函数。</li>
+<li>在sendMsgToFather函数中，使用$emit触发事件，事件向上传递，出发父组件的clickMe事件,第二个参数作为clickme事件的参数。</li>
+<li>将子组件的data作为参数传给父组件的getMsgFromChild函数，并运行。</li>
+</ol>
+<p><strong>注意：</strong> $emit()中事件名不能使用大写，浏览器会提示以“-”替代，我们将其全部换成小写也没问题。</p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2017-11-10T07:55:11.000Z" itemprop="datePublished">2017-11-10</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="vue/componentByValue" data-title="Vue父子组件通信" data-url="http://yoursite.com/2017/11/10/vue/componentByValue/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

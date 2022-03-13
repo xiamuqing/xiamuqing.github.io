@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>CSS小技巧 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      CSS小技巧
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<p style="background:#f4fbf4; padding-left:20px; line-height:38px;">总结css一些好用的小知识点,本文[demo地址](https://xiamuqing.github.io/css-demo/)</p>
+
+<blockquote>
+</blockquote>
+<h2 id="外部尺寸：宽度由外部元素决定"><a href="#外部尺寸：宽度由外部元素决定" class="headerlink" title="外部尺寸：宽度由外部元素决定"></a>外部尺寸：宽度由外部元素决定</h2><p>特性：</p>
+<ol>
+<li>正常流宽度：block容器默认width100%  –&gt;无宽度</li>
+<li>格式化宽度:<blockquote>
+<p>仅出现在<strong>绝对定位模型</strong>中(position:absolute&#x2F;fixed),绝对定位元素的宽度表现为<strong>包裹性</strong>，宽度由内部尺寸决定。<br>对于非替换元素，当left&#x2F;right或top&#x2F;bottom对立方位的属性值同时存在的时候，元素的宽度表现为<strong>格式化宽度</strong>，其宽度大小相对于<strong>最近</strong>的具有定位特性（position值不是static）的祖先元素计算。</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>无宽度</strong></p>
+<ul>
+<li>原因： 表现为“外部尺寸”的<strong>块级元素</strong>一旦设置了宽度，流动性就丢失了。</li>
+<li>宽度分离原则：CSS中的width属性不与影响宽度的padding&#x2F;border（有时候包括margin）属性共存。</li>
+</ul>
+<pre><code class="css">.father&#123;
+  width: 180px;
+&#125;
+.son&#123;
+  maring: 0 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  /* width:auto; width默认是auto */ 
+&#125;
+</code></pre>
+<ul>
+<li>理由： 宽度分离，浏览器会自动计算宽度，不用担心padding&#x2F;border&#x2F;margin变化导致的尺寸变化，使得页面结构更加稳固。</li>
+</ul>
+<h2 id="内部尺寸：宽度由内部元素决定"><a href="#内部尺寸：宽度由内部元素决定" class="headerlink" title="内部尺寸：宽度由内部元素决定"></a>内部尺寸：宽度由内部元素决定</h2><p>特性：</p>
+<ol>
+<li>包裹性：inline-block元素默认max-width：100%</li>
+<li>首选最小宽度</li>
+<li>最大宽度</li>
+</ol>
+<h3 id="替换元素"><a href="#替换元素" class="headerlink" title="替换元素"></a>替换元素</h3><p><strong>定义：</strong>内容可被替换，例如修改<code>&lt;img&gt;</code>的src属性，内容就被替换了。</p>
+<p><strong>特性：</strong></p>
+<ol>
+<li>均是内联水平元素，且无论其display属性值是inline还是block，尺寸均由内部元素决定。例如：<code>&lt;input&gt;&lt;textarea&gt;</code></li>
+<li>内容的外观不受页面上css的影响</li>
+<li>有自己的尺寸,我们是无法改变这个替换元素的固有尺寸的。</li>
+<li>在很多css属性上有自己的一套表现规则，例如vertical-align。</li>
+</ol>
+<p>替换元素尺寸计算规则：<code>固有尺寸 &lt; HTML尺寸(HTML原生属性，例如&lt;img&gt;的width、height属性) &lt; CSS尺寸</code></p>
+<p>**object-fit:**属性指定可替换元素的内容应该如何适应到其使用的高度和宽度确定的框。<br>默认是fill，因此，外部设定的尺寸多大，内部就会填满，跟着一样大。</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2015/03/css3-object-position-object-fit/"><strong>参考文档</strong></a></p>
+<ul>
+<li><strong>fill</strong>: 中文释义“填充”。默认值。替换内容拉伸填满整个content box, 不保证保持原有的比例。</li>
+<li><strong>contain</strong>: 中文释义“包含”。保持原有尺寸比例。保证替换内容尺寸一定可以在容器里面放得下。因此，此参数可能会在容器内留下空白。</li>
+<li><strong>cover</strong>: 中文释义“覆盖”。保持原有尺寸比例。保证替换内容尺寸一定大于容器尺寸，宽度和高度至少有一个和容器一致。因此，此参数可能会让替换内容（如图片）部分区域不可见。</li>
+<li><strong>none</strong>: 中文释义“无”。保持原有尺寸比例。同时保持替换内容原始尺寸大小。</li>
+<li><strong>scale-down</strong>: 中文释义“降低”。就好像依次设置了none或contain, 最终呈现的是尺寸比较小的那个。</li>
+</ul>
+<blockquote>
+<p>object-position要比object-fit单纯的多，就是控制替换内容位置的。默认值是50% 50%，也就是居中效果，所以，无论上一节object-fit值为那般，图片都是水平垂直居中的。因此，下次要实现尺寸大小不固定图片的垂直居中效果，可以试试object-fit.</p>
+</blockquote>
+<p><img src="/2018/09/27/css/cssTips/object-fit.png"></p>
+<h3 id="非替换元素"><a href="#非替换元素" class="headerlink" title="非替换元素"></a>非替换元素</h3><p><strong>特性：</strong>如果其display属性值为block，则会有流动性，width默认为auto，width会根据padding、border、margin计算得出。</p>
+<h3 id="替换元素和非替换元素距离"><a href="#替换元素和非替换元素距离" class="headerlink" title="替换元素和非替换元素距离"></a>替换元素和非替换元素距离</h3><ol>
+<li>替换元素和非替换元素之间只隔了一个src属性！<br>  无src的<code>&lt;img&gt;</code>标签和普通的<code>&lt;span&gt;</code>一样</li>
+<li>替换元素和非替换元素之间只隔了一个CSS content 属性！<br>在Chrome浏览器下，所有的元素都支持content属性，而其他浏览器仅在::before&#x2F;::after中才支持，因此这个属性会有<strong>兼容性问题</strong></li>
+</ol>
+<pre><code class="html">&lt;img src=&quot;1.png&quot;&gt;
+</code></pre>
+<pre><code class="css">img:hover&#123;
+  content: url(2.png);
+&#125;
+</code></pre>
+<p><em>注：</em>content属性改变的仅仅是视觉层面，当我们以鼠标右键保存这张图片的时候，保存的还是原来的图片。</p>
+<p><strong>让普通标签变成替换元素：</strong> <code>h1&#123;content:url(1.png)&#125;</code></p>
+<h3 id="content与替换元素关系"><a href="#content与替换元素关系" class="headerlink" title="content与替换元素关系"></a>content与替换元素关系</h3><ol>
+<li>content生成的文本是无法选中、无法复制的，不要将重要的内容放在content里，不利于SEO</li>
+<li>不能左右:empty伪类</li>
+<li>content动态生成值无法获取</li>
+</ol>
+<h2 id="currentColor"><a href="#currentColor" class="headerlink" title="currentColor"></a>currentColor</h2><ol>
+<li><strong>含义：</strong> css3新增关键字，可以作为颜色值在任何使用颜色的地方替代颜色，其表示<strong>当前字体的颜色</strong> 。</li>
+<li><strong>用法：</strong>多用在icon&#x2F;边框等颜色需要随着字体颜色变化而变化的地方，例如hover状态下，icon和字体颜色一起变色。</li>
+</ol>
+<h3 id="温和的padding"><a href="#温和的padding" class="headerlink" title="温和的padding"></a>温和的padding</h3><ol>
+<li><strong>给inline元素设置padding：</strong>在不影响视觉层叠的情况下，增加内联元素的点击区域。 </li>
+<li><a target="_blank" rel="noopener" href="https://demo.cssworld.cn/4/2-2.php"><strong>垂直分隔符</strong></a></li>
+</ol>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2018-09-27T02:47:48.000Z" itemprop="datePublished">2018-09-27</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="css/cssTips" data-title="CSS小技巧" data-url="http://yoursite.com/2018/09/27/css/cssTips/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

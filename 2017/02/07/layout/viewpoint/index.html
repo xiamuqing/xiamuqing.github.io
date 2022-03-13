@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>使用视口单位(viewpoint)实现响应式布局 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      使用视口单位(viewpoint)实现响应式布局
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="视口单位"><a href="#视口单位" class="headerlink" title="视口单位"></a>视口单位</h3><ul>
+<li>vw：1&#x2F;100视口宽度</li>
+<li>vh：1&#x2F;100视口高度</li>
+<li>vmin：宽和高最小边的1&#x2F;100</li>
+<li>vmax：宽和高最大边的1&#x2F;100<br>视口单位直接在css中使用，如：10vw。<span id="more"></span> 
+<h4 id="什么是视口单位"><a href="#什么是视口单位" class="headerlink" title="什么是视口单位"></a>什么是视口单位</h4></li>
+</ul>
+<p>响应式web设计离不开百分比。但是，CSS百分比并不是所有的问题的最佳解决方案。CSS的宽度是相对于包含它的最近的父元素的宽度的。但是如果你就想用视口（viewpoint）的宽度或者高度，而不是父元素的，那该肿么办？ 这就是 vh 和 vw 单位为我们提供的。</p>
+<p>1vh 等于1&#x2F;100的视口高度。for example：浏览器高度900px, 1 vh &#x3D; 900px&#x2F;100 &#x3D; 9 px。同理，如果视口宽度750px， 1vw &#x3D; 750px&#x2F;100 &#x3D; 7.5 px。</p>
+<p>可以想象到的，他们有很多很多的用途。比如，我们用很简单的方法只用一行CSS代码就实现同屏幕等高的框。</p>
+<pre><code>.slide &#123;
+     height:100vh;
+&#125;
+</code></pre>
+<p>假设你要来一个和屏幕同宽的标题，你只要设置这个标题的font-size的单位为vw，那标题的字体大小就会自动根据浏览器的宽度进行缩放，以达到字体和viewport大小同步的效果！</p>
+<h4 id="vmin和vmax"><a href="#vmin和vmax" class="headerlink" title="vmin和vmax"></a>vmin和vmax</h4><p>vh和 vw 依据于视口的高度和宽度，相对的，vmin 和 vmax则关于视口高度和宽度两者的最小或者最大值。比如，浏览器的宽度设置为1100px，高度设置为700px， 1vmin &#x3D; 7px， 1vmax &#x3D; 11px。如果宽度设置为800px,高度设置为1080px, 1vmin就等于8px, 1vmax则未10.8px。<br>那么问题来了，我们应该在什么场景下使用这两个单位呢？<br>假设有一个元素，你需要让它始终在屏幕上可见。只要对其高度和宽度使用vmin单位，并赋予其低于100的值就可以做到了。再来个栗子，可以这样定义一个至少有两个边触摸到屏幕的方形：</p>
+<pre><code class="css">.box&#123;
+    width:100vmin;
+    height:100vmin;
+&#125;
+</code></pre>
+<p><img src="/2017/02/07/layout/viewpoint/view1.png"></p>
+<p>如果你要让这个方形框框始终铺满整个视口的可见区域（四边始终触摸到屏幕的四边）</p>
+<pre><code class="css">.box&#123;
+width:100vmax;
+height:100vmax;
+&#125;
+</code></pre>
+<p><img src="/2017/02/07/layout/viewpoint/view2.png"></p>
+<h3 id="百分比布局"><a href="#百分比布局" class="headerlink" title="百分比布局"></a>百分比布局</h3><pre><code class="css">html, body &#123; height: 100%; &#125;  
+.sidebar &#123;
+  height: 100%;
+  width: 100%;
+&#125;
+</code></pre>
+<p>为什么html和body需要高度？百分比是相对于其父属性。当父级的高度由它的子级定义时，没有已知的高度设置，因此高度被完全忽略。这意味着你必须在DOM树中的每个父元素上设置高度。你也可以使用新的**<a target="_blank" rel="noopener" href="https://www.w3.org/TR/css3-values/#viewport-relative-lengths">视口单位</a>**。</p>
+<p><strong>注：</strong>IE9使用vm代替vmin。它不支持vmax。</p>
+<p><strong>澄清：</strong>1vmax等于1vh在纵向模式，而在横向模式下，1vmax将等于1vw。</p>
+<p><strong>个人建议：</strong>使用视口给元素设置宽高时，为了避免比例不协调，使用同一个单位比较好，如vmin、vmax。</p>
+<p><strong>参考资料:</strong><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21310304">em rem vh vw vmin vmax等css单位</a></p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2017-02-07T08:33:04.000Z" itemprop="datePublished">2017-02-07</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="layout/viewpoint" data-title="使用视口单位(viewpoint)实现响应式布局" data-url="http://yoursite.com/2017/02/07/layout/viewpoint/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

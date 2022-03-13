@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>JS原型链、构造函数 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      JS原型链、构造函数
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<p><img src="/2019/03/07/js/prototype/prototype.png"></p>
+<h3 id="原型链、构造函数"><a href="#原型链、构造函数" class="headerlink" title="原型链、构造函数"></a>原型链、构造函数</h3><h4 id="理解："><a href="#理解：" class="headerlink" title="理解："></a>理解：</h4><ol>
+<li>因为 f1.__proto__ &#x3D;&#x3D;&#x3D; Foo.protoype 所以 Foo.prototype.constructor &#x3D;&#x3D;&#x3D; f1.__prototype__.constructor &#x3D;&#x3D;&#x3D; Foo</li>
+<li>因为构造函数的 constructor 是一个函数，所以构造函数 Foo、Object、Function 的 constructor 都指向 Function</li>
+<li>prototype 是一个对象，因此 xx(Object 除外).prototype.__proto__ &#x3D;&#x3D;&#x3D; Object.prototype</li>
+<li>Object.prototype.__proto__ &#x3D;&#x3D;&#x3D; null</li>
+<li>Object() 也是一个函数实例，因此 Object.__porto__ &#x3D;&#x3D;&#x3D; Function.prototype</li>
+</ol>
+<h4 id="总结一下："><a href="#总结一下：" class="headerlink" title="总结一下："></a>总结一下：</h4><ol>
+<li>我们需要牢记两点：<ul>
+<li><strong>proto</strong>和 constructor 属性是对象所独有的；</li>
+<li>prototype 属性是函数所独有的，因为函数也是一种对象，所以函数也拥有<strong>proto</strong>和 constructor 属性。</li>
+</ul>
+</li>
+<li><strong>proto</strong>属性的作用就是当访问一个对象的属性时，如果该对象内部不存在这个属性，那么就会去它的<strong>proto</strong>属性所指向的那个对象（父对象）里找，一直找，直到<strong>proto</strong>属性的终点 null，再往上找就相当于在 null 上取值，会报错。通过<strong>proto</strong>属性将对象连接起来的这条链路即我们所谓的原型链。</li>
+<li>prototype 属性的作用就是让该函数所实例化的对象们都可以找到公用的属性和方法，即 f1.<strong>proto</strong> &#x3D;&#x3D;&#x3D; Foo.prototype。</li>
+<li>constructor 属性的含义就是指向该对象的构造函数，所有函数（此时看成对象了）最终的构造函数都指向 Function。</li>
+</ol>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><p>Object.prototype.toString() 与(Number| String| Array|Date …).prototype.toString() 区别:</p>
+<ol>
+<li>前者可以用于检测数据类型 Object.prototype.toString.call(arr)</li>
+<li>后者用于将调用者转化为字符串格式：arr.toString() | Array.prototype.toString.call(arr)</li>
+</ol>
+<h3 id="new-关键字"><a href="#new-关键字" class="headerlink" title="new 关键字"></a>new 关键字</h3><p>new关键字让构造函数具有了与普通函数不同的许多特点,new的过程中，执行了如下过程：</p>
+<ol>
+<li>声明一个中间对象；</li>
+<li>将该中间对象的原型指向构造函数的原型；</li>
+<li>将构造函数的this，指向该中间对象；</li>
+<li>返回该中间对象，即返回实例对象。<h4 id="简单实现："><a href="#简单实现：" class="headerlink" title="简单实现："></a>简单实现：</h4></li>
+</ol>
+<pre><code class="js">function trivialNew(constructor, ...args) &#123;
+  var o = &#123;&#125;; // 创建一个对象
+  constructor.apply(o, args);
+  return o;
+&#125;
+</code></pre>
+<p>这并不是 new 的完整实现，因为它没有创建原型（prototype）链。想举例说明 new 的实现有些困难，因为你不会经常用到这个，但是适当了解一下还是很有用的。在这一小段代码里，…args（包括省略号）叫作剩余参数（rest arguments）。如名所示，这个东西包含了剩下的参数。</p>
+<pre><code class="js">var bill = trivialNew(Person, &quot;William&quot;, &quot;Orange&quot;);
+// 等价于
+var bill = new Person(&quot;William&quot;, &quot;Orange&quot;);
+</code></pre>
+<h4 id="复杂实现"><a href="#复杂实现" class="headerlink" title="复杂实现"></a>复杂实现</h4><pre><code class="js">// 先一本正经的创建一个构造函数，其实该函数与普通函数并无区别
+var Person = function(name, age) &#123;
+    this.name = name;
+    this.age = age;
+    this.getName = function() &#123;
+        return this.name;
+    &#125;
+    // return this
+&#125;
+
+// 将构造函数以参数形式传入
+function New(func) &#123;
+
+    // 声明一个中间对象，该对象为最终返回的实例
+    var res = &#123;&#125;;
+    if (func.prototype !== null) &#123;
+        // 将实例的原型指向构造函数的原型
+        res.__proto__ = func.prototype;
+    &#125;
+    // ret为构造函数执行的结果，这里通过apply，将构造函数内部的this指向修改为指向res，即为实例对象
+    var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));
+
+    // 当我们在构造函数中明确指定了返回对象时，那么new的执行结果就是该返回对象
+    if ((typeof ret === &quot;object&quot; || typeof ret === &quot;function&quot;) &amp;&amp; ret !== null) &#123;
+        return ret;
+    &#125;
+
+    // 如果没有明确指定返回对象，则默认返回res，这个res就是实例对象
+    return res;
+&#125;
+
+// 通过new声明创建实例，这里的p1，实际接收的正是new中返回的res
+var p1 = New(Person, &#39;tom&#39;, 20);
+console.log(p1.getName());
+
+// 当然，这里也可以判断出实例的类型了
+console.log(p1 instanceof Person); // true
+</code></pre>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h4 id="构造函数的继承"><a href="#构造函数的继承" class="headerlink" title="构造函数的继承"></a>构造函数的继承</h4><p>可以借助call&#x2F;apply来实现</p>
+<pre><code class="js">var Person = function(name, age) &#123;
+    this.name = name;
+    this.age = age;
+&#125;
+
+Person.prototype.getName = function() &#123;
+    return this.name;
+&#125;
+
+Person.prototype.getAge = function() &#123;
+    return this.age;
+&#125;
+
+
+var Student = function(name, age, grade) &#123;
+    // 通过call方法还原Person构造函数中的所有处理逻辑
+   Person.call(this, name, age);
+    this.grade = grade;
+&#125;
+
+// 等价于var Student = function(name, age, grade) &#123;
+    this.name = name;
+    this.age = age;
+    this.grade = grade;
+&#125;
+</code></pre>
+<h4 id="原型的继承"><a href="#原型的继承" class="headerlink" title="原型的继承"></a>原型的继承</h4><p>原型的继承则稍微需要一点思考。首先我们应该考虑，如何将子类对象的原型加入到原型链中？<strong>我们只需要让子类对象的原型，成为父类对象的一个实例（son.__proto__ &#x3D;&#x3D;&#x3D; perent.prototype），</strong>然后通过__proto__就可以访问父类对象的原型。这样就继承了父类原型中的方法与属性了。<br>因此我们可以先封装一个方法，该方法根据父类对象的原型创建一个实例，该实例将会作为子类对象的原型。</p>
+<pre><code class="js">function create(proto, options) &#123;
+    // 创建一个空对象
+    var son = &#123;&#125;;
+
+    // 让这个新的空对象成为父类对象的实例
+    son.__proto__ = proto;
+
+    // 传入的方法都挂载到新对象上，新的对象将作为子类对象的原型
+    Object.defineProperties(son, options); // Object.defineProperties方法直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
+    return son;
+&#125;
+</code></pre>
+<p>简单封装了create对象之后，我们就可以使用该方法来实现原型的继承了。</p>
+<pre><code class="js">Student.prototype = create(Person.prototype, &#123;
+    // 不要忘了重新指定构造函数
+    constructor: &#123;
+        value: Student
+    &#125;
+    getGrade: &#123;
+        value: function() &#123;
+            return this.grade
+        &#125;
+    &#125;
+&#125;)
+</code></pre>
+<p>在ECMAScript5中直接提供了一个Object.create方法来完成我们上面自己封装的create的功能。因此我们可以直接使用Object.create()</p>
+<pre><code class="js">function Person(name, age) &#123;
+    this.name = name;
+    this.age = age;&#125;Person.prototype.getName = function() &#123;
+    return this.name
+&#125;
+Person.prototype.getAge = function() &#123;
+    return this.age;
+&#125;
+
+function Student(name, age, grade) &#123;
+    // 构造函数继承
+    Person.call(this, name, age);
+    this.grade = grade;
+&#125;
+
+// 原型继承Student.prototype = Object.create(Person.prototype, &#123;
+    // 不要忘了重新指定构造函数
+    constructor: &#123;
+        value: Student
+    &#125;
+    getGrade: &#123;
+        value: function() &#123;
+            return this.grade
+        &#125;
+    &#125;
+&#125;)
+
+var s1 = new Student(&#39;ming&#39;, 22, 5);
+
+console.log(s1.getName());  // ming
+console.log(s1.getAge());   // 22
+console.log(s1.getGrade()); // 5
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2019-03-07T08:14:41.000Z" itemprop="datePublished">2019-03-07</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/prototype" data-title="JS原型链、构造函数" data-url="http://yoursite.com/2019/03/07/js/prototype/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Iris Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>
