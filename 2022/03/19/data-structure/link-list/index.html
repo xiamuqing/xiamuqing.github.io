@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>archive_a: 2022 | 夏木なつき青あお</title>
+    <title>link | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -113,67 +113,176 @@
 <!--文章列表-->
 <div class="wrapper">
   
-    <ul class="posts-list mb+ js-posts">
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-            <i class="post-status iconfont icon-icon"></i>  
-          
-          <h2 class="no-background"  >
-            <span><a href="/2022/03/19/data-structure/link-list/">link</a></span>
-            <time class="post-time" datetime="2022-03-19T08:45:26.000Z" itemprop="datePublished">2022-03-19</time>
-          </h2>
-        </li>
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-          <h2 class="no-background"  >
-            <span><a href="/2022/02/20/vue/vue-lazy-loader/">vue3 图片懒加载组件</a></span>
-            <time class="post-time" datetime="2022-02-20T11:23:47.000Z" itemprop="datePublished">2022-02-20</time>
-          </h2>
-        </li>
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-          <h2 class="no-background"  >
-            <span><a href="/2022/02/14/yunpan/code/">云盘自动上传code</a></span>
-            <time class="post-time" datetime="2022-02-14T06:53:00.000Z" itemprop="datePublished">2022-02-14</time>
-          </h2>
-        </li>
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-          <h2 class="no-background"  >
-            <span><a href="/2022/02/14/yunpan/introduce/">云盘逻辑</a></span>
-            <time class="post-time" datetime="2022-02-14T06:36:31.000Z" itemprop="datePublished">2022-02-14</time>
-          </h2>
-        </li>
-      
-    </ul>
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      link
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<table>
+<thead>
+<tr>
+<th></th>
+<th>数组</th>
+<th>链表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查找</td>
+<td>连续存储，效率高 O(1)</td>
+<td>需要通过前一个元素指向下一个元素 O(n)</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>插入会引起被插入位后所有的元素索引的变化 O(n)</td>
+<td>只需要改变某一个节点的 next O(1)</td>
+</tr>
+</tbody></table>
+<pre><code class="js">class LinkList &#123;
+  constructor() &#123;
+    this.length = 0;
+    this.head = null; // 可以用作链表是否为空的判断
+  &#125;
+
+  getElementAt(position) &#123;&#125; // 返回索引对应的元素
+
+  append(element) &#123;&#125; // 添加节点
+
+  insert(position, element) &#123;&#125; // 指定位置添加节点
+
+  removeAt(position) &#123;&#125; // 删除指定位置元素
+
+  indexOf(element) &#123;&#125; // 查找给定元素索引
+
+  // ……
+&#125;
+
+class Node &#123;
+  constructor(element) &#123;
+    this.element = element;
+    this.next = null;
+  &#125;
+&#125;
+</code></pre>
+<pre><code class="js">// 返回索引对应的元素
+getElementAt(position) &#123;
+ if (position &lt; 0 || position &gt;= this.lenght ) return
+
+    let current = this.head
+    for (let i = 0; i &lt; position; i++ ) &#123;
+        current = current.next
+    &#125;
+    return current
+&#125;
+
+// 添加节点
+ append() &#123;
+     let node  = new Node(element)
+
+     if (!this.head) &#123;
+         this.head = node
+     &#125; else &#123;
+         let current = this.getElementAt(this.length - 1)
+         current.next = node
+     &#125;
+     this.length++
+ &#125;
+
+
+insert(postion, element) &#123; 
     
+ if (position &lt; 0 || position &gt; this.lenght ) return false
+    const current  = this.getElementAt(position - 1)
+
+    let node = new Node(element)
+
+    if (postion === 0) &#123;
+        node.next === this.head
+        this.head = node
+    &#125; else &#123;
+        let previous = this.getElementAt(position - 1)
+
+        node.next = previous.next
+        previous.next = node
+    &#125;
+    this.length++
+    return true
+&#125;
+
+removeAt(position) &#123;
+    if (position &lt; 0 || position &gt; this.lenght ) return false
+
+    if (postion === 0) &#123;
+        this.head = this.head.next
+    &#125; else &#123;
+        let previous = this.getElementAt(position - 1)
+        previous.next === previous.next.next
+    &#125;
+    this.length--
+    return true
+&#125;
+
+indexOf(element) &#123;
+    let current = this.head
+    for (let i = 0; i &lt;   this.length; i++) &#123;
+        if (current.element === element) return i
+        current = current.next
+    &#125;
+    return -1
+&#125;
+</code></pre>
+<p> 双向链表<br> head &lt;&#x3D;&gt; node1 &lt;&#x3D;&gt; node2 &lt;&#x3D;&gt; … &lt;&#x3D;&gt; null(tail)</p>
+<pre><code class="js">class DoubleLink extends LinkList &#123;
+&#125;
+
+class DoubleNode extends Node &#123;
+   constructor () &#123;
+       super()
+       this.prev = null
+   &#125;
+&#125;
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-03-19T08:45:26.000Z" itemprop="datePublished">2022-03-19</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="data-structure/link-list" data-title="link" data-url="http://yoursite.com/2022/03/19/data-structure/link-list/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
 
   
 </div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
 
 
 
