@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>promise 规范 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://b23.tv/0haAVni" target="_blank">今日走过所有的弯路，从此尽是平坦路</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      promise 规范
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h2 id="Promise-的术语"><a href="#Promise-的术语" class="headerlink" title="Promise 的术语"></a>Promise 的术语</h2><ol>
+<li><code>promise</code> 是一个有 <code>then</code> 方法的对象或者是函数，行为遵循本规范</li>
+<li><code>thenable</code> 是一个有 <code>then</code> 方法的对象或者是函数</li>
+<li><code>value</code> 是 <code>promise</code> 状态成功时的值，也就是 <code>resolve</code> 的参数, 表示结果的数据</li>
+<li><code>reason</code> 是 <code>promise</code> 状态失败时的值, 也就是 <code>reject</code> 的参数, 表示拒绝的原因</li>
+<li><code>exception</code> 是一个使用 <code>throw</code> 抛出的异常值</li>
+</ol>
+<h2 id="Promise-States"><a href="#Promise-States" class="headerlink" title="Promise States"></a>Promise States</h2><p>三种状态</p>
+<ol>
+<li><p>pending<br> 1.1 初始状态，可改变<br> 1.2 一个promise在resolve或者reject之前，都处于这种状态<br> 1.3 resolve -&gt; fulfilled<br> 1.4 reject -&gt; rejected</p>
+</li>
+<li><p>fulfilled<br> 2.1 最终态，不可改变<br> 2.2 一个 promise 被 resolve 后变成这个状态<br> 2.3 必须有一个 value 值</p>
+</li>
+<li><p>rejected<br> 3.1 最终态，不可改变<br> 3.2 一个 promise 被 reject 后变成这个状态<br> 3.3 必须有一个 reason 值</p>
+</li>
+</ol>
+<h3 id="then"><a href="#then" class="headerlink" title="then"></a>then</h3><p>promise 应该提供一个then犯法，用来访问最终的结果</p>
+<pre><code class="js">promise.then(onFulfilled,onRejected)
+</code></pre>
+<ol>
+<li><p>参数要求<br> 1.1 onFulfilled 必须是函数类型，如果不是函数，应该被<strong>忽略</strong><br> 1.2 onRejected 必须是函数类型，如果不是函数类型，应该被<strong>忽略</strong></p>
+</li>
+<li><p>onFulfilled 特性<br> 2.1 在 promise 变成 fulfilled 时，应该调用 onFulfilled， 参数是 value<br> 2.2 在 promise 变成 fulfilled 之前，不应该被调用<br> 2.3 只能被调用一次（可能需要一个变量来限制执行次数）</p>
+</li>
+<li><p>onRejected 特性<br> 2.1 在 promise 变成 rejected 时，应该调用 onRejected， 参数是 reason<br> 2.2 在 promise 变成 rejected 之前，不应该被调用<br> 2.3 只能被调用一次（可能需要一个变量来限制执行次数）</p>
+</li>
+<li><p>onRehected 和 onFulfilled 应该是微任务</p>
+<p> queueMicrotask 来实现微任务</p>
+<pre><code class="js">queueMicrotask(() =&gt; &#123;
+    
+&#125;)
+</code></pre>
+</li>
+<li><p>then 方法可以被调用多次</p>
+<pre><code class="js">const promise = new Promise()
+promise.then(cb1.cb2)
+promise.then(cb1.cb2)
+promise.then(cb1.cb2)
+promise.then(cb1.cb2)
+</code></pre>
+<p> 5.1 promise 变成 fulfilled 后， 所有 onfulfilled 回调都需要按照 then 的 顺序执行（用数组来存放 onFuifilled list）<br> 5.2 promise 变成 rejected 后，所有的 onRejected 回调都需要按照 then 的顺序执行（用数组来存放 onRejected list）</p>
+</li>
+<li><p>then 的返回值<br> 应该返回一个 promise </p>
+<pre><code class="js">promise2 = promise1.then(xx,xx)
+</code></pre>
+<p> 6.1 onFulfilled 或者 onRejected 执行结果为x， 调用 <strong>resolvePromise</strong> 方法<br> 6.2 如果 onFulfilled 或者 onRejected 执行时抛出异常e，promise2需要被 rejected<br> 6.3 如果 onFulfilled 不是一个函数，promise2 以 promise1 的 value 触发 fulfilled<br> 6.4 如果 onRejected 不是一个函数，promise2 以 promise1 的 reason 触发 rejected</p>
+</li>
+<li><p>resolvePromise</p>
+<pre><code class="js">resolvePromise(promise2,x,resolve,reject)
+</code></pre>
+<p> 7.1 如果 promise2 和 x 全相等， 那么 reject typeError。<br> 7.2 如果 x 是一个 promise<br> 如果 x 是 pending， promise2 一定继续pending ，知道 x 变成了 fulfilled 或者 rejected<br> 如果 x 是 fulfilled ， resolve 返回 value<br> 如果 x 是 rejected ， reject 返回 reason<br> 7.3 如果 x 是一个object 或者 function</p>
+<pre><code> ```js
+ try &#123;
+     let then = x.then
+     // then 是函数
+     then.call(x,resolvePromiseFn, rejectePromiseFn)
+     // then 不是函数 resolvePromiseFn 返回 x
+ &#125; catch(e) &#123;
+     reject promise e
+ &#125;
+ ```
+</code></pre>
+</li>
+</ol>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-07-04T06:26:09.000Z" itemprop="datePublished">2022-07-04</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/promise_standard" data-title="promise 规范" data-url="http://yoursite.com/2022/07/04/js/promise_standard/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Gator Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>

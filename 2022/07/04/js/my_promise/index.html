@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Promise实现 | 夏木なつき青あお</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+      <link rel="icon" href="/favicon.png">
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<link rel="stylesheet" href="/js/google-code-prettify/codestyle.css">
+
+
+  <meta name="generator" content="Hexo 6.0.0"></head>
+
+  <body>
+
+<header>
+	<a id="logo" target="_blank" rel="noopener" href="https://xiamuqing.github.io/" title="夏木なつき青あお">
+	<img src="/favicon.png" alt="夏木なつき青あお"></a>
+	
+	
+		<!--搜索栏-->
+		<i class="js-toggle-search iconfont icon-search"></i>
+
+
+<form class="js-search search-form search-form--modal" method="get" action="http://gushi.li" role="search">
+	<div class="search-form__inner">
+		<div>
+			<i class="iconfont icon-search"></i>
+			<input class="text-input" placeholder="Enter Key..." type="search">
+		</div>
+	</div>
+</form>
+	
+
+	
+		<!--侧边导航栏-->
+		<a id="nav-toggle" href="#"><span></span></a>
+
+<nav>
+	<div class="menu-top-container">
+		<ul id="menu-top" class="menu">
+			
+				
+				<li class="current-menu-item">
+					<a href="https://b23.tv/0haAVni" target="_blank">今日走过所有的弯路，从此尽是平坦路</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">天府之国</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/UmcR2tPKSrxN5WeDpBl2fA" target="_blank">雾漫小东江</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Kjcx0dGnY6ok9AhbFI-4Lg" target="_blank">古色苏州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/Boyogn1SY0qmwTop7uIyxg" target="_blank">多彩贵州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/-s1T-4YrgM0AgzcPVuTdag" target="_blank">雨后彩虹</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/xAmrZ3qEk2uOzLKjFJgvLw" target="_blank">20元畅游阳朔</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/73eeFCUkYhJhe2kkwdvhzg" target="_blank">网红打卡郴州</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/EKPU36p2NaA71TjmdguhdA" target="_blank">西安古城</a>
+				</li>
+			
+				
+				<li class="current-menu-item">
+					<a href="https://mp.weixin.qq.com/s/23isnvdaozHOptQQDupjzQ" target="_blank">山西大同</a>
+				</li>
+			
+		</ul>
+	</div>
+</nav>
+	
+
+</header>
+<div class="m-header ">
+	<section id="hero1" class="hero">
+		<div class="inner">
+		</div>
+	</section>
+	
+		<figure class="top-image" data-enable=true></figure>
+	
+</div>
+
+<!--文章列表-->
+<div class="wrapper">
+  
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      Promise实现
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h3 id="Promise实现"><a href="#Promise实现" class="headerlink" title="Promise实现"></a>Promise实现</h3><pre><code class="js">
+const PENDING = &#39;pending&#39;
+const FULFILLED = &#39;fulfilled&#39;
+const REJECTED = &#39;rejected&#39;
+
+class MPromise &#123;
+
+    FULFILLED_CALLBACK_LIST = []
+    REJECTED_CALLBACK_LIST = []
+
+    // 私有变量，存储真正的status
+    _status = PENDING
+
+    constructor(fn) &#123;
+        this.status = PENDING
+        // fulfilled 值
+        this.value = null
+        // rejected 值
+        this.reason = null
+
+        try &#123;
+            fn(this.resolve.bind(this), this.reject.bind(this))
+        &#125; catch (e) &#123;
+            this.reject(e)
+        &#125;
+    &#125;
+
+    get status() &#123;
+        return this._status
+    &#125;
+
+    set status(newStatus) &#123;
+        this._status = newStatus
+        switch (newStatus) &#123;
+            case FULFILLED: &#123;
+                this.FULFILLED_CALLBACK_LIST.forEach(callback =&gt; &#123;
+                    callback(this.value)
+                &#125;);
+                break
+            &#125;
+            case REJECTED: &#123;
+                this.REJECTED_CALLBACK_LIST.forEach(callback =&gt; &#123;
+                    callback(this.reason)
+                &#125;);
+                break
+            &#125;
+        &#125;
+    &#125;
+
+    resolve(value) &#123;
+        if (this.status === PENDING) &#123;
+            this.value = value
+            this.status = FULFILLED
+        &#125;
+    &#125;
+
+    reject(reason) &#123;
+        if (this.status === PENDING) &#123;
+            this.reason = reason
+            this.status = REJECTED
+        &#125;
+    &#125;
+
+    // param:Promise 结束后调用的 Function。
+    // return: 一个设置了 finally 回调函数的 Promise 对象。这个Promise对象可以继续finally之前then的结果
+    finally(callback) &#123;
+        return this.then(value =&gt; &#123;
+            return MPromise.resolve(callback()).then(() =&gt; value)
+        &#125;, err =&gt; &#123;
+            return MPromise.resolve(callback()).then(() =&gt; &#123; throw err &#125;)
+        &#125;)
+    &#125;
+
+    then(onFulfilled, onRejected) &#123;
+        const realOnFulfilled = this.isFunction(onFulfilled) ? onFulfilled : value =&gt; value
+        const realOnRejected = this.isFunction(onRejected) ? onRejected : reason =&gt; &#123; throw reason &#125;
+
+        const promise2 = new MPromise((resolve, reject) =&gt; &#123;
+
+            const fulfilledMicrotask = () =&gt; &#123;
+                queueMicrotask(() =&gt; &#123;
+                    try &#123;
+                        // 实现链式调用的关键
+                        const x = realOnFulfilled(this.value)
+                        this.resolvePromise(promise2, x, resolve, reject)
+                    &#125; catch (e) &#123;
+                        reject(e)
+                    &#125;
+                &#125;)
+            &#125;
+            const rejectedMicrotask = () =&gt; &#123;
+                queueMicrotask(() =&gt; &#123;
+                    try &#123;
+                        // 实现链式调用的关键
+                        const x = realOnRejected(this.reason)
+                        this.resolvePromise(promise2, x, resolve, reject)
+                    &#125; catch (e) &#123;
+                        reject(e)
+                    &#125;
+                &#125;)
+            &#125;
+            switch (this.status) &#123;
+                case FULFILLED: &#123;
+                    fulfilledMicrotask()
+                    break
+                &#125;
+                case REJECTED: &#123;
+                    rejectedMicrotask()
+                    break
+                &#125;
+                case PENDING: &#123;
+                    this.FULFILLED_CALLBACK_LIST.push(fulfilledMicrotask)
+                    this.REJECTED_CALLBACK_LIST.push(rejectedMicrotask)
+                &#125;
+            &#125;
+        &#125;)
+        return promise2
+    &#125;
+
+    resolvePromise(promise2, x, resolve, reject) &#123;
+        // 简单版本： resolve(x)
+
+        // 以下为复杂版本：
+        if (promise2 === x) &#123;
+            return reject(new TypeError(&#39;param and return are same&#39;))
+        &#125;
+
+        if (x instanceof MPromise) &#123;
+            queueMicrotask(() =&gt; &#123;
+                x.then(y =&gt; &#123;
+                    this.resolvePromise(promise2, y, resolve, reject)
+                &#125;, reject)
+            &#125;)
+
+
+        &#125; else if (x &amp;&amp; (typeof x === &#39;object&#39; || this.isFunction(x))) &#123;
+
+            let then = null
+            try &#123;
+                then = x.then
+            &#125; catch (e) &#123;
+                return reject(e)
+            &#125;
+
+            // 如果then是函数
+            if (this.isFunction(then)) &#123;
+                let called = false
+                try &#123;
+                    then.call(x, y =&gt; &#123;
+                        if (called) return
+                        called = true
+                        this.resolvePromise(promise2, y, resolve, reject)
+                    &#125;, r =&gt; &#123;
+                        if (called) return
+                        called = true
+                        reject(r)
+                    &#125;)
+
+                &#125; catch (e) &#123;
+                    if (called) &#123;
+                        return
+                    &#125;
+                    reject(e)
+                &#125;
+
+            &#125; else &#123;
+                resolve(x)
+            &#125;
+
+        &#125; else &#123;
+            resolve(x)
+        &#125;
+    &#125;
+
+    catch(onRejected) &#123;
+        return this.then(null, onRejected)
+    &#125;
+
+    isFunction(param) &#123;
+        return typeof param === &#39;function&#39;
+    &#125;
+
+
+    // Promise.resolve() 静态方法将给定的值转换为一个 Promise。如果该值本身就是一个 Promise，那么该 Promise 将被返回；
+    static resolve(value) &#123;
+        if (value instanceof MPromise) &#123;
+            return value
+        &#125;
+        return new MPromise(resolve =&gt; resolve(value))
+    &#125;
+
+    // Promise.reject() 静态方法返回一个已拒绝（rejected）的 Promise 对象，拒绝原因为给定的参数。
+    static reject(reason) &#123;
+        return new MPromise((resolve, reject) =&gt; &#123;
+            reject(reason)
+        &#125;)
+    &#125;
+
+    // Promise.race(promiseList) 返回一个 Promise。这个返回的 promise 会随着第一个 promise 的敲定而敲定。
+    static race(promiseList) &#123;
+        return new MPromise((resolve, reject) =&gt; &#123;
+            const length = promiseList.length
+
+            if (length.length === 0) &#123;
+                return resolve()
+            &#125; else &#123;
+                for (let i = 0; i &lt; length; i++) &#123;
+                    MPromise.resolve(promiseList[i])
+                        .then(v =&gt; resolve(v))
+                        .catch(r =&gt; reject(r))
+                &#125;
+            &#125;
+
+        &#125;)
+    &#125;
+
+    // Promise.all(promiseList) 返回一个 Promise。当所有输入的 Promise 都被兑现时，返回的 Promise 也将被兑现（即使传入的是一个空的可迭代对象），并返回一个包含所有兑现值的数组。如果输入的任何 Promise 被拒绝，则返回的 Promise 将被拒绝，并带有第一个被拒绝的原因。
+    static all(promiseList) &#123;
+        return new MPromise((resolve, reject) =&gt; &#123;
+            const len = promiseList.length
+            let count = 0,
+                result = new Array(len)
+            for (let i = 0; i &lt; len; j++) &#123;
+                MPromise.resolve(promiseList[i])
+                    .then((val) =&gt; &#123;
+                        count++;
+                        result[i] = val
+                        if (count === len) &#123;
+                            return resolve(result)
+                        &#125;
+                    &#125;)
+                    .catch(r =&gt; reject(r))
+            &#125;
+        &#125;)
+    &#125;
+
+    // Promise.any(promiseList) 返回一个 Promise。当输入的任何一个 Promise 兑现时，这个返回的 Promise 将会兑现，并返回第一个兑现的值。当所有输入 Promise 都被拒绝（包括传递了空的可迭代对象）时，它会以一个包含拒绝原因数组的 AggregateError 拒绝。
+    static any(promiseList) &#123;
+        return new MPromise((resolve, reject) =&gt; &#123;
+            const len = promiseList.len
+            if (len === 0) &#123;
+                return MPromise.resolve([])
+            &#125;
+            let errcount = 0
+            const errResult = new Array(len)
+            if (length.length === 0) &#123;
+                return reject(&#39;promiseList length is 0&#39;)
+            &#125;
+            for (let i = 0; i &lt; len; i++) &#123;
+                MPromise.resolve(promiseList[i])
+                    .then(v =&gt; resolve)
+                    .catch(r =&gt; &#123;
+                        errResult[i] = reject(i)
+                        errcount++
+                        if (errcount.length === len) &#123;
+                            reject(errResult)
+                        &#125;
+                    &#125;)
+            &#125;
+        &#125;)
+    &#125;
+
+    // Promise.allSettled(promiseList) 返回一个单独的 Promise。当所有输入的 Promise 都已敲定时（包括传入空的可迭代对象时），返回的 Promise 将被兑现，并带有描述每个 Promise 结果的对象数组。
+    // PromiseState 一直为 fulfilled
+    static allSettled(promiseList) &#123;
+        return MPromise((resolve) =&gt; &#123;
+            const len = promiseList.len
+            if (len === 0) &#123;
+                return MPromise.resolve([])
+            &#125;
+            const resultArr = new Array[len]
+            let count = 0
+            for (let i = 0; i &lt; len; i++) &#123;
+                MPromise.resolve(promiseList[i])
+                    .then(value =&gt; &#123;
+                        resultArr[i] = &#123;
+                            value,
+                            status: FULFILLED
+                        &#125;
+                        count++
+                        if (count === len) &#123;
+                            resolve(resultArr)
+                        &#125;
+                    &#125;)
+                    .catch(reason =&gt; &#123;
+                        resultArr[i] = &#123;
+                            reason,
+                            status: REJECTED
+                        &#125;
+                        count++
+                        if (count === len) &#123;
+                            resolve(resultArr)
+                        &#125;
+                    &#125;)
+            &#125;
+        &#125;)
+    &#125;
+
+&#125;
+
+module.exports  = MPromise
+
+
+const test = new MPromise((resolve, reject) =&gt; &#123;
+    setTimeout(() =&gt; &#123;
+        resolve(111)
+        // reject(1)
+    &#125;, 1000)
+&#125;).then(v =&gt; console.log(`[then] value=$&#123;v&#125;`)).catch(r =&gt; console.log(`[catch] reason = $&#123;r&#125;`))
+
+// console.log(test)
+
+setTimeout(() =&gt; &#123;
+    // console.log(test)
+    // MPromise &#123;
+    //  FULFILLED_CALLBACK_LIST: [],
+    //  REJECTED_CALLBACK_LIST: [],
+    //  _status: &#39;fulfilled&#39;,
+    //  value: undefined, // 最后一个then 实参的返回值，因为没有return 所以是 undefined
+    //  reason: null
+    // &#125;
+&#125;, 2000)
+
+
+// Promise.prototype.finally = function (callback) &#123;
+//     return this.then(value =&gt; &#123;
+//         return Promise.resolve(callback()).then(() =&gt; value)
+//     &#125;, err =&gt; &#123;
+//         return Promise.resolve(callback()).then(() =&gt; &#123; throw  err&#125;)
+//     &#125;)
+// &#125;
+</code></pre>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2022-07-04T06:30:59.000Z" itemprop="datePublished">2022-07-04</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="js/my_promise" data-title="Promise实现" data-url="http://yoursite.com/2022/07/04/js/my_promise/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+
+  
+</div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
+
+
+
+
+
+<div class="fat-footer">
+	<div class="wrapper">
+		<div class="layout layout--center">
+			<div class="layout__item palm-mb">
+				<div class="media">
+					<img class="headimg" src='/avator.jpg' alt='Gator Law'>
+					<div class="media__body">
+						<h4>夏木なつき青あお</h4>
+						<p class='site-description'>生命不息，折腾不止。</p>
+					</div>
+				</div>
+				<div class="author-contact">
+					<ul>
+						
+							
+							<li>
+				        		<a href="https://github.com/xiamuqing" target="_blank">
+				        			
+				        				<i class="iconfont icon-github"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+							
+							<li>
+				        		<a href="https://mp.weixin.qq.com/s/aeEKARwDs-a0W9xHz_4ljw" target="_blank">
+				        			
+				        				<i class="iconfont icon-douban"></i>
+				        			
+				        		</a>
+				        	</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer" role="contentinfo">
+	<div class="wrapper wrapper--wide split split--responsive">
+		<span>Theme by <a target="_blank" rel="noopener" href="http://github.com/yumemor">Yumemor</a>. Powered by <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+	</div>
+</footer>
+
+	<!-－这里导入了 lib.js 里面涵盖了 jQuery 等框架 所以注释掉-->
+	<!--
+<script src="http://lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+-->
+	
+<script src="/js/lib.js"></script>
+
+	
+<script src="/js/google-code-prettify/prettify.js"></script>
+
+	
+<script src="/js/module.js"></script>
+
+	
+<script src="/js/script.js"></script>
+
+	<script type='text/javascript'>
+		//代码高亮
+		$(document).ready(function(){
+	 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   			prettyPrint();
+		});
+	</script>
+	</body>
+</html>
