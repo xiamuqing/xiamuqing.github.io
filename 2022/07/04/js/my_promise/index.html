@@ -439,26 +439,6 @@ const test = new MPromise((resolve, reject) =&gt; &#123;
 &#125;).then(v =&gt; console.log(`[then] value=$&#123;v&#125;`)).catch(r =&gt; console.log(`[catch] reason = $&#123;r&#125;`))
 
 // console.log(test)
-
-setTimeout(() =&gt; &#123;
-    // console.log(test)
-    // MPromise &#123;
-    //  FULFILLED_CALLBACK_LIST: [],
-    //  REJECTED_CALLBACK_LIST: [],
-    //  _status: &#39;fulfilled&#39;,
-    //  value: undefined, // 最后一个then 实参的返回值，因为没有return 所以是 undefined
-    //  reason: null
-    // &#125;
-&#125;, 2000)
-
-
-// Promise.prototype.finally = function (callback) &#123;
-//     return this.then(value =&gt; &#123;
-//         return Promise.resolve(callback()).then(() =&gt; value)
-//     &#125;, err =&gt; &#123;
-//         return Promise.resolve(callback()).then(() =&gt; &#123; throw  err&#125;)
-//     &#125;)
-// &#125;
 </code></pre>
 
 	</div>

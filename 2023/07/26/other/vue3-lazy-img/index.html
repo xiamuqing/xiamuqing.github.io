@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>archive_a: 2023/7 | 夏木なつき青あお</title>
+    <title>npm插件：vue3-lazy-img | 夏木なつき青あお</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     
@@ -118,41 +118,148 @@
 <!--文章列表-->
 <div class="wrapper">
   
-    <ul class="posts-list mb+ js-posts">
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-            <i class="post-status iconfont icon-icon"></i>  
-          
-          <h2 class="no-background"  >
-            <span><a href="/2023/07/26/other/vue3-lazy-img/">npm插件：vue3-lazy-img</a></span>
-            <time class="post-time" datetime="2023-07-26T10:18:03.000Z" itemprop="datePublished">2023-07-26</time>
-          </h2>
-        </li>
-      
-                <!--<div class="type">
-          <div class="mask">
-            <i class="iconfont"></i>
-          </div>
-          </div>-->
-        <li class="post">
-          
-          <h2 class="no-background"  >
-            <span><a href="/2023/07/17/js/webRTC/01/">webRTC开发</a></span>
-            <time class="post-time" datetime="2023-07-17T06:30:59.000Z" itemprop="datePublished">2023-07-17</time>
-          </h2>
-        </li>
-      
-    </ul>
-    
+    <!--文章-->
+<article>
+	
+  
+    <h1 class="post-title" itemprop="name">
+      npm插件：vue3-lazy-img
+    </h1>
+  
+
+	<div class='post-body mb'>
+		<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>基于Vue3的懒加载组件</p>
+<ul>
+<li>地址：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/vue3-lazy-img">Npm地址</a>、<a target="_blank" rel="noopener" href="https://github.com/xiamuqing/vue3-lazy-img">Git地址</a></li>
+<li>使用 <code>IntersectionObserver</code> 实现图片懒加载</li>
+<li>使用<code>intersection-observer-polyfill</code> 兼容低版本浏览器</li>
+<li>兼容企业微信 不支持 属性 <code>isIntersecting</code></li>
+<li>判断浏览器是否缓存了图片，如果缓存存在，直接展示，即<code>immediately = true</code></li>
+<li>图片加载失败 500ms 会重试</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ol>
+<li><p>安装</p>
+<pre><code class="js">yarn add vue3-lazy-img
+npm i vue3-lazy-img
+</code></pre>
+</li>
+<li><p>全局mian.ts 里引入<br>&#96;&#96;&#96;js<br>import LazyImg from ‘vue3-lazy-img’<br>import ‘vue3-lazy-img&#x2F;dist&#x2F;index.css’  &#x2F;&#x2F; 可以省略</p>
+</li>
+</ol>
+<p>createApp(App)<br>.use(LazyImg)<br>.mount(‘#app’)</p>
+<pre><code>or
+组件里引入
+```js
+import &#123; LazyImg &#125; from &quot;vue3-lazyload-img&quot;
+</code></pre>
+<p>ts配置：</p>
+<pre><code class="js">// shims-vue.d.ts
+declare module &#39;vue3-lazy-img&#39;
+</code></pre>
+<ol start="3">
+<li>组件里使用<pre><code class="vue"> &lt;LazyImg v-for=&quot;(item, index) in showImages&quot; :key=&quot;index&quot; :src=&quot;item&quot; :immediately=&quot;index === 0 ? true : false&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<p>4.attr</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+<th>类型</th>
+<th>是否必填</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>src</td>
+<td>图片路径</td>
+<td>String</td>
+<td>必填</td>
+</tr>
+<tr>
+<td>immediately</td>
+<td>是否立即加载</td>
+<td>Boolean</td>
+<td>否</td>
+</tr>
+<tr>
+<td>title</td>
+<td>alt文字</td>
+<td>String</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<ol start="5">
+<li>index.css 简单的动画,可以不引入<br>&#96;&#96;&#96;css<br>.opacity0 {<br> opacity: 0;<br>}<br>.fade {<br> animation-name: FadeIn;<br> animation-duration: 300ms;<br> transition-timing-function: linear;<br>}</li>
+</ol>
+<p>@keyframes FadeIn {<br>    0% {<br>        opacity: 0;<br>    }</p>
+<pre><code>100% &#123;
+    opacity: 1;
+&#125;
+</code></pre>
+<p>}</p>
+<p>@-moz-keyframes FadeIn {<br>    0% {<br>        opacity: 0;<br>    }</p>
+<pre><code>100% &#123;
+    opacity: 1;
+&#125;
+</code></pre>
+<p>}</p>
+<p>@-webkit-keyframes FadeIn {<br>    0% {<br>        opacity: 0;<br>    }</p>
+<pre><code>100% &#123;
+    opacity: 1;
+&#125;
+</code></pre>
+<p>}</p>
+<p>@-o-keyframes FadeIn {<br>    0% {<br>        opacity: 0;<br>    }</p>
+<pre><code>100% &#123;
+    opacity: 1;
+&#125;
+</code></pre>
+<p>}</p>
+<p>@-ms-keyframes FadeIn {<br>    0% {<br>        opacity: 0;<br>    }</p>
+<pre><code>100% &#123;
+    opacity: 1;
+&#125;
+</code></pre>
+<p>}<br>&#96;&#96;&#96;</p>
+
+	</div>
+	<div class="meta split">
+		<time class="post-date" datetime="2023-07-26T10:18:03.000Z" itemprop="datePublished">2023-07-26</time>
+	</div>
+</article>
+
+<!--评论-->
+
+	
+<div class="ds-thread" data-thread-key="other/vue3-lazy-img" data-title="npm插件：vue3-lazy-img" data-url="http://yoursite.com/2023/07/26/other/vue3-lazy-img/"></div>
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"yumemor"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
 
   
 </div>
+
+
+  <svg id="bigTriangleColor" width="100%" height="40" viewBox="0 0 100 102" preserveAspectRatio="none">
+    <path d="M0 0 L50 100 L100 0 Z"></path>
+  </svg>
+
+  
+
+
+  <div class="wrapper"></div>
 
 
 
