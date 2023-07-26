@@ -347,15 +347,18 @@ class MPromise &#123;
     // Promise.all(promiseList) 返回一个 Promise。当所有输入的 Promise 都被兑现时，返回的 Promise 也将被兑现（即使传入的是一个空的可迭代对象），并返回一个包含所有兑现值的数组。如果输入的任何 Promise 被拒绝，则返回的 Promise 将被拒绝，并带有第一个被拒绝的原因。
     static all(promiseList) &#123;
         return new MPromise((resolve, reject) =&gt; &#123;
-            const len = promiseList.length
+            const length = promiseList.length
+            if (length === 0) &#123;
+                return MPromise.resolve([])
+            &#125;
             let count = 0,
-                result = new Array(len)
-            for (let i = 0; i &lt; len; j++) &#123;
+                result = new Array(length)
+            for (let i = 0; i &lt; length; j++) &#123;
                 MPromise.resolve(promiseList[i])
                     .then((val) =&gt; &#123;
                         count++;
                         result[i] = val
-                        if (count === len) &#123;
+                        if (count === length) &#123;
                             return resolve(result)
                         &#125;
                     &#125;)
@@ -367,22 +370,19 @@ class MPromise &#123;
     // Promise.any(promiseList) 返回一个 Promise。当输入的任何一个 Promise 兑现时，这个返回的 Promise 将会兑现，并返回第一个兑现的值。当所有输入 Promise 都被拒绝（包括传递了空的可迭代对象）时，它会以一个包含拒绝原因数组的 AggregateError 拒绝。
     static any(promiseList) &#123;
         return new MPromise((resolve, reject) =&gt; &#123;
-            const len = promiseList.len
-            if (len === 0) &#123;
+            const length = promiseList.len
+            if (length === 0) &#123;
                 return MPromise.resolve([])
             &#125;
             let errcount = 0
-            const errResult = new Array(len)
-            if (length.length === 0) &#123;
-                return reject(&#39;promiseList length is 0&#39;)
-            &#125;
-            for (let i = 0; i &lt; len; i++) &#123;
+            const errResult = new Array(length)
+            for (let i = 0; i &lt; length; i++) &#123;
                 MPromise.resolve(promiseList[i])
-                    .then(v =&gt; resolve)
+                    .then(v =&gt; resolve(v))
                     .catch(r =&gt; &#123;
                         errResult[i] = reject(i)
                         errcount++
-                        if (errcount.length === len) &#123;
+                        if (errcount.length === length) &#123;
                             reject(errResult)
                         &#125;
                     &#125;)
@@ -394,13 +394,13 @@ class MPromise &#123;
     // PromiseState 一直为 fulfilled
     static allSettled(promiseList) &#123;
         return MPromise((resolve) =&gt; &#123;
-            const len = promiseList.len
-            if (len === 0) &#123;
+            const length = promiseList.len
+            if (length === 0) &#123;
                 return MPromise.resolve([])
             &#125;
-            const resultArr = new Array[len]
+            const resultArr = new Array[length]
             let count = 0
-            for (let i = 0; i &lt; len; i++) &#123;
+            for (let i = 0; i &lt; length; i++) &#123;
                 MPromise.resolve(promiseList[i])
                     .then(value =&gt; &#123;
                         resultArr[i] = &#123;
@@ -408,7 +408,7 @@ class MPromise &#123;
                             status: FULFILLED
                         &#125;
                         count++
-                        if (count === len) &#123;
+                        if (count === length) &#123;
                             resolve(resultArr)
                         &#125;
                     &#125;)
@@ -418,7 +418,7 @@ class MPromise &#123;
                             status: REJECTED
                         &#125;
                         count++
-                        if (count === len) &#123;
+                        if (count === length) &#123;
                             resolve(resultArr)
                         &#125;
                     &#125;)
