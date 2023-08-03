@@ -331,7 +331,7 @@ class MPromise &#123;
         return new MPromise((resolve, reject) =&gt; &#123;
             const length = promiseList.length
 
-            if (length.length === 0) &#123;
+            if (length === 0) &#123;
                 return resolve()
             &#125; else &#123;
                 for (let i = 0; i &lt; length; i++) &#123;
